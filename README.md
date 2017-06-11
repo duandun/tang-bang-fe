@@ -1,6 +1,6 @@
-# risk-control project
+# tang bang project
 
-## 风控后台管理系统
+## 唐邦流程管理系统
 
 ## Build Setup
 
