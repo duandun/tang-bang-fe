@@ -1,0 +1,8 @@
+{
+  "name": "eview",
+  "version": "0.1.0",
+  "description": "eview project",
+  "author": "jiashoucheng <jiashoucheng@didichuxing.com>",
+  "private": true,
+  "main": "./main.js"
+}

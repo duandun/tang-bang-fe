@@ -1,0 +1,29 @@
+export default [{
+  id: 12,
+  title: '流程测试',
+  department: '阳区芍药居',
+  applicant: '张三',
+  applicantDate: '2017-04-21',
+  status: '待传资料'
+}, {
+  id: 13,
+  title: '流程测试',
+  department: '淀区西二旗',
+  applicant: '张三',
+  applicantDate: '2017-04-21',
+  status: '待传资料'
+}, {
+  id: 14,
+  title: '流程测试',
+  department: '区世纪大道',
+  applicant: '张三',
+  applicantDate: '2017-04-21',
+  status: '待传资料'
+}, {
+  id: 15,
+  title: '流程测试',
+  department: '山区深南大道',
+  applicant: '张三',
+  applicantDate: '2017-04-21',
+  status: '待传资料'
+}]
