@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="container">
-        <Card>
+        <Card dis-hover>
             <p slot="title">
             签单录入
             </p>

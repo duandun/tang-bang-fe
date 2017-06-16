@@ -60,7 +60,7 @@
                 prop="status"
                 label="进度">
                 <template scope="scope">
-                    <el-popover trigger="hover" placement="top-end">
+                    <el-popover trigger="click" placement="top-end">
                         <el-steps :space="120" :active="1">
                         <el-step title="提交" description="这是一段很长很长很长的描述性文字"></el-step>
                         <el-step title="财务确认" description="这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字"></el-step>
@@ -68,7 +68,7 @@
                         <el-step title="法务受理" description="这是一段很长很长很长的描述性文字"></el-step>
                         <el-step title="完成" description=""></el-step>
                       </el-steps>
-                      <div slot="reference" class="name-wrapper">
+                      <div slot="reference" style="display: inline-block;">
                         <el-tag>{{ scope.row.status }}</el-tag>
                       </div>
                     </el-popover>
