@@ -69,7 +69,4 @@ export default {
 </script>
 
 <style lang="less">
-    .container {
-        padding: 10px 15px;
-    }
 </style>

@@ -4,3 +4,47 @@
 @import 'e-breadcrumb';
 @import 'e-table';
 @import 'e-legend';
+
+.e-layout-content, .e-layout-left, .e-layout-copyright, .e-layout-toggle {
+    transition: .5s ease all;
+}
+
+.e-layout-left {
+    width: 230px;
+}
+.e-layout-content {
+    margin-left: 230px;
+}
+
+.e-layout-shrinked{
+  .e-layout-left {
+      width:80px;
+      .e-menu-text{
+        display:none;
+      }
+      .ivu-menu-submenu-title-icon{
+        display:none;
+      }
+      .e-menu{
+        .ivu-icon{
+          transition:.2s ease all;
+          font-size:28px;
+        }
+        .iconfont {
+            transition:.2s ease all;
+            font-size: 24px;
+        }
+      }
+      .ivu-icon-ios-arrow-left{
+        transition:.2s ease all;
+        transform: rotateZ(180deg);
+      }
+      .ivu-menu-submenu-title{
+        transition:.2s ease all;
+        padding-left:16px;
+      }
+  }
+  .e-layout-content {
+      margin-left: 80px;
+  }
+}

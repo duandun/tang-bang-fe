@@ -15,4 +15,8 @@ export default {
 </script>
 
 <style lang="scss">
+.main-footer {
+    position: absolute;
+    right: 20px;
+}
 </style>
