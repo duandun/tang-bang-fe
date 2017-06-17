@@ -46,7 +46,9 @@ export default {
          * fetch api
          * @return {Promise}
          */
-        fetchApi: function() {},
+        fetchApi: function() {
+            return Promise.resolve(null);
+        },
 
         formatData(results) {
             return results;

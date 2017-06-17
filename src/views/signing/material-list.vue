@@ -31,10 +31,6 @@
             </Row>
         </Form>
         <Row>
-            <!-- <Spin fix style="border: 1px solid #ddd;top: 40%;width: 150px;height: 60px;margin: 0 auto;" v-if="loading">
-                <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
-                <div>Loading</div>
-            </Spin> -->
             <el-table
               :data="tableList"
               style="width: 100%">
@@ -76,12 +72,9 @@
               </el-table-column>
               <el-table-column label="操作">
                   <template scope="scope">
-                    <el-button
-                      size="small"
-                      @click="handleEdit(scope.$index, scope.row)">{{!auth.finance ? '编辑' : '确认'}}</el-button>
                       <el-button
                         size="small"
-                        @click="handleEdit(scope.$index, scope.row)">已完成</el-button>
+                        @click="handleEdit(scope.$index, scope.row)">确认</el-button>
                   </template>
                 </el-table-column>
             </el-table>
@@ -96,16 +89,30 @@
                 style="margin-top: 10px;float: right;">
             </Page>
         </Row>
-        <Modal v-model="dialog.visible" width="800">
-            <signing-add></signing-add>
-            <p slot="footer"></p>
+        <Modal v-model="dialog.visible" width="800"
+            title="材料确认">
+            <Row type="flex" justify="center">
+                <Col span="12">
+                    <Form ref="form" :model="formData" :label-width="100">
+                        <Form-item label="提交方式" prop="">
+                            <Radio-group v-model="formData.submitType">
+                                <Radio label="邮寄"></Radio>
+                                <Radio label="纸质"></Radio>
+                                <Radio label="网上"></Radio>
+                            </Radio-group>
+                        </Form-item>
+                        <Form-item label="回执" prop="">
+                            <Checkbox v-model="formData.response"></Checkbox>
+                        </Form-item>
+                    </Form>
+                </Col>
+            </Row>
         </Modal>
     </div>
 </template>
 
 <script>
 import _ from 'lodash';
-import { mapGetters } from 'vuex';
 import List from '@/components/list';
 import * as Config from './list.config.js';
 import mockList from '../../../mock/signing-list.js';
@@ -119,15 +126,10 @@ export default {
     data() {
         return {
             queryAssist: {
-                dIds: [],
                 doing: 'doing',
                 done: 'done'
             },
             query: {
-                deptId: '',
-                processNum: '',
-                processName: '',
-                containRisks: '',
                 pageNum: 1,
                 pageSize: 10
             },
@@ -137,13 +139,13 @@ export default {
             auth: {
                 finance: false
             },
+            formData: {
+                submitType: '邮寄'
+            },
             tableColumns: Config.getTableColumns(this)
         };
     },
     computed: {
-        ...mapGetters([
-            'topDepartmentList'
-        ])
     },
     watch: {
         'queryAssist.dIds': function(val) {
@@ -152,9 +154,6 @@ export default {
     },
     created() {
         this.tableList = mockList;
-        if (location.href.split('?')[1].split('=')[1] === 'finance') {
-            this.auth.finance = true;
-        }
     },
     methods: {
         handleEdit(index, row) {
@@ -165,55 +164,6 @@ export default {
         },
         prepare() {
             return Promise.resolve(this.topDepartmentList);
-        },
-
-        formatData(resList) {
-            for (let item of resList) {
-                item.isSubProcess = item.hasSubProcess ? '是' : '否';
-                item.hasRisk = item.riskCount ? '是' : '否';
-                switch (item.processLevel) {
-                    case 'T1':
-                        item.level = '一级流程';
-                        break;
-                    case 'T2':
-                        item.level = '二级流程';
-                        break;
-                    case 'T3':
-                        item.level = '三级流程';
-                        break;
-                    default:
-                        item.level = item.processLevel;
-                        break;
-                }
-            }
-            return resList;
-        },
-        jumpToDetail(row) {
-            this.$router.push({
-                name: 'flowDetail',
-                params: {
-                    parentId: row.processGradeIds.split(',')[0],
-                    id: row.id
-                },
-                query: {
-                    level: row.processLevel,
-                    editable: false,
-                    tab: 'editTab'
-                }
-            });
-        },
-        jumpToEdit(row) {
-            this.$router.push({
-                name: 'flowEdit',
-                params: {
-                    parentId: row.processGradeIds.split(',')[0],
-                    id: row.id
-                },
-                query: {
-                    editable: true,
-                    tab: 'editTab'
-                }
-            });
         }
     }
 };

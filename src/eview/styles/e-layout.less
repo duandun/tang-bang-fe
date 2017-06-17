@@ -21,11 +21,11 @@
     overflow: auto;
   }
   .e-layout-content{
-    min-height: 603px;
+    min-height: 500px;
     border-radius: 4px;
     padding-bottom: 40px;
     .e-layout-content-main {
-        margin: 10px;
+        margin: 20px;
     }
   }
   .e-layout-copyright{
@@ -34,19 +34,18 @@
     bottom: 0;
     height: 40px;
     width: 100%;
-    background: darken(@dark-color, 3);
+    background: #fff;
     word-spacing: 5px;
     overflow: hidden;
-    color: #fff;
     padding: 10px;
   }
   .e-layout-header{
     position: relative;
     height: 50px;
     box-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background: @header-blue-color;
     .header-right{
       height:100%;
-      border-left:1px solid #ddd;
       padding-left:20px;
       float:right;
      .ivu-dropdown{
@@ -57,11 +56,13 @@
   }
   .e-layout-logo{
     text-align: center;
-    font-size:22px;
-    width: 90%;
-    height: 60px;
-    line-height: 60px;
-    margin: 15px auto;
+    font-size: 22px;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 10px;
+    background: darken(@header-blue-color, 4);
+    letter-spacing: 10px;
     &,a{
       color:#fff;
     }

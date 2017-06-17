@@ -36,6 +36,9 @@ export default {
         padding-left: 30px;
         padding-right: 27px;
         text-align: left;
+        a {
+            color: #fff;
+        }
     }
     .m-desc {
         margin-left: 10px;

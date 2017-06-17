@@ -2,7 +2,7 @@
     <div class="container">
         <Card>
             <p slot="title">
-            材料确认
+            材料录入
             </p>
             <Form ref="form" :model="formData" :label-width="100" style="margin-top: 10px;">
                 <Row type="flex" justify="center">
@@ -21,16 +21,6 @@
                         </Form-item>
                         <Form-item label="驳回通知书" prop="">
                             <Input placeholder="请输入..." v-model="formData.moneyType"></Input>
-                        </Form-item>
-                        <Form-item label="提交方式" prop="">
-                            <Radio-group v-model="formData.submitType">
-                                <Radio label="邮寄"></Radio>
-                                <Radio label="纸质"></Radio>
-                                <Radio label="网上"></Radio>
-                            </Radio-group>
-                        </Form-item>
-                        <Form-item label="回执" prop="">
-                            <Checkbox v-model="formData.response"></Checkbox>
                         </Form-item>
                         <Form-item label="" prop="">
                             <Button type="primary" @click="confirm">提交</Button>

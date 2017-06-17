@@ -1,7 +1,7 @@
 <template>
   <div id="app-container">
     <e-layout>
-      <div slot='logo'><a href="/">Tang Bang</a></div>
+      <div slot='logo'><a href="/">唐邦</a></div>
       <e-menu slot='menu' :menus='config.menu.list' :openNames='config.menu.openNames' :activeName='config.menu.activeName' :onSelect='onMenuSelect'>
       </e-menu>
       <div slot="header-right">

@@ -34,7 +34,7 @@
                         <Form-item label="注意事项" prop="">
                             <Input placeholder="请输入..." v-model="formData.attention"></Input>
                         </Form-item>
-                        <Form-item label="" prop="">
+                        <Form-item label="" prop="" v-if="!hiddenBtns">
                             <Button type="primary" @click="confirm">提交</Button>
                             <Button style="margin-left: 10px;">取消</Button>
                         </Form-item>
@@ -47,6 +47,12 @@
 
 <script>
 export default {
+    props: {
+        hiddenBtns: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             formData: {

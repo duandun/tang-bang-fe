@@ -1,7 +1,12 @@
 <template lang="html">
-    <footer class="main-footer">
-        Copyright © 2017 Tang Bang {{version}}
-    </footer>
+    <div class="">
+        <footer class="main-footer">
+            <strong>Copyright © 2017 Tang Bang</strong>
+        </footer>
+        <div class="ver-pos">
+            {{version}}
+        </div>
+    </div>
 </template>
 
 <script>
@@ -16,6 +21,10 @@ export default {
 
 <style lang="scss">
 .main-footer {
+    position: absolute;
+    left: 240px;
+}
+.ver-pos {
     position: absolute;
     right: 20px;
 }
