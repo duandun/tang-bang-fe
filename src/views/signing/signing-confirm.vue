@@ -3,17 +3,17 @@
         <Form ref="form" :label-width="135">
             <Row>
                 <Col span="6">
-                    <Form-item label="合同编号:">
+                    <Form-item label="合同编号：">
                         <Input placeholder="请输入..." v-model="query.num"></Input>
                     </Form-item>
                 </Col>
                 <Col span="6">
-                    <Form-item label="公司名称:">
+                    <Form-item label="公司名称：">
                         <Input v-model="query.processNum" @keyup.enter.native="search"></Input>
                     </Form-item>
                 </Col>
                 <Col span="6">
-                    <Form-item label="合同状态:">
+                    <Form-item label="合同状态：">
                         <Select v-model="query.status">
                             <Option label="全部" value="all">
                             </Option>
@@ -97,8 +97,8 @@
             </Row>
             <Row type="flex" justify="center">
                 <Col span="12">
-                    <Form ref="form" :model="formData" :label-width="100">
-                        <Form-item label="是否到账" prop="">
+                    <Form ref="form" :model="formData" :label-width="120">
+                        <Form-item label="是否到账：" prop="">
                             <Radio-group v-model="formData.submitType">
                                 <Radio label="是"></Radio>
                                 <Radio label="否"></Radio>
@@ -124,7 +124,6 @@ export default {
     },
     data() {
         return {
-            toAccount: '是',
             queryAssist: {
                 doing: 'doing',
                 done: 'done'

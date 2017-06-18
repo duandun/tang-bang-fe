@@ -8,11 +8,11 @@ const routes = [{
     path: '/',
     name: '首页',
     component: resolve => require(['@/views/default'], resolve).default,
-    redirect: '/index'
+    redirect: '/signing/add'
 }, {
     path: '/index',
     name: 'index',
-    component: resolve => require(['@/views/index'], resolve).default
+    component: resolve => require(['@/views/signing/signing-add.vue'], resolve).default
 }, {
     path: '*',
     name: '找不到资源',

@@ -4,6 +4,6 @@ npm run build
 
 echo "压缩打包中..."
 mkdir -p output
-tar cvf risk-front.tar.gz dist/index.html dist/static
-mv risk-front.tar.gz output
-scp output/risk-front.tar.gz root@10.95.118.68:/usr/share/nginx/html
+tar zcvf tangbang-front.tar.gz dist/index.html dist/static
+mv tangbang-front.tar.gz output
+scp -P 26303 output/tangbang-front.tar.gz root@104.224.187.168:/home/tangbang-front

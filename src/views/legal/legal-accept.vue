@@ -60,7 +60,7 @@
                 prop="status"
                 label="进度">
                 <template scope="scope">
-                    <el-popover trigger="hover" placement="top-end">
+                    <el-popover trigger="click" placement="top-end">
                         <el-steps :space="120" :active="1">
                         <el-step title="提交" description="这是一段很长很长很长的描述性文字"></el-step>
                         <el-step title="财务确认" description="这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字"></el-step>
@@ -68,7 +68,7 @@
                         <el-step title="法务受理" description="这是一段很长很长很长的描述性文字"></el-step>
                         <el-step title="完成" description=""></el-step>
                       </el-steps>
-                      <div slot="reference" class="name-wrapper">
+                      <div slot="reference" class="name-wrapper" style="display: inline-block;">
                         <el-tag>{{ scope.row.status }}</el-tag>
                       </div>
                     </el-popover>
@@ -102,10 +102,10 @@
             </Page>
         </Row>
         <Modal v-model="dialog.visible" width="800">
-            <signing-add></signing-add>
+            <signing-add :hiddenBtns="true"></signing-add>
             <p slot="footer"></p>
         </Modal>
-        <Modal v-model="dialog.handleVisible" width="800">
+        <Modal v-model="dialog.handleVisible" width="800" title="法务受理">
             <Row type="flex" justify="center">
                 <Col span="12">
                     <Form ref="form" :model="formData" :label-width="100">
