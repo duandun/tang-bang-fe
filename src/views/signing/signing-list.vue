@@ -60,12 +60,33 @@
                 prop="status"
                 label="进度">
                 <template scope="scope">
-                    <el-popover trigger="click" placement="top-end">
+                    <el-popover trigger="click"
+                    placement="top-end">
                         <el-steps :space="120" :active="1">
-                        <el-step title="提交" description="这是一段很长很长很长的描述性文字"></el-step>
-                        <el-step title="财务确认" description="这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字这是一段很长很长很长的描述性文字"></el-step>
-                        <el-step title="法务提交" description="这是一段很长很长很长的描述性文字"></el-step>
-                        <el-step title="法务受理" description="这是一段很长很长很长的描述性文字"></el-step>
+                        <el-step title="签单录入">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="signingDetail(scope.$index, scope.row)">签单详情</el-button>
+                            </div>
+                        </el-step>
+                        <el-step title="签单确认"></el-step>
+                        <el-step title="材料录入">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="meterialDetail(scope.$index, scope.row)">材料详情</el-button>
+                            </div>
+                        </el-step>
+                        <el-step title="材料确认"></el-step>
+                        <el-step title="法务提交"></el-step>
+                        <el-step title="法务受理">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="meterialDetail(scope.$index, scope.row)">受理详情</el-button>
+                            </div>
+                        </el-step>
                         <el-step title="完成" description=""></el-step>
                       </el-steps>
                       <div slot="reference" style="display: inline-block;">
@@ -78,10 +99,19 @@
                   <template scope="scope">
                     <el-button
                       size="small"
-                      @click="handleEdit(scope.$index, scope.row)">{{!auth.finance ? '编辑' : '确认'}}</el-button>
-                      <el-button
-                        size="small"
-                        @click="handleFinished(scope.$index, scope.row)">已完成</el-button>
+                      @click="signingEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button
+                          size="small"
+                          @click="signingConfirm(scope.$index, scope.row)">签单详情确认</el-button>
+                        <el-button
+                          size="small"
+                          @click="materialEdit(scope.$index, scope.row)">材料录入</el-button>
+                        <el-button
+                         size="small"
+                         @click="materialConfirm(scope.$index, scope.row)">材料确认</el-button>
+                        <el-button
+                          size="small"
+                          @click="materialConfirm(scope.$index, scope.row)">法务受理</el-button>
                   </template>
                 </el-table-column>
             </el-table>
@@ -97,9 +127,15 @@
             </Page>
         </Row>
         <Modal v-model="dialog.visible" width="800">
-            <signing-add :hiddenBtns="dialog.hiddenBtns"
-                :showSubmitBtns="dialog.showSubmitBtns"
-            ></signing-add>
+            <p class="" slot="header">
+                <span>{{ dialog.title }}</span>
+            </p>
+            <component :is="currentModal"
+                :detail="dialog.detail"
+                :confirm="dialog.confirm"
+                @cancel="dialog.visible = false"></component>
+            <div class="" slot="footer">
+            </div>
         </Modal>
     </div>
 </template>
@@ -108,15 +144,20 @@
 import List from '@/components/list';
 import * as Config from './list.config.js';
 import mockList from '../../../mock/signing-list.js';
-import SigningAdd from '@/views/signing/signing-add.vue';
+import SigningForm from '@/components/signing/signing-form.vue';
+import MaterialForm from '@/components/material/material-form.vue';
+import _ from 'lodash';
 
 export default {
     extends: List,
     components: {
-        SigningAdd
+        SigningForm,
+        MaterialForm
     },
     data() {
         return {
+            popVis: false,
+            currentModal: 'SigningForm',
             queryAssist: {
                 dIds: [],
                 doing: 'doing',
@@ -131,9 +172,10 @@ export default {
                 pageSize: 10
             },
             dialog: {
+                title: '',
                 visible: false,
-                hiddenBtns: false,
-                showSubmitBtns: false
+                confirm: false,
+                detail: false
             },
             auth: {
                 finance: false
@@ -147,16 +189,56 @@ export default {
     },
     created() {
         this.tableList = mockList;
+        this._original_dialog = _.cloneDeep(this.$data.dialog);
     },
     methods: {
-        handleEdit(index, row) {
-            this.dialog.showSubmitBtns = false;
-            this.dialog.hiddenBtns = false;
+        resetDialog() {
+            Object.assign(this.dialog, this._original_dialog);
+        },
+        showDetail() {
+            this.resetDialog();
+            this.dialog.detail = true;
             this.dialog.visible = true;
         },
-        handleFinished(index, row) {
-            this.dialog.hiddenBtns = true;
+        showConfirm() {
+            this.resetDialog();
+            this.dialog.detail = true;
+            this.dialog.confirm = true;
             this.dialog.visible = true;
+        },
+        showEdit() {
+            this.resetDialog();
+            this.dialog.visible = true;
+        },
+        signingEdit(index, row) {
+            this.showEdit();
+            this.currentModal = 'SigningForm';
+            this.dialog.title = '编辑签单';
+        },
+        signingDetail(index, row) {
+            this.showDetail();
+            this.currentModal = 'SigningForm';
+            this.dialog.title = '签单详情';
+        },
+        signingConfirm(index, row) {
+            this.showConfirm();
+            this.currentModal = 'SigningForm';
+            this.dialog.title = '签单确认';
+        },
+        materialEdit(index, row) {
+            this.showEdit();
+            this.currentModal = 'MaterialForm';
+            this.dialog.title = '材料录入';
+        },
+        meterialDetail(index, row) {
+            this.showDetail();
+            this.currentModal = 'MaterialForm';
+            this.dialog.title = '材料详情';
+        },
+        materialConfirm(index, row) {
+            this.showConfirm();
+            this.currentModal = 'MaterialForm';
+            this.dialog.title = '材料确认';
         },
         clickDel(item) {
             console.log('dfdsees');

@@ -126,6 +126,9 @@
                                 <Radio label="变更提交"></Radio>
                             </Radio-group>
                         </Form-item>
+                        <Form-item label="提交时间：" prop="">
+                            <Input placeholder="请输入..." v-model="formData.acceptTime"></Input>
+                        </Form-item>
                     </Form>
                 </Col>
             </Row>

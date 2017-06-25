@@ -4,43 +4,7 @@
             <p slot="title">
             {{showSubmitBtns ? '签单录入' : '签单修改'}}
             </p>
-            <Form ref="form" :model="formData" :label-width="120" style="margin-top: 10px;">
-                <Row type="flex" justify="center">
-                    <Col span="12">
-                        <Form-item label="合同编号：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.num"></Input>
-                        </Form-item>
-                        <Form-item label="公司名称：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.comName"></Input>
-                        </Form-item>
-                        <Form-item label="委托事项：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.caseName"></Input>
-                        </Form-item>
-                        <Form-item label="委托事项数量：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.caseNum"></Input>
-                        </Form-item>
-                        <Form-item label="汇款方式：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.moneyType"></Input>
-                        </Form-item>
-                        <Form-item label="汇款时间：" prop="">
-                            <Date-picker placeholder="选择时间和日期..." type="date" :value="formData.moneyTime"></Date-picker>
-                        </Form-item>
-                        <Form-item label="委托事项申请人：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.applyName"></Input>
-                        </Form-item>
-                        <Form-item label="案件截止日期：" prop="">
-                            <Date-picker placeholder="选择时间和日期..." type="date" :value="formData.deadlineTime"></Date-picker>
-                        </Form-item>
-                        <Form-item label="注意事项：" prop="">
-                            <Input placeholder="请输入..." v-model="formData.attention"></Input>
-                        </Form-item>
-                        <Form-item label="" prop="" v-if="!hiddenBtns && showSubmitBtns">
-                            <Button type="primary" @click="confirm">提交</Button>
-                            <Button style="margin-left: 10px;">取消</Button>
-                        </Form-item>
-                    </Col>
-                </Row>
-            </Form>
+            <signing-form></signing-form>
         </Card>
         <Form ref="form" :model="formData" :label-width="120" style="margin-top: 10px;" v-if="hiddenBtns">
             <Row type="flex" justify="center">
@@ -79,6 +43,8 @@
 </template>
 
 <script>
+import SigningForm from '@/components/signing/signing-form.vue';
+
 export default {
     props: {
         hiddenBtns: {
@@ -89,6 +55,9 @@ export default {
             type: Boolean,
             default: true
         }
+    },
+    components: {
+        SigningForm
     },
     data() {
         return {
