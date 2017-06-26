@@ -84,7 +84,7 @@
                             <div class="" slot="description">
                                 <el-button
                                   size="small"
-                                  @click="meterialDetail(scope.$index, scope.row)">受理详情</el-button>
+                                  @click="legalHandleDetail(scope.$index, scope.row)">受理详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="完成" description=""></el-step>
@@ -95,23 +95,28 @@
                     </el-popover>
                   </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="350">
                   <template scope="scope">
                     <el-button
                       size="small"
+                      type="text"
                       @click="signingEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button
                           size="small"
+                           type="text"
                           @click="signingConfirm(scope.$index, scope.row)">签单详情确认</el-button>
                         <el-button
                           size="small"
+                           type="text"
                           @click="materialEdit(scope.$index, scope.row)">材料录入</el-button>
                         <el-button
                          size="small"
+                          type="text"
                          @click="materialConfirm(scope.$index, scope.row)">材料确认</el-button>
                         <el-button
                           size="small"
-                          @click="materialConfirm(scope.$index, scope.row)">法务受理</el-button>
+                           type="text"
+                          @click="legalHandle(scope.$index, scope.row)">法务受理</el-button>
                   </template>
                 </el-table-column>
             </el-table>
@@ -146,13 +151,15 @@ import * as Config from './list.config.js';
 import mockList from '../../../mock/signing-list.js';
 import SigningForm from '@/components/signing/signing-form.vue';
 import MaterialForm from '@/components/material/material-form.vue';
+import LegalAcceptForm from '@/components/legal/legal-accept-form.vue';
 import _ from 'lodash';
 
 export default {
     extends: List,
     components: {
         SigningForm,
-        MaterialForm
+        MaterialForm,
+        LegalAcceptForm
     },
     data() {
         return {
@@ -239,6 +246,16 @@ export default {
             this.showConfirm();
             this.currentModal = 'MaterialForm';
             this.dialog.title = '材料确认';
+        },
+        legalHandle(index, row) {
+            this.showEdit();
+            this.currentModal = 'LegalAcceptForm';
+            this.dialog.title = '法务受理';
+        },
+        legalHandleDetail(index, row) {
+            this.showDetail();
+            this.currentModal = 'LegalAcceptForm';
+            this.dialog.title = '法务受理详情';
         },
         clickDel(item) {
             console.log('dfdsees');

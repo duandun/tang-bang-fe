@@ -8,9 +8,6 @@ export default {
         }, {
             name: '/signing/list',
             text: '签单列表'
-        }, {
-            name: '/legal/accept',
-            text: '法务受理'
         }]
     }],
     openNames: ['/signing-manage'],
