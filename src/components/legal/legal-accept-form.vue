@@ -27,6 +27,15 @@
                         <Date-picker placeholder="选择时间和日期..." type="date" :value="formData.moneyTime" v-if="!detail"></Date-picker>
                         <span v-else>XXXXXXX</span>
                     </Form-item>
+                    <Form-item label="终止：" prop="">
+                        <Radio-group v-model="formData.endProcess">
+                            <Radio :label="1">是</Radio>
+                            <Radio :label="0">否</Radio>
+                        </Radio-group>
+                    </Form-item>
+                    <Form-item label="终止理由：" prop="" v-if="formData.endProcess">
+                        <Input placeholder="请输入..." v-model="formData.endReason" type="textarea"></Input>
+                    </Form-item>
                     <Form-item label="" prop="" v-if="!detail">
                         <Button type="primary">确认</Button>
                         <Button @click="cancel">取消</Button>

@@ -70,7 +70,13 @@
                                   @click="signingDetail(scope.$index, scope.row)">签单详情</el-button>
                             </div>
                         </el-step>
-                        <el-step title="签单确认"></el-step>
+                        <el-step title="签单确认">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="signingConfirm(scope.$index, scope.row)">签单确认详情</el-button>
+                            </div>
+                        </el-step>
                         <el-step title="材料录入">
                             <div class="" slot="description">
                                 <el-button
@@ -78,8 +84,20 @@
                                   @click="meterialDetail(scope.$index, scope.row)">材料详情</el-button>
                             </div>
                         </el-step>
-                        <el-step title="材料确认"></el-step>
-                        <el-step title="法务提交"></el-step>
+                        <el-step title="材料确认">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="materialConfirm(scope.$index, scope.row)">材料确认详情</el-button>
+                            </div>
+                        </el-step>
+                        <el-step title="法务提交">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="legalSubmitDetail(scope.$index, scope.row)">法务提交详情</el-button>
+                            </div>
+                        </el-step>
                         <el-step title="法务受理">
                             <div class="" slot="description">
                                 <el-button
@@ -87,7 +105,20 @@
                                   @click="legalHandleDetail(scope.$index, scope.row)">受理详情</el-button>
                             </div>
                         </el-step>
-                        <el-step title="完成" description=""></el-step>
+                        <el-step title="二次材料提交">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="legalHandleDetail(scope.$index, scope.row)">二次材料提交详情</el-button>
+                            </div>
+                        </el-step>
+                        <el-step title="完成">
+                            <div class="" slot="description">
+                                <el-button
+                                  size="small"
+                                  @click="legalHandleDetail(scope.$index, scope.row)">结果详情</el-button>
+                            </div>
+                        </el-step>
                       </el-steps>
                       <div slot="reference" style="display: inline-block;">
                         <el-tag>{{ scope.row.status }}</el-tag>
@@ -100,11 +131,11 @@
                     <el-button
                       size="small"
                       type="text"
-                      @click="signingEdit(scope.$index, scope.row)">编辑</el-button>
+                      @click="signingEdit(scope.$index, scope.row)">签单编辑</el-button>
                         <el-button
                           size="small"
                            type="text"
-                          @click="signingConfirm(scope.$index, scope.row)">签单详情确认</el-button>
+                          @click="signingConfirm(scope.$index, scope.row)">签单确认</el-button>
                         <el-button
                           size="small"
                            type="text"
@@ -113,10 +144,22 @@
                          size="small"
                           type="text"
                          @click="materialConfirm(scope.$index, scope.row)">材料确认</el-button>
+                         <el-button
+                          size="small"
+                           type="text"
+                          @click="legalSubmit(scope.$index, scope.row)">法务提交</el-button>
                         <el-button
                           size="small"
                            type="text"
                           @click="legalHandle(scope.$index, scope.row)">法务受理</el-button>
+                      <el-button
+                        size="small"
+                         type="text"
+                        @click="materialSubAgain(scope.$index, scope.row)">二次提交材料</el-button>
+                        <el-button
+                          size="small"
+                           type="text"
+                          @click="finalResults(scope.$index, scope.row)">填写结果</el-button>
                   </template>
                 </el-table-column>
             </el-table>
@@ -152,6 +195,9 @@ import mockList from '../../../mock/signing-list.js';
 import SigningForm from '@/components/signing/signing-form.vue';
 import MaterialForm from '@/components/material/material-form.vue';
 import LegalAcceptForm from '@/components/legal/legal-accept-form.vue';
+import LegalSubmitForm from '@/components/legal/legal-submit-form.vue';
+import MaterialSubAgainForm from '@/components/material/material-subagain-form.vue';
+import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import _ from 'lodash';
 
 export default {
@@ -159,7 +205,10 @@ export default {
     components: {
         SigningForm,
         MaterialForm,
-        LegalAcceptForm
+        LegalAcceptForm,
+        LegalSubmitForm,
+        MaterialSubAgainForm,
+        FinalResultsForm
     },
     data() {
         return {
@@ -247,6 +296,16 @@ export default {
             this.currentModal = 'MaterialForm';
             this.dialog.title = '材料确认';
         },
+        legalSubmit(index, row) {
+            this.showEdit();
+            this.currentModal = 'LegalSubmitForm';
+            this.dialog.title = '法务提交';
+        },
+        legalSubmitDetail(index, row) {
+            this.showDetail();
+            this.currentModal = 'LegalSubmitForm';
+            this.dialog.title = '法务提交详情';
+        },
         legalHandle(index, row) {
             this.showEdit();
             this.currentModal = 'LegalAcceptForm';
@@ -256,6 +315,12 @@ export default {
             this.showDetail();
             this.currentModal = 'LegalAcceptForm';
             this.dialog.title = '法务受理详情';
+        },
+        materialSubAgain(index, row) {
+
+        },
+        finalResults(index, row) {
+
         },
         clickDel(item) {
             console.log('dfdsees');

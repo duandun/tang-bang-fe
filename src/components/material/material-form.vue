@@ -46,15 +46,14 @@
                         <Button type="primary" @click="confirm">提交</Button>
                         <Button @click="cancel">取消</Button>
                     </Form-item>
-                    <Form-item label="提交方式：" prop="" v-if="confirm">
-                        <Radio-group v-model="formData.submitType">
-                            <Radio label="邮寄"></Radio>
-                            <Radio label="纸质"></Radio>
-                            <Radio label="网上"></Radio>
+                    <Form-item label="终止：" prop="" v-if="confirm && !confirmDetail">
+                        <Radio-group v-model="formData.endProcess">
+                            <Radio :label="1">是</Radio>
+                            <Radio :label="0">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="回执：" prop="" v-if="confirm">
-                        <Checkbox v-model="formData.num"></Checkbox>
+                    <Form-item label="终止理由：" prop="" v-if="formData.endProcess && confirm && !confirmDetail" >
+                        <Input placeholder="请输入..." v-model="formData.endReason" type="textarea"></Input>
                     </Form-item>
                 </Col>
             </Row>
@@ -85,7 +84,9 @@ export default {
     data() {
         return {
             formData: {
-                submitType: '邮寄'
+                submitType: '邮寄',
+                endProcess: 0,
+                endReason: ''
             }
         }
     },

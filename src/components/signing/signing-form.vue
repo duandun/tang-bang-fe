@@ -100,6 +100,19 @@
                         </Form-item>
                     </Col>
                 </Row>
+                <Row>
+                    <Col span="12">
+                        <Form-item label="终止：" prop="">
+                            <Radio-group v-model="formData.endProcess">
+                                <Radio :label="1">是</Radio>
+                                <Radio :label="0">否</Radio>
+                            </Radio-group>
+                        </Form-item>
+                        <Form-item label="终止理由：" prop="" v-if="formData.endProcess">
+                            <Input placeholder="请输入..." v-model="formData.endReason" type="textarea"></Input>
+                        </Form-item>
+                    </Col>
+                </Row>
                 <Row style="text-align: center" v-if="!confirmDetail">
                     <Button type="primary">确认</Button>
                     <Button @click="cancel">取消</Button>
@@ -128,7 +141,7 @@ export default {
     data() {
         return {
             formData: {
-
+                endProcess: 0
             }
         }
     },
