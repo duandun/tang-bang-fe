@@ -4,8 +4,8 @@ import $ from 'webpack-zepto';
 let debugHost = window.localStorage.debugApiHost;
 const apiHostConf = {
   dev: {
-    host: '10.95.118.68:8080',
-    apiHost: '10.95.118.68:8080'
+    host: 'localhost',
+    apiHost: '111.204.219.209:3690'
   },
   stage: {
     host: 'ss.com',
