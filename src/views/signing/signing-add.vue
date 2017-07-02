@@ -46,39 +46,39 @@
 import SigningForm from '@/components/signing/signing-form.vue';
 
 export default {
-    props: {
-        hiddenBtns: {
-            type: Boolean,
-            default: false
-        },
-        showSubmitBtns: {
-            type: Boolean,
-            default: true
-        }
+  props: {
+    hiddenBtns: {
+      type: Boolean,
+      default: false
     },
-    components: {
-        SigningForm
-    },
-    data() {
-        return {
-            formData: {
-                submitType: ''
-            },
-            toAccount: '是'
-        }
-    },
-    created() {
-    },
-    methods: {
-        confirm() {
-            this.$Message.success('提交成功')
-            setTimeout(() => {
-                this.$router.push({
-                    name: 'flowAdd'
-                })
-            }, 1000);
-        }
+    showSubmitBtns: {
+      type: Boolean,
+      default: true
     }
+  },
+  components: {
+    SigningForm
+  },
+  data() {
+    return {
+      formData: {
+        submitType: ''
+      },
+      toAccount: '是'
+    }
+  },
+  created() {
+  },
+  methods: {
+    confirm() {
+      this.$Message.success('提交成功')
+      setTimeout(() => {
+        this.$router.push({
+          name: 'flowAdd'
+        })
+      }, 1000);
+    }
+  }
 }
 </script>
 

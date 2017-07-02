@@ -42,21 +42,21 @@
 
 <script>
 export default {
-    data() {
-        return {
-            formData: {
-            }
-        }
-    },
-    created() {
-    },
-    methods: {
-        enterFlowPage() {
-            this.$router.push({
-                name: 'flowAdd'
-            });
+  data() {
+    return {
+      formData: {
         }
     }
+  },
+  created() {
+  },
+  methods: {
+    enterFlowPage() {
+      this.$router.push({
+        name: 'flowAdd'
+      });
+    }
+  }
 }
 </script>
 

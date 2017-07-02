@@ -48,27 +48,27 @@
 
 <script>
 export default {
-    props: {
-        detail: {
-            type: Boolean,
-            default: false
-        }
-    },
-    data() {
-        return {
-            formData: {
-
-            }
-        }
-    },
-    created() {
-
-    },
-    methods: {
-        cancel() {
-            this.$emit('cancel');
-        }
+  props: {
+    detail: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {
+      formData: {
+
+      }
+    }
+  },
+  created() {
+
+  },
+  methods: {
+    cancel() {
+      this.$emit('cancel');
+    }
+  }
 }
 </script>
 

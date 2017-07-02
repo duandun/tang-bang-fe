@@ -1,9 +1,9 @@
 export default {
-    common: {
-        upload: '/'
-    },
-    moduleA: {
+  common: {
+    upload: '/'
+  },
+  moduleA: {
     // GET
-        list: '/api/module-a/list'
-    }
+    list: '/api/module-a/list'
+  }
 }

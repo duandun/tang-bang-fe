@@ -7,19 +7,19 @@
 
 <script>
 export default {
-    data() {
-        return {
-            text: '欢迎使用 risk-control',
-            content: ''
-        }
-    },
-    components: {
-    },
-    created() {
-    },
-    mounted() {
-
+  data() {
+    return {
+      text: '欢迎使用 risk-control',
+      content: ''
     }
+  },
+  components: {
+  },
+  created() {
+  },
+  mounted() {
+
+  }
 }
 </script>
 <style lang='less'>

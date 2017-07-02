@@ -11,11 +11,11 @@
 
 <script>
 export default {
-    data() {
-        return {
-            version: 'v0.0.1'
-        };
-    }
+  data() {
+    return {
+      version: 'v0.0.1'
+    };
+  }
 };
 </script>
 

@@ -67,37 +67,37 @@
 
 <script>
 export default {
-    props: {
-        confirm: {
-            type: Boolean,
-            default: false
-        },
-        detail: {
-            type: Boolean,
-            default: false
-        },
-        confirmDetail: {
-            type: Boolean,
-            default: false
-        }
+  props: {
+    confirm: {
+      type: Boolean,
+      default: false
     },
-    data() {
-        return {
-            formData: {
-                submitType: '邮寄',
-                endProcess: 0,
-                endReason: ''
-            }
-        }
+    detail: {
+      type: Boolean,
+      default: false
     },
-    created() {
-
-    },
-    methods: {
-        cancel() {
-            this.$emit('cancel');
-        }
+    confirmDetail: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {
+      formData: {
+        submitType: '邮寄',
+        endProcess: 0,
+        endReason: ''
+      }
+    }
+  },
+  created() {
+
+  },
+  methods: {
+    cancel() {
+      this.$emit('cancel');
+    }
+  }
 }
 </script>
 

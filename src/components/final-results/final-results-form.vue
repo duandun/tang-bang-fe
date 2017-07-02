@@ -8,25 +8,25 @@
 
 <script>
 export default {
-    props: {
-        detail: {
-            type: Boolean,
-            default: false
-        }
-    },
-    data() {
-        return {
-            formData: {
-
-            }
-        }
-    },
-    created() {
-
-    },
-    methods: {
-
+  props: {
+    detail: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {
+      formData: {
+
+      }
+    }
+  },
+  created() {
+
+  },
+  methods: {
+
+  }
 };
 </script>
 

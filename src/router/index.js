@@ -5,26 +5,26 @@ import SigningRouters from './signing';
 Vue.use(Router)
 
 const routes = [{
-    path: '/',
-    name: '首页',
-    component: resolve => require(['@/views/default'], resolve).default,
-    redirect: '/signing/add'
+  path: '/',
+  name: '首页',
+  component: resolve => require(['@/views/default'], resolve).default,
+  redirect: '/signing/add'
 }, {
-    path: '/index',
-    name: 'index',
-    component: resolve => require(['@/views/signing/signing-add.vue'], resolve).default
+  path: '/index',
+  name: 'index',
+  component: resolve => require(['@/views/signing/signing-add.vue'], resolve).default
 }, {
-    path: '*',
-    name: '找不到资源',
-    component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
+  path: '*',
+  name: '找不到资源',
+  component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
 }, {
-    path: '/notFound',
-    name: 'notFound',
-    component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
+  path: '/notFound',
+  name: 'notFound',
+  component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
 }, {
-    path: '/settings',
-    name: 'settings',
-    component: resolve => require(['@/settings/index.vue'], resolve)
+  path: '/settings',
+  name: 'settings',
+  component: resolve => require(['@/settings/index.vue'], resolve)
 }].concat(
     SigningRouters
 );

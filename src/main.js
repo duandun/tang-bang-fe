@@ -12,26 +12,26 @@ Vue.use(iView)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-    iView.LoadingBar.start();
-    next();
+  iView.LoadingBar.start();
+  next();
 });
 
 router.afterEach((to, from, next) => {
-    iView.LoadingBar.finish();
-    window.scrollTo(0, 0);
+  iView.LoadingBar.finish();
+  window.scrollTo(0, 0);
 });
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app-container',
-    http: {
-        root: '/root',
-        headers: {
-            Authorization: 'Base s9a8s9da7a'
-        }
-    },
-    router,
-    store,
-    template: '<App />',
-    components: { App }
+  el: '#app-container',
+  http: {
+    root: '/root',
+    headers: {
+      Authorization: 'Base s9a8s9da7a'
+    }
+  },
+  router,
+  store,
+  template: '<App />',
+  components: { App }
 })

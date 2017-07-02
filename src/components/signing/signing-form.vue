@@ -124,39 +124,39 @@
 
 <script>
 export default {
-    props: {
-        detail: {
-            type: Boolean,
-            default: false
-        },
-        confirm: {
-            type: Boolean,
-            default: false
-        },
-        confirmDetail: {
-            type: Boolean,
-            default: false
-        }
+  props: {
+    detail: {
+      type: Boolean,
+      default: false
     },
-    data() {
-        return {
-            formData: {
-                endProcess: 0
-            }
-        }
+    confirm: {
+      type: Boolean,
+      default: false
     },
-    created() {
-
-    },
-    methods: {
-        cancel() {
-            this.resetFormData();
-            this.$emit('cancel');
-        },
-        resetFormData() {
-            this.$refs['form'].resetFields();
-        }
+    confirmDetail: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {
+      formData: {
+        endProcess: 0
+      }
+    }
+  },
+  created() {
+
+  },
+  methods: {
+    cancel() {
+      this.resetFormData();
+      this.$emit('cancel');
+    },
+    resetFormData() {
+      this.$refs['form'].resetFields();
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 export default {
-    methods: {
-        getList () {
-            return []
-        }
+  methods: {
+    getList () {
+      return []
     }
+  }
 }

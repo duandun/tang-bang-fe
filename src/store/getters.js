@@ -1,3 +1,3 @@
 export const getCount = state => {
-    return state.circuit.count
+  return state.circuit.count
 }

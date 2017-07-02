@@ -18,22 +18,22 @@
 import { storage } from '@/utils';
 
 export default {
-    data() {
-        return {
-            formData: {
-                debugApiHost: ''
-            }
-        }
-    },
-    methods: {
-        confirm() {
-            storage.local.set('debugApiHost', this.formData.debugApiHost);
-            this.$Message.success('更改调试地址成功');
-        },
-        handleReset(name) {
-            this.$refs[name].resetFields();
-        }
+  data() {
+    return {
+      formData: {
+        debugApiHost: ''
+      }
     }
+  },
+  methods: {
+    confirm() {
+      storage.local.set('debugApiHost', this.formData.debugApiHost);
+      this.$Message.success('更改调试地址成功');
+    },
+    handleReset(name) {
+      this.$refs[name].resetFields();
+    }
+  }
 };
 </script>
 

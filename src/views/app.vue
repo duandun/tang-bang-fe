@@ -24,37 +24,37 @@ import Headers from '../components/_global/header/index.vue';
 import { BaseMixins } from '@/mixins';
 
 export default {
-    name: 'app',
-    components: {
-        EMenu,
-        ELayout,
-        Footers,
-        Sidebars,
-        Headers
-    },
-    data() {
-        return {
-            config
-        }
-    },
-    computed: {
-    },
-    mixins: [
-        BaseMixins
-    ],
-    created() {
-    },
-    watch: {
-        '$route': function(to, from) {
-            this.config.menu.activeName = to.path;
-            console.log(`%c enter view: ${to.name}`, 'color: #3399ff');
-        }
-    },
-    methods: {
-        onMenuSelect: function(path) {
-            this.$router.push(path)
-        }
+  name: 'app',
+  components: {
+    EMenu,
+    ELayout,
+    Footers,
+    Sidebars,
+    Headers
+  },
+  data() {
+    return {
+      config
     }
+  },
+  computed: {
+  },
+  mixins: [
+    BaseMixins
+  ],
+  created() {
+  },
+  watch: {
+    '$route': function(to, from) {
+      this.config.menu.activeName = to.path;
+      console.log(`%c enter view: ${to.name}`, 'color: #3399ff');
+    }
+  },
+  methods: {
+    onMenuSelect: function(path) {
+      this.$router.push(path)
+    }
+  }
 }
 </script>
 

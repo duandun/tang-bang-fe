@@ -3,14 +3,14 @@
 
 <script>
 export default {
-    data() {
-        this.$router.replace({
-            name: 'flowAdd'
-        });
-        return {
+  data() {
+    this.$router.replace({
+      name: 'flowAdd'
+    });
+    return {
 
-        };
-    }
+    };
+  }
 }
 </script>
 

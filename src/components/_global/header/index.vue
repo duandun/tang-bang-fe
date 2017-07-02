@@ -14,19 +14,19 @@
 
 <script>
 export default {
-    data() {
-        return {
-        }
-    },
-    components: {
-    },
-    methods: {
-        logout(name) {
-            if (name === 'userLogout') {
-                console.log('logout');
-            }
-        }
+  data() {
+    return {
     }
+  },
+  components: {
+  },
+  methods: {
+    logout(name) {
+      if (name === 'userLogout') {
+        console.log('logout');
+      }
+    }
+  }
 }
 </script>
 

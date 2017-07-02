@@ -201,134 +201,134 @@ import FinalResultsForm from '@/components/final-results/final-results-form.vue'
 import _ from 'lodash';
 
 export default {
-    extends: List,
-    components: {
-        SigningForm,
-        MaterialForm,
-        LegalAcceptForm,
-        LegalSubmitForm,
-        MaterialSubAgainForm,
-        FinalResultsForm
+  extends: List,
+  components: {
+    SigningForm,
+    MaterialForm,
+    LegalAcceptForm,
+    LegalSubmitForm,
+    MaterialSubAgainForm,
+    FinalResultsForm
+  },
+  data() {
+    return {
+      popVis: false,
+      currentModal: 'SigningForm',
+      queryAssist: {
+        dIds: [],
+        doing: 'doing',
+        done: 'done'
+      },
+      query: {
+        deptId: '',
+        processNum: '',
+        processName: '',
+        containRisks: '',
+        pageNum: 1,
+        pageSize: 10
+      },
+      dialog: {
+        title: '',
+        visible: false,
+        confirm: false,
+        detail: false
+      },
+      auth: {
+        finance: false
+      },
+      tableColumns: Config.getTableColumns(this)
+    };
+  },
+  computed: {
+  },
+  watch: {
+  },
+  created() {
+    this.tableList = mockList;
+    this._original_dialog = _.cloneDeep(this.$data.dialog);
+  },
+  methods: {
+    resetDialog() {
+      Object.assign(this.dialog, this._original_dialog);
     },
-    data() {
-        return {
-            popVis: false,
-            currentModal: 'SigningForm',
-            queryAssist: {
-                dIds: [],
-                doing: 'doing',
-                done: 'done'
-            },
-            query: {
-                deptId: '',
-                processNum: '',
-                processName: '',
-                containRisks: '',
-                pageNum: 1,
-                pageSize: 10
-            },
-            dialog: {
-                title: '',
-                visible: false,
-                confirm: false,
-                detail: false
-            },
-            auth: {
-                finance: false
-            },
-            tableColumns: Config.getTableColumns(this)
-        };
+    showDetail() {
+      this.resetDialog();
+      this.dialog.detail = true;
+      this.dialog.visible = true;
     },
-    computed: {
+    showConfirm() {
+      this.resetDialog();
+      this.dialog.detail = true;
+      this.dialog.confirm = true;
+      this.dialog.visible = true;
     },
-    watch: {
+    showEdit() {
+      this.resetDialog();
+      this.dialog.visible = true;
     },
-    created() {
-        this.tableList = mockList;
-        this._original_dialog = _.cloneDeep(this.$data.dialog);
+    signingEdit(index, row) {
+      this.showEdit();
+      this.currentModal = 'SigningForm';
+      this.dialog.title = '编辑签单';
     },
-    methods: {
-        resetDialog() {
-            Object.assign(this.dialog, this._original_dialog);
-        },
-        showDetail() {
-            this.resetDialog();
-            this.dialog.detail = true;
-            this.dialog.visible = true;
-        },
-        showConfirm() {
-            this.resetDialog();
-            this.dialog.detail = true;
-            this.dialog.confirm = true;
-            this.dialog.visible = true;
-        },
-        showEdit() {
-            this.resetDialog();
-            this.dialog.visible = true;
-        },
-        signingEdit(index, row) {
-            this.showEdit();
-            this.currentModal = 'SigningForm';
-            this.dialog.title = '编辑签单';
-        },
-        signingDetail(index, row) {
-            this.showDetail();
-            this.currentModal = 'SigningForm';
-            this.dialog.title = '签单详情';
-        },
-        signingConfirm(index, row) {
-            this.showConfirm();
-            this.currentModal = 'SigningForm';
-            this.dialog.title = '签单确认';
-        },
-        materialEdit(index, row) {
-            this.showEdit();
-            this.currentModal = 'MaterialForm';
-            this.dialog.title = '材料录入';
-        },
-        meterialDetail(index, row) {
-            this.showDetail();
-            this.currentModal = 'MaterialForm';
-            this.dialog.title = '材料详情';
-        },
-        materialConfirm(index, row) {
-            this.showConfirm();
-            this.currentModal = 'MaterialForm';
-            this.dialog.title = '材料确认';
-        },
-        legalSubmit(index, row) {
-            this.showEdit();
-            this.currentModal = 'LegalSubmitForm';
-            this.dialog.title = '法务提交';
-        },
-        legalSubmitDetail(index, row) {
-            this.showDetail();
-            this.currentModal = 'LegalSubmitForm';
-            this.dialog.title = '法务提交详情';
-        },
-        legalHandle(index, row) {
-            this.showEdit();
-            this.currentModal = 'LegalAcceptForm';
-            this.dialog.title = '法务受理';
-        },
-        legalHandleDetail(index, row) {
-            this.showDetail();
-            this.currentModal = 'LegalAcceptForm';
-            this.dialog.title = '法务受理详情';
-        },
-        materialSubAgain(index, row) {
+    signingDetail(index, row) {
+      this.showDetail();
+      this.currentModal = 'SigningForm';
+      this.dialog.title = '签单详情';
+    },
+    signingConfirm(index, row) {
+      this.showConfirm();
+      this.currentModal = 'SigningForm';
+      this.dialog.title = '签单确认';
+    },
+    materialEdit(index, row) {
+      this.showEdit();
+      this.currentModal = 'MaterialForm';
+      this.dialog.title = '材料录入';
+    },
+    meterialDetail(index, row) {
+      this.showDetail();
+      this.currentModal = 'MaterialForm';
+      this.dialog.title = '材料详情';
+    },
+    materialConfirm(index, row) {
+      this.showConfirm();
+      this.currentModal = 'MaterialForm';
+      this.dialog.title = '材料确认';
+    },
+    legalSubmit(index, row) {
+      this.showEdit();
+      this.currentModal = 'LegalSubmitForm';
+      this.dialog.title = '法务提交';
+    },
+    legalSubmitDetail(index, row) {
+      this.showDetail();
+      this.currentModal = 'LegalSubmitForm';
+      this.dialog.title = '法务提交详情';
+    },
+    legalHandle(index, row) {
+      this.showEdit();
+      this.currentModal = 'LegalAcceptForm';
+      this.dialog.title = '法务受理';
+    },
+    legalHandleDetail(index, row) {
+      this.showDetail();
+      this.currentModal = 'LegalAcceptForm';
+      this.dialog.title = '法务受理详情';
+    },
+    materialSubAgain(index, row) {
 
-        },
-        finalResults(index, row) {
+    },
+    finalResults(index, row) {
 
-        },
-        clickDel(item) {
-            console.log('dfdsees');
-        },
-        prepare() {
-            return Promise.resolve(this.topDepartmentList);
-        }
+    },
+    clickDel(item) {
+      console.log('dfdsees');
+    },
+    prepare() {
+      return Promise.resolve(this.topDepartmentList);
     }
+  }
 };
 </script>
 

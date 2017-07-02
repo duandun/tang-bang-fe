@@ -11,48 +11,48 @@
 import { FormHelper } from '@/utils';
 
 export default {
-    props: {
-        position: {
-            type: String,
-            default: 'top'
-        },
-        textContent: {
-            type: String,
-            default: ''
-        },
-        displayLength: {
-            type: Number,
-            default: 10
-        },
-        size: {
-            type: String,
-            default: 'normal'
-        }
+  props: {
+    position: {
+      type: String,
+      default: 'top'
     },
-    data() {
-        return {
-        }
+    textContent: {
+      type: String,
+      default: ''
     },
-    computed: {
-        computedText() {
-            let text = this.textContent;
-            const length = FormHelper.getTextLen(text);
-            if (length > this.displayLength) {
-                return text.substring(0, this.displayLength) + '...';
-            }
-            return text;
-        },
-        computeLength() {
-            return FormHelper.getTextLen(this.textContent);
-        },
-        spanSize() {
-            return `span-${this.size}`;
-        }
+    displayLength: {
+      type: Number,
+      default: 10
     },
-    created() {
-    },
-    methods: {
+    size: {
+      type: String,
+      default: 'normal'
     }
+  },
+  data() {
+    return {
+    }
+  },
+  computed: {
+    computedText() {
+      let text = this.textContent;
+      const length = FormHelper.getTextLen(text);
+      if (length > this.displayLength) {
+        return text.substring(0, this.displayLength) + '...';
+      }
+      return text;
+    },
+    computeLength() {
+      return FormHelper.getTextLen(this.textContent);
+    },
+    spanSize() {
+      return `span-${this.size}`;
+    }
+  },
+  created() {
+  },
+  methods: {
+  }
 }
 </script>
 
