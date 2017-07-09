@@ -66,9 +66,10 @@ export default {
       this.query.pageNum = page;
       let query = FormHelper.handleQueryFields(this.query);
 
+      // 通常cacheQuery时，是独立list页，因此应该返回顶部
+      window.scrollTo(0, 0);
+
       if (this.cacheQuery) {
-                // 通常cacheQuery时，是独立list页，因此应该返回顶部
-        window.scrollTo(0, 0);
         storage.session.set(`${this.$route.name}-query`, {
           query,
           queryAssist: this.queryAssist || {}
@@ -78,10 +79,10 @@ export default {
         this.tableList = this.formatData(results.list || []);
         this.total = results.total || 0;
       })
-            .catch(e => {
-              console.log(e);
-              this.$Message.error(TEXT.LOAD_ERROR);
-            });
+      .catch(e => {
+        console.log(e);
+        this.$Message.error(TEXT.LOAD_ERROR);
+      });
     }),
 
     search() {

@@ -44,7 +44,7 @@ export default {
     BaseMixins
   ],
   created() {
-    api.signing.testLogin().then((results) => {
+    api.contract.testLogin().then((results) => {
       console.log(results);
     });
   },

@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="flow-list-container">
+    <div class="list-container">
         <Form ref="form" :label-width="135">
             <Row>
                 <Col span="6">
@@ -67,14 +67,14 @@
                             <div class="" slot="description">
                                 <el-button
                                   size="small"
-                                  @click="signingDetail(scope.$index, scope.row)">签单详情</el-button>
+                                  @click="contractDetail(scope.$index, scope.row)">签单详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="签单确认">
                             <div class="" slot="description">
                                 <el-button
                                   size="small"
-                                  @click="signingConfirm(scope.$index, scope.row)">签单确认详情</el-button>
+                                  @click="contractConfirm(scope.$index, scope.row)">签单确认详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="材料录入">
@@ -131,11 +131,11 @@
                     <el-button
                       size="small"
                       type="text"
-                      @click="signingEdit(scope.$index, scope.row)">签单编辑</el-button>
+                      @click="contractEdit(scope.$index, scope.row)">签单编辑</el-button>
                         <el-button
                           size="small"
                            type="text"
-                          @click="signingConfirm(scope.$index, scope.row)">签单确认</el-button>
+                          @click="contractConfirm(scope.$index, scope.row)">签单确认</el-button>
                         <el-button
                           size="small"
                            type="text"
@@ -191,19 +191,20 @@
 <script>
 import List from '@/components/list';
 import * as Config from './list.config.js';
-import mockList from '../../../mock/signing-list.js';
-import SigningForm from '@/components/signing/signing-form.vue';
+import mockList from '../../../mock/contract-list.js';
+import ContractForm from '@/components/contract/contract-form.vue';
 import MaterialForm from '@/components/material/material-form.vue';
 import LegalAcceptForm from '@/components/legal/legal-accept-form.vue';
 import LegalSubmitForm from '@/components/legal/legal-submit-form.vue';
 import MaterialSubAgainForm from '@/components/material/material-subagain-form.vue';
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import _ from 'lodash';
+import * as api from '@/api';
 
 export default {
   extends: List,
   components: {
-    SigningForm,
+    ContractForm,
     MaterialForm,
     LegalAcceptForm,
     LegalSubmitForm,
@@ -213,7 +214,7 @@ export default {
   data() {
     return {
       popVis: false,
-      currentModal: 'SigningForm',
+      currentModal: 'ContractForm',
       queryAssist: {
         dIds: [],
         doing: 'doing',
@@ -248,6 +249,8 @@ export default {
     this._original_dialog = _.cloneDeep(this.$data.dialog);
   },
   methods: {
+    fetchApi: api.contract.list,
+
     resetDialog() {
       Object.assign(this.dialog, this._original_dialog);
     },
@@ -266,19 +269,19 @@ export default {
       this.resetDialog();
       this.dialog.visible = true;
     },
-    signingEdit(index, row) {
+    contractEdit(index, row) {
       this.showEdit();
-      this.currentModal = 'SigningForm';
+      this.currentModal = 'ContractForm';
       this.dialog.title = '编辑签单';
     },
-    signingDetail(index, row) {
+    contractDetail(index, row) {
       this.showDetail();
-      this.currentModal = 'SigningForm';
+      this.currentModal = 'ContractForm';
       this.dialog.title = '签单详情';
     },
-    signingConfirm(index, row) {
+    contractConfirm(index, row) {
       this.showConfirm();
-      this.currentModal = 'SigningForm';
+      this.currentModal = 'ContractForm';
       this.dialog.title = '签单确认';
     },
     materialEdit(index, row) {

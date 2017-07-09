@@ -1,15 +1,15 @@
 export default {
   list: [{
-    name: '/signing-manage',
+    name: '/contract-manage',
     text: '签单管理',
     children: [{
-      name: '/signing/add',
+      name: '/contract/add',
       text: '签单录入'
     }, {
-      name: '/signing/list',
+      name: '/contract/list',
       text: '签单列表'
     }]
   }],
-  openNames: ['/signing-manage'],
+  openNames: ['/contract-manage'],
   activeName: ''
 }
