@@ -126,6 +126,7 @@
 import * as Config from './contract.config.js';
 import Form from '@/components/form';
 import * as api from '@/api';
+import moment from 'moment';
 
 export default {
   extends: Form,
@@ -159,6 +160,10 @@ export default {
     },
     resetFormData() {
       this.$refs['form'].resetFields();
+    },
+    formatter(formdata) {
+      formdata.remittance_time = moment(formdata.remittance_time).format('YYYY-MM-DD');
+      formdata.deadline = moment(formdata.deadline).format('YYYY-MM-DD');
     },
     fetchApi: api.contract.detail,
     saveForm: api.contract.save

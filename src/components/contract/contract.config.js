@@ -13,21 +13,11 @@ export const getFormData = () => {
   };
 };
 
-const validProcessNum = (context) => (rule, value, callback) => {
-  let params = {
-    processNum: value
-  }
-  if (context.flowCard.id) {
-    params.processId = context.flowCard.id
-  }
-}
-
 export const getRules = (context) => {
   return {
     contract_id: [
       { required: true, message: '请输入合同编号', trigger: 'change' },
-      { max: 80, message: '编号不大于80字', trigger: 'change' },
-      { validator: validProcessNum(context), trigger: 'change' }
+      { max: 80, message: '编号不大于80字', trigger: 'change' }
     ],
     company_name: [
       { required: true, message: '请输入公司名称', trigger: 'change' },

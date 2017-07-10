@@ -21,6 +21,15 @@ router.afterEach((to, from, next) => {
   window.scrollTo(0, 0);
 });
 
+// 全局扩展 FormItem
+Vue.component('FormItem', Vue.component('FormItem').extend({
+  mounted () {
+    this.$on('on-form-change', () => {
+      this.dispatch('iForm', 'change')
+    })
+  }
+}))
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app-container',

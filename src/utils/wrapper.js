@@ -1,91 +1,90 @@
-import { TEXT, LIFECYCLE } from '../constant';
-import _ from 'lodash';
+import { TEXT, LIFECYCLE } from '@/constant'
+import clone from 'clone'
 
 const TYPE = {
   BASE: 'isSync',
   FORMLOAD: 'formloading',
   FETCH: 'loading',
-  SAVE: 'saving'
-};
+  SAVE: 'isSaving'
+}
 
 const PHASE = {
   BEFORE: 0,
   AFTER: 1
-};
+}
 
-function updateLifeCycle(type, phase, error, previous) {
+function updateLifeCycle (type, phase, error, previous) {
   if (type === TYPE.FORMLOAD) {
     if (phase === PHASE.BEFORE) {
-      this.lifecycle = LIFECYCLE.LOADING;
+      this.lifecycle = LIFECYCLE.LOADING
     } else if (!error) {
-      this.lifecycle = LIFECYCLE.READY;
+      this.lifecycle = LIFECYCLE.READY
       this.$nextTick(() => {
-        this.rawForm = _.cloneDeep(this.form);
+        this.rawForm = clone(this.formData)
 
-                // if (this.$refs.form) {
-                //     this.$refs.form.$on('change', () => {
-                //         if (this.isFormChanged()) {
-                //             this.lifecycle = LIFECYCLE.CHANGED;
-                //         } else {
-                //             this.lifecycle = LIFECYCLE.READY;
-                //         }
-                //     });
-                // }
-      });
+        if (this.$refs.form) {
+          this.$refs.form.$on('change', () => {
+            if (this.isFormChanged()) {
+              this.lifecycle = LIFECYCLE.CHANGED
+            } else {
+              this.lifecycle = LIFECYCLE.READY
+            }
+          })
+        }
+      })
     }
   } else if (type === TYPE.SAVE) {
     if (phase === PHASE.BEFORE) {
-      this.lifecycle = LIFECYCLE.SAVING;
+      this.lifecycle = LIFECYCLE.SAVING
     } else if (!error) {
-      this.lifecycle = LIFECYCLE.SAVED;
+      this.lifecycle = LIFECYCLE.SAVED
     } else {
-      this.lifecycle = previous.lifecycle;
+      this.lifecycle = previous.lifecycle
     }
   }
 }
 
-function updateState(onOff, phase, error, previous) {
-  this[onOff] = phase === PHASE.BEFORE;
-  updateLifeCycle.call(this, onOff, phase, error, previous);
+function updateState (onOff, phase, error, previous) {
+  this[onOff] = phase === PHASE.BEFORE
+  updateLifeCycle.call(this, onOff, phase, error, previous)
 }
 
-export function wrapAsync(successMsg, errorMsg) {
-  return function(onOff = TYPE.BASE) {
-    return function(fn) {
-      return function(...args) {
+export function wrapAsync (successMsg, errorMsg) {
+  return function (onOff = TYPE.BASE) {
+    return function (fn) {
+      return function (...args) {
         if (this[onOff]) {
-          this.$Message.warning(TEXT.OPERATE_WARNING);
-          return;
+          this.$Message.warning(TEXT.OPERATE_WARNING)
+          return
         }
 
-        updateState.call(this, onOff, PHASE.BEFORE);
+        updateState.call(this, onOff, PHASE.BEFORE)
 
         let previous = {
           lifecycle: this.lifecycle
-        };
+        }
 
-                // 保证开关已经打开
+        // 保证开关已经打开
         this.$nextTick(() => {
           fn.apply(this, args).then(resp => {
-            updateState.call(this, onOff, PHASE.AFTER);
+            updateState.call(this, onOff, PHASE.AFTER)
 
             if (successMsg && !this.slience) {
-              this.$Message.success(successMsg);
+              this.$Message.success(successMsg)
             }
           }).catch(resp => {
-            updateState.call(this, onOff, PHASE.AFTER, true, previous);
+            updateState.call(this, onOff, PHASE.AFTER, true, previous)
 
             if (errorMsg) {
-              this.$Message.error(errorMsg);
+              this.$Message.error(errorMsg)
             }
-          });
-        });
-      };
-    };
-  };
-};
+          })
+        })
+      }
+    }
+  }
+}
 
-export const wrapFormLoad = wrapAsync(null, TEXT.LOAD_ERROR)(TYPE.FORMLOAD);
-export const wrapFetch = wrapAsync(null, TEXT.LOAD_ERROR)(TYPE.FETCH);
-export const wrapSubmit = wrapAsync(TEXT.SAVE_SUCCESS, TEXT.SAVE_ERROR)(TYPE.SAVE);
-export const wrapOperate = wrapAsync(TEXT.OPERATE_SUCCESS, TEXT.OPERATE_ERROR);
+export const wrapFormLoad = wrapAsync(null, TEXT.LOAD_ERROR)(TYPE.FORMLOAD)
+export const wrapFetch = wrapAsync(null, TEXT.LOAD_ERROR)(TYPE.FETCH)
+export const wrapSubmit = wrapAsync(TEXT.SAVE_SUCCESS, TEXT.SAVE_ERROR)(TYPE.SAVE)

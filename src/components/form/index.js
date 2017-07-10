@@ -221,7 +221,7 @@ export default {
         // internal api
     submit: Wrapper.wrapSubmit(function () {
       let formdata = this.formatBeforeSumbit(this.formData)
-
+      console.log(formdata)
       return this.saveForm(formdata)
                 .then((resp) => {
                   this.afterSubmit(resp)
@@ -250,6 +250,7 @@ export default {
       this.$emit('willFormValidate')
       this.willFormValidate(...rest).then(() => {
         this.$refs.form.validate((valid) => {
+          console.log(valid)
           if (!valid) {
             this.$Message.error(TEXT.FORM_VALIDATE_ERROR)
             return
