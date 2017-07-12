@@ -12,8 +12,8 @@ const apiHostConf = {
     apiHost: 'ss.com'
   },
   prod: {
-    host: '10.95.118.68:8080',
-    apiHost: '10.95.118.68:8080/api'
+    host: '111.204.219.209',
+    apiHost: '111.204.219.209:3690/api'
   }
 };
 
