@@ -166,7 +166,7 @@
             <Page
                 :total="total"
                 :page-size="query.pageSize"
-                :current="query.pageNum"
+                :current="query.pageStart"
                 @on-change="handleCurrentChange"
                 @on-page-size-change="handlePageSizeChange"
                 show-sizer
@@ -225,7 +225,7 @@ export default {
         processNum: '',
         processName: '',
         containRisks: '',
-        pageNum: 1,
+        pageStart: 1,
         pageSize: 10
       },
       dialog: {

@@ -25,7 +25,7 @@ export default {
     this.$nextTick(() => {
       if (!this.loading) {
         this.prepare().then(() => {
-          this.fetchByPage(this.pageNum);
+          this.fetchByPage();
         }).catch(() => {
 
         });
@@ -59,11 +59,11 @@ export default {
     },
 
         // internal api
-    fetchByPage: Wrapper.wrapFetch(function(page = this.query.pageNum, ...rest) {
+    fetchByPage: Wrapper.wrapFetch(function(page = this.query.pageStart, ...rest) {
       if (this.firstQuery) {
         this.firstQuery = false;
       }
-      this.query.pageNum = page;
+      this.query.pageStart = page;
       let query = FormHelper.handleQueryFields(this.query);
 
       // 通常cacheQuery时，是独立list页，因此应该返回顶部
@@ -118,10 +118,10 @@ export default {
                 return Promise.reject(resp);
               }
 
-              let newPage = this.query.pageNum;
+              let newPage = this.query.pageStart;
 
                 // 删掉此页最后一条，返回上一页
-              if (this.tableList.length === 1 && this.query.pageNum > 1) {
+              if (this.tableList.length === 1 && this.query.pageStart > 1) {
                 newPage = newPage - 1;
               }
 
