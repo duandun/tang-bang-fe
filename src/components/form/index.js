@@ -154,16 +154,19 @@ export default {
       if (!isFirst) {
         this.reset()
       }
-
-      if (!this.$route.params.id) {
-        return Promise.resolve(null)
+      let id = this.$route.params.id;
+      if (!id) {
+        if (!this.$route.query.id) {
+          return Promise.resolve(null)
+        }
+        id = this.$route.query.id
       }
 
       if (!this.fetchApi || typeof this.fetchApi !== 'function') {
         return
       }
 
-      return this.fetchApi(this.$route.params.id).then((results) => {
+      return this.fetchApi(id).then((results) => {
         this.willDataMerge(results)
 
         Object.assign(this.formData, results)
@@ -200,9 +203,6 @@ export default {
           if (typeof formdata[field] === 'object') {
             formdata[field] = JSON.stringify(formdata[field])
           }
-          if (typeof formdata[field] === 'undefined') {
-            delete formdata[field]
-          }
           if (typeof formdata[field] === 'number' && isNaN(formdata[field])) {
             formdata[field] = void (0)
           }
@@ -221,14 +221,9 @@ export default {
         // internal api
     submit: Wrapper.wrapSubmit(function () {
       let formdata = this.formatBeforeSumbit(this.formData)
-      console.log(formdata)
       return this.saveForm(formdata)
                 .then((resp) => {
                   this.afterSubmit(resp)
-                })
-                .catch((resp) => {
-                  console.log(resp)
-                  this.$Message.error('保存失败')
                 })
     }),
 
@@ -250,7 +245,6 @@ export default {
       this.$emit('willFormValidate')
       this.willFormValidate(...rest).then(() => {
         this.$refs.form.validate((valid) => {
-          console.log(valid)
           if (!valid) {
             this.$Message.error(TEXT.FORM_VALIDATE_ERROR)
             return

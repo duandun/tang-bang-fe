@@ -5,6 +5,9 @@ export function testLogin(params) {
 }
 
 export function save(params) {
+  if (params.id) {
+    return fetch('/contract/update', params, 'POST');
+  }
   return fetch('/contract/submit', params, 'POST');
 }
 

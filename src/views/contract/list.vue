@@ -4,12 +4,12 @@
             <Row>
                 <Col span="6">
                     <Form-item label="合同编号:">
-                        <Input placeholder="请输入..." v-model="query.num"></Input>
+                        <Input placeholder="请输入..." v-model="query.contract_id"></Input>
                     </Form-item>
                 </Col>
                 <Col span="6">
                     <Form-item label="公司名称:">
-                        <Input v-model="query.processNum" @keyup.enter.native="search"></Input>
+                        <Input v-model="query.company_name" @keyup.enter.native="search"></Input>
                     </Form-item>
                 </Col>
                 <Col span="6">
@@ -39,24 +39,28 @@
               :data="tableList"
               style="width: 100%">
               <el-table-column
-                prop="num"
+                type="index"
+                width="60">
+              </el-table-column>
+              <el-table-column
+                prop="contract_id"
                 label="合同编号"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="company_name"
                 label="公司名称">
               </el-table-column>
               <el-table-column
-                prop="case"
+                prop="commission"
                 label="委托事项">
               </el-table-column>
               <el-table-column
-                prop="date"
+                prop="createtime"
                 label="提交时间"
                 width="180">
               </el-table-column>
-              <el-table-column v-if="!auth.finance"
+              <el-table-column
                 prop="status"
                 label="进度">
                 <template scope="scope">
@@ -175,13 +179,15 @@
             </Page>
         </Row>
         <Modal v-model="dialog.visible" width="800">
-            <p class="" slot="header">
+            <p slot="header">
                 <span>{{ dialog.title }}</span>
             </p>
             <component :is="currentModal"
+                v-if="dialog.visible"
                 :detail="dialog.detail"
                 :confirm="dialog.confirm"
-                @cancel="dialog.visible = false"></component>
+                @cancel="dialog.visible = false"
+                @save-success="dialog.visible = false"></component>
             <div class="" slot="footer">
             </div>
         </Modal>
@@ -191,7 +197,6 @@
 <script>
 import List from '@/components/list';
 import * as Config from './list.config.js';
-import mockList from '../../../mock/contract-list.js';
 import ContractForm from '@/components/contract/contract-form.vue';
 import MaterialForm from '@/components/material/material-form.vue';
 import LegalAcceptForm from '@/components/legal/legal-accept-form.vue';
@@ -200,6 +205,12 @@ import MaterialSubAgainForm from '@/components/material/material-subagain-form.v
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import _ from 'lodash';
 import * as api from '@/api';
+
+const statusText = {
+  0: '驳回',
+  1: '已完成',
+  2: '进行中'
+}
 
 export default {
   extends: List,
@@ -214,17 +225,15 @@ export default {
   data() {
     return {
       popVis: false,
-      currentModal: 'ContractForm',
+      currentModal: '',
       queryAssist: {
         dIds: [],
         doing: 'doing',
         done: 'done'
       },
       query: {
-        deptId: '',
-        processNum: '',
-        processName: '',
-        containRisks: '',
+        contract_id: '',
+        company_name: '',
         pageStart: 1,
         pageSize: 10
       },
@@ -245,77 +254,93 @@ export default {
   watch: {
   },
   created() {
-    this.tableList = mockList;
     this._original_dialog = _.cloneDeep(this.$data.dialog);
   },
   methods: {
     fetchApi: api.contract.list,
 
+    formatData(results) {
+      results.forEach(item => {
+        item.status = statusText[item.status]
+      });
+      return results;
+    },
+
     resetDialog() {
       Object.assign(this.dialog, this._original_dialog);
     },
-    showDetail() {
+    showDetail(id) {
       this.resetDialog();
       this.dialog.detail = true;
       this.dialog.visible = true;
+      this.$router.push({
+        query: { id }
+      });
     },
-    showConfirm() {
+    showConfirm(id) {
       this.resetDialog();
       this.dialog.detail = true;
       this.dialog.confirm = true;
       this.dialog.visible = true;
+      this.$router.push({
+        query: { id }
+      });
     },
-    showEdit() {
+    showEdit(id) {
       this.resetDialog();
+      this.dialog.detail = false;
       this.dialog.visible = true;
+      this.$router.push({
+        query: { id }
+      });
     },
     contractEdit(index, row) {
-      this.showEdit();
+      this.showEdit(row.id);
       this.currentModal = 'ContractForm';
       this.dialog.title = '编辑签单';
     },
     contractDetail(index, row) {
-      this.showDetail();
+      this.showDetail(row.id);
       this.currentModal = 'ContractForm';
       this.dialog.title = '签单详情';
     },
     contractConfirm(index, row) {
-      this.showConfirm();
+      this.showConfirm(row.id);
       this.currentModal = 'ContractForm';
       this.dialog.title = '签单确认';
     },
     materialEdit(index, row) {
-      this.showEdit();
+      this.showEdit(row.id);
       this.currentModal = 'MaterialForm';
       this.dialog.title = '材料录入';
     },
     meterialDetail(index, row) {
-      this.showDetail();
+      this.showDetail(row.id);
       this.currentModal = 'MaterialForm';
       this.dialog.title = '材料详情';
     },
     materialConfirm(index, row) {
-      this.showConfirm();
+      this.showConfirm(row.id);
       this.currentModal = 'MaterialForm';
       this.dialog.title = '材料确认';
     },
     legalSubmit(index, row) {
-      this.showEdit();
+      this.showEdit(row.id);
       this.currentModal = 'LegalSubmitForm';
       this.dialog.title = '法务提交';
     },
     legalSubmitDetail(index, row) {
-      this.showDetail();
+      this.showDetail(row.id);
       this.currentModal = 'LegalSubmitForm';
       this.dialog.title = '法务提交详情';
     },
     legalHandle(index, row) {
-      this.showEdit();
+      this.showEdit(row.id);
       this.currentModal = 'LegalAcceptForm';
       this.dialog.title = '法务受理';
     },
     legalHandleDetail(index, row) {
-      this.showDetail();
+      this.showDetail(row.id);
       this.currentModal = 'LegalAcceptForm';
       this.dialog.title = '法务受理详情';
     },

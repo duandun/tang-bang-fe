@@ -22,7 +22,6 @@ import Footers from '../components/_global/footer/index.vue';
 import Sidebars from '../components/_global/sidebar/index.vue';
 import Headers from '../components/_global/header/index.vue';
 import { BaseMixins } from '@/mixins';
-import * as api from '@/api';
 
 export default {
   name: 'app',
@@ -44,9 +43,6 @@ export default {
     BaseMixins
   ],
   created() {
-    api.contract.testLogin().then((results) => {
-      console.log(results);
-    });
   },
   watch: {
     '$route': function(to, from) {

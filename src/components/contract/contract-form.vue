@@ -38,7 +38,9 @@
                 </Col>
                 <Col span="12">
                     <Form-item label="汇款时间：" prop="remittance_time">
-                        <Date-picker v-if="!detail" placeholder="选择时间和日期..." type="date" v-model="formData.remittance_time"></Date-picker>
+                        <Date-picker v-if="!detail" placeholder="选择时间和日期..."
+                        format="yyyy-MM-dd HH:mm:ss"
+                        type="datetime" v-model="formData.remittance_time"></Date-picker>
                         <span v-else>{{formData.remittance_time}}</span>
                     </Form-item>
                 </Col>
@@ -52,7 +54,9 @@
                 </Col>
                 <Col span="12">
                     <Form-item label="案件截止日期：" prop="deadline">
-                        <Date-picker v-if="!detail" placeholder="选择时间和日期..." type="date" v-model="formData.deadline"></Date-picker>
+                        <Date-picker v-if="!detail" placeholder="选择日期..."
+                          format="yyyy-MM-dd"
+                         type="date" v-model="formData.deadline"></Date-picker>
                         <span v-else>{{formData.deadline}}</span>
                     </Form-item>
                 </Col>
@@ -84,7 +88,8 @@
                     </Col>
                     <Col span="12">
                         <Form-item label="到账时间：" prop="">
-                            <Date-picker v-if="!confirmDetail" placeholder="选择时间和日期..." type="date" :value="formData.moneyTime"></Date-picker>
+                            <Date-picker v-if="!confirmDetail" placeholder="选择时间和日期..."
+                            type="date" :value="formData.moneyTime"></Date-picker>
                             <span v-else>XXXXXX</span>
                         </Form-item>
                     </Col>
@@ -151,7 +156,6 @@ export default {
     }
   },
   created() {
-
   },
   methods: {
     cancel() {
@@ -162,8 +166,23 @@ export default {
       this.$refs['form'].resetFields();
     },
     formatter(formdata) {
-      formdata.remittance_time = moment(formdata.remittance_time).format('YYYY-MM-DD');
-      formdata.deadline = moment(formdata.deadline).format('YYYY-MM-DD');
+      if (Object.prototype.toString.call(formdata.remittance_time) === '[object Date]') {
+        formdata.remittance_time = moment(formdata.remittance_time).format('YYYY-MM-DD hh:mm:ss');
+      }
+      if (Object.prototype.toString.call(formdata.deadline) === '[object Date]') {
+        formdata.deadline = moment(formdata.deadline).format('YYYY-MM-DD');
+      }
+    },
+    willDataMerge(results) {
+      results.remittance_time = moment(results.remittance_time).toDate();
+      results.deadline = moment(results.deadline).toDate();
+    },
+    afterSubmit(resp) {
+      if (resp.flag) {
+        this.$emit('save-success');
+      } else {
+        this.$Message.error('保存失败');
+      }
     },
     fetchApi: api.contract.detail,
     saveForm: api.contract.save

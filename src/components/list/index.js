@@ -76,8 +76,8 @@ export default {
         });
       }
       return this.fetchApi(query, ...rest).then((results) => {
-        this.tableList = this.formatData(results.list || []);
-        this.total = results.total || 0;
+        this.tableList = this.formatData(results.data || []);
+        this.total = results.recordsTotal || 0;
       })
       .catch(e => {
         console.log(e);
