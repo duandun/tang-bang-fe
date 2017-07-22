@@ -173,9 +173,10 @@ export default {
         formdata.deadline = moment(formdata.deadline).format('YYYY-MM-DD');
       }
     },
-    willDataMerge(results) {
-      results.remittance_time = moment(results.remittance_time).toDate();
-      results.deadline = moment(results.deadline).toDate();
+    willFormValidate() {
+      this.formData.remittance_time = moment(this.formData.remittance_time).toDate();
+      this.formData.deadline = moment(this.formData.deadline).toDate();
+      return Promise.resolve(null);
     },
     afterSubmit(resp) {
       if (resp.flag) {
