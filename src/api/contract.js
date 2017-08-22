@@ -26,3 +26,11 @@ export function detail(id) {
 export function list(params) {
   return fetch('/contract/list', params);
 }
+
+export function confirm(params) {
+  return fetch('/contract/confirm', params, 'POST');
+}
+
+export function confirmDetail(contractId) {
+  return fetch('/contract/confirmDetail', {contract_id: contractId})
+}

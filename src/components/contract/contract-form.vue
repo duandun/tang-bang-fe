@@ -79,9 +79,9 @@
                 <Row>
                     <Col span="12">
                         <Form-item label="到账金额确认无误：" prop="">
-                            <Radio-group v-model="formData.num" v-if="!confirmDetail">
-                                <Radio label="是"></Radio>
-                                <Radio label="否"></Radio>
+                            <Radio-group v-model="formData.account" v-if="!confirmDetail">
+                                <Radio :label="1">是</Radio>
+                                <Radio :label="0">否</Radio>
                             </Radio-group>
                             <span v-else>XXXXXX</span>
                         </Form-item>
@@ -89,7 +89,7 @@
                     <Col span="12">
                         <Form-item label="到账时间：" prop="">
                             <Date-picker v-if="!confirmDetail" placeholder="选择时间和日期..."
-                            type="date" :value="formData.moneyTime"></Date-picker>
+                            type="date" v-model="formData.date"></Date-picker>
                             <span v-else>XXXXXX</span>
                         </Form-item>
                     </Col>
@@ -97,9 +97,9 @@
                 <Row>
                     <Col span="12">
                         <Form-item label="合同信息确认无误：" prop="">
-                            <Radio-group v-model="formData.num" v-if="!confirmDetail">
-                                <Radio label="是"></Radio>
-                                <Radio label="否"></Radio>
+                            <Radio-group v-model="formData.information" v-if="!confirmDetail">
+                                <Radio :label="1">是</Radio>
+                                <Radio :label="0">否</Radio>
                             </Radio-group>
                             <span v-else>XXXXX</span>
                         </Form-item>
@@ -108,18 +108,18 @@
                 <Row>
                     <Col span="12">
                         <Form-item label="终止：" prop="">
-                            <Radio-group v-model="formData.endProcess">
+                            <Radio-group v-model="formData.pause">
                                 <Radio :label="1">是</Radio>
                                 <Radio :label="0">否</Radio>
                             </Radio-group>
                         </Form-item>
-                        <Form-item label="终止理由：" prop="" v-if="formData.endProcess">
-                            <Input placeholder="请输入..." v-model="formData.endReason" type="textarea"></Input>
+                        <Form-item label="终止理由：" prop="" v-if="formData.pause">
+                            <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea"></Input>
                         </Form-item>
                     </Col>
                 </Row>
                 <Row style="text-align: center" v-if="!confirmDetail">
-                    <Button type="primary">确认</Button>
+                    <Button type="primary" @click="confirmContract">确认</Button>
                     <Button @click="cancel">取消</Button>
                 </Row>
             </span>
@@ -186,7 +186,22 @@ export default {
       }
     },
     fetchApi: api.contract.detail,
-    saveForm: api.contract.save
+    saveForm: api.contract.save,
+    afterDataMerge(results) {
+      if (this.confirm) {
+        const {contract_id} = results
+        api.contract.confirmDetail(contract_id).then((results) => {
+          console.log(results)
+          Object.assign(this.formData, results)
+        })
+      }
+    },
+    confirmContract () {
+      const {account, date, information, pause, pause_reason} = this.formData
+      api.contract.confirm({account, date, information, pause, pause_reason}).then((results) => {
+        console.log(results)
+      })
+    }
   }
 }
 </script>
