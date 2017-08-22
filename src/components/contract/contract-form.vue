@@ -132,6 +132,7 @@ import * as Config from './contract.config.js';
 import Form from '@/components/form';
 import * as api from '@/api';
 import moment from 'moment';
+import _ from 'lodash';
 
 export default {
   extends: Form,
@@ -197,9 +198,18 @@ export default {
       }
     },
     confirmContract () {
-      const {account, date, information, pause, pause_reason} = this.formData
-      api.contract.confirm({account, date, information, pause, pause_reason}).then((results) => {
+      let {account, date, information, pause, pause_reason, contract_id} = this.formData
+      if (_.isDate(date)) {
+        date = moment(date).format('YYYY-MM-DD')
+      }
+      api.contract.confirm({account, date, information, pause, pause_reason, contract_id}).then((results) => {
         console.log(results)
+        if (results) {
+          this.$Message.success('保存成功')
+          this.$emit('save-success')
+        } else {
+          this.$Message.error('保存失败')
+        }
       })
     }
   }
