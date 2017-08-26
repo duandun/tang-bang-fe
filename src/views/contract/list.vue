@@ -197,14 +197,16 @@
 <script>
 import List from '@/components/list';
 import * as Config from './list.config.js';
-import ContractForm from '@/components/contract/contract-form.vue';
-import MaterialForm from '@/components/material/material-form.vue';
+import ContractForm from '@/components/contract/contract-form/form.vue';
+import ContractConfirm from '@/components/contract/contract-confirm.vue';
+import MaterialForm from '@/components/material/material-form/form.vue';
+import MaterialConfirm from '@/components/material/material-confirm.vue';
 import LegalAcceptForm from '@/components/legal/legal-accept-form.vue';
 import LegalSubmitForm from '@/components/legal/legal-submit-form.vue';
 import MaterialSubAgainForm from '@/components/material/material-subagain-form.vue';
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import _ from 'lodash';
-import * as api from '@/api';
+import api from '@/api';
 
 const statusText = {
   0: '驳回',
@@ -216,7 +218,9 @@ export default {
   extends: List,
   components: {
     ContractForm,
+    ContractConfirm,
     MaterialForm,
+    MaterialConfirm,
     LegalAcceptForm,
     LegalSubmitForm,
     MaterialSubAgainForm,
@@ -306,7 +310,7 @@ export default {
     },
     contractConfirm(index, row) {
       this.showConfirm(row.id);
-      this.currentModal = 'ContractForm';
+      this.currentModal = 'ContractConfirm';
       this.dialog.title = '签单确认';
     },
     materialEdit(index, row) {

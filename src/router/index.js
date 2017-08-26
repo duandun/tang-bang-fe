@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import ContractRouters from './contract';
+import MaterialRouters from './material';
 
 Vue.use(Router)
 
@@ -26,7 +27,8 @@ const routes = [{
   name: 'settings',
   component: resolve => require(['@/settings/index.vue'], resolve)
 }].concat(
-    ContractRouters
+    ContractRouters,
+    MaterialRouters
 );
 
 export default new Router({ routes })

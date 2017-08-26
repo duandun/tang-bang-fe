@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ContractForm from '@/components/contract/contract-form.vue';
+import ContractForm from '@/components/contract/contract-form/form.vue';
 
 export default {
   props: {

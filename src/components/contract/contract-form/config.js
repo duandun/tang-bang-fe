@@ -4,17 +4,12 @@ export const getFormData = () => {
     contract_id: '',
     company_name: '',
     commission: '',
-    commission_number: 0,
+    commission_number: void 0,
     remittance: '',
     remittance_time: '',
     commissioned_applicant: '',
     deadline: '',
-    precautions: '',
-    account: 0,
-    date: '',
-    information: 0,
-    pause: 0,
-    pause_reason: ''
+    precautions: ''
   };
 };
 
@@ -33,7 +28,8 @@ export const getRules = (context) => {
       { max: 120, message: '不大于120字', trigger: 'change' }
     ],
     commission_number: [
-      { required: true, message: '请输入委托事项数量', trigger: 'change', type: 'number' }
+      { required: true, message: '请正确输入委托事项数量', trigger: 'change', type: 'integer' },
+      { min: 0, trigger: 'change', message: '委托数量大于0', type: 'integer' }
     ],
     remittance: [
       { required: true, message: '请输入汇款方式', trigger: 'change' },

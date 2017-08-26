@@ -154,12 +154,9 @@ export default {
       if (!isFirst) {
         this.reset()
       }
-      let id = this.$route.params.id;
+      let id = this.$route.params.id || this.$route.query.id;
       if (!id) {
-        if (!this.$route.query.id) {
-          return Promise.resolve(null)
-        }
-        id = this.$route.query.id
+        return Promise.resolve(null)
       }
 
       if (!this.fetchApi || typeof this.fetchApi !== 'function') {
