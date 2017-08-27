@@ -92,7 +92,7 @@
                             <div class="" slot="description">
                                 <el-button
                                   size="small"
-                                  @click="materialConfirm(scope.$index, scope.row)">材料确认详情</el-button>
+                                  @click="materialConfirmDetail(scope.$index, scope.row)">材料确认详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="法务提交">
@@ -184,6 +184,7 @@
             </p>
             <component :is="currentModal"
                 v-if="dialog.visible"
+                :dialog="dialog"
                 :detail="dialog.detail"
                 :confirm="dialog.confirm"
                 @cancel="dialog.visible = false"
@@ -317,36 +318,50 @@ export default {
       this.showEdit(row.id);
       this.currentModal = 'MaterialForm';
       this.dialog.title = '材料录入';
+      this.dialog.contract_id = row.contract_id;
     },
     meterialDetail(index, row) {
       this.showDetail(row.id);
       this.currentModal = 'MaterialForm';
       this.dialog.title = '材料详情';
+      this.dialog.contract_id = row.contract_id;
     },
     materialConfirm(index, row) {
       this.showConfirm(row.id);
-      this.currentModal = 'MaterialForm';
+      this.currentModal = 'MaterialConfirm';
       this.dialog.title = '材料确认';
+      this.dialog.contract_id = row.contract_id;
+    },
+    materialConfirmDetail(index, row) {
+      this.showConfirm(row.id);
+      this.currentModal = 'MaterialConfirm';
+      this.dialog.title = '材料确认详情';
+      this.dialog.contract_id = row.contract_id;
+      this.dialog.confirmDetail = true;
     },
     legalSubmit(index, row) {
       this.showEdit(row.id);
       this.currentModal = 'LegalSubmitForm';
       this.dialog.title = '法务提交';
+      this.dialog.contract_id = row.contract_id;
     },
     legalSubmitDetail(index, row) {
       this.showDetail(row.id);
       this.currentModal = 'LegalSubmitForm';
       this.dialog.title = '法务提交详情';
+      this.dialog.contract_id = row.contract_id;
     },
     legalHandle(index, row) {
       this.showEdit(row.id);
       this.currentModal = 'LegalAcceptForm';
       this.dialog.title = '法务受理';
+      this.dialog.contract_id = row.contract_id;
     },
     legalHandleDetail(index, row) {
       this.showDetail(row.id);
       this.currentModal = 'LegalAcceptForm';
       this.dialog.title = '法务受理详情';
+      this.dialog.contract_id = row.contract_id;
     },
     materialSubAgain(index, row) {
 

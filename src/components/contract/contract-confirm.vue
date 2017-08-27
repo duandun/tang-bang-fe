@@ -23,9 +23,9 @@
             <Row>
                 <Col span="12">
                     <Form-item label="合同信息确认无误：" prop="">
-                        <Radio-group v-model="formData.information" :disabled="!confirmDetail">
-                            <Radio :label="1">是</Radio>
-                            <Radio :label="0">否</Radio>
+                        <Radio-group v-model="formData.information" >
+                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
+                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                 </Col>
@@ -33,9 +33,9 @@
             <Row>
                 <Col span="12">
                     <Form-item label="终止：" prop="">
-                        <Radio-group v-model="formData.pause" :disabled="!confirmDetail">
-                            <Radio :label="1">是</Radio>
-                            <Radio :label="0">否</Radio>
+                        <Radio-group v-model="formData.pause">
+                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
+                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                     <Form-item label="终止理由：" prop="" v-if="formData.pause">

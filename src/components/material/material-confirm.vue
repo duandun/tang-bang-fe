@@ -1,21 +1,22 @@
 <template lang="html">
     <div class="">
-        <material-form :detail="true" @data-merged="fetchConfirmData"></material-form>
+        <material-form :detail="true" @data-merged="fetchConfirmData" :dialog="dialog"></material-form>
         <Form ref="form" :model="formData" :label-width="120" style="margin-top: 10px;">
             <Row type="flex" justify="center">
                 <Col span="12">
-                    <Form-item label="终止：" prop="" v-if="confirm && !confirmDetail">
-                        <Radio-group v-model="formData.pause">
-                            <Radio :label="1">是</Radio>
-                            <Radio :label="0">否</Radio>
+                    <Form-item label="终止：">
+                        <Radio-group v-model="formData.pause"  >
+                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
+                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" prop="" v-if="formData.pause && confirm && !confirmDetail" >
-                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea"></Input>
+                    <Form-item label="终止理由：" v-if="formData.pause" >
+                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!confirmDetail"></Input>
+                        <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                 </Col>
             </Row>
-            <Row style="text-align: center;" v-if="confirm && !confirmDetail">
+            <Row style="text-align: center;" v-if="!confirmDetail">
                 <Button type="primary" @click="handleSubmit">确认</Button>
                 <Button @click="cancel">取消</Button>
             </Row>
@@ -43,7 +44,8 @@ export default {
     confirmDetail: {
       type: Boolean,
       default: false
-    }
+    },
+    dialog: Object
   },
   components: {
     MaterialForm

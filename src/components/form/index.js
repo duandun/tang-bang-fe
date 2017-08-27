@@ -42,9 +42,9 @@ export default {
   },
 
   created () {
-    this.prepare().then(() => {
+    this.prepare().then((contractId) => {
       window.scrollTo(0, 0)
-      this.fetchData(true)
+      this.fetchData(true, contractId)
     })
   },
 
@@ -150,7 +150,7 @@ export default {
     },
 
         // internal api
-    fetchData: Wrapper.wrapFormLoad(function (isFirst) {
+    fetchData: Wrapper.wrapFormLoad(function (isFirst, contractId) {
       if (!isFirst) {
         this.reset()
       }
@@ -158,16 +158,22 @@ export default {
       if (!id) {
         return Promise.resolve(null)
       }
+      if (contractId) {
+        id = contractId
+      }
 
       if (!this.fetchApi || typeof this.fetchApi !== 'function') {
         return
       }
 
       return this.fetchApi(id).then((results) => {
+        if (!results) {
+          return
+        }
         this.willDataMerge(results)
-
-        Object.assign(this.formData, results)
-
+        if (results.flag !== false) {
+          Object.assign(this.formData, results)
+        }
         this.afterDataMerge(results)
       })
     }),

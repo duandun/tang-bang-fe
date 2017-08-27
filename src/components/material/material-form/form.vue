@@ -12,7 +12,7 @@
                     <span v-else>{{formData.material_number}}</span>
                 </Form-item>
                 <Form-item label="材料接收时间：" prop="receiving_time">
-                    <Date-picker placeholder="请输入..." type="datetime" v-model="formData.receiving_time" v-if="!detail"></Date-picker>
+                    <Date-picker placeholder="请输入日期和时间" type="datetime" v-model="formData.receiving_time" v-if="!detail"></Date-picker>
                     <span v-else>{{formData.receiving_time}}</span>
                 </Form-item>
                 <Form-item label="确认单数量：" prop="confirmedlist_number">
@@ -32,8 +32,8 @@
                     <span v-else>{{formData.license_number}}</span>
                 </Form-item>
                 <Form-item label="驳回通知书：" prop="">
-                    <Radio-group v-model="formData.dismissal" :disabled="!detail">
-                        <Radio :label="index" v-for="(item, index) in enumDismiss" :key="index">{{item}}</Radio>
+                    <Radio-group v-model="formData.dismissal">
+                        <Radio :label="index" v-for="(item, index) in enumDismiss" :key="index" :disabled="detail">{{item}}</Radio>
                     </Radio-group>
                 </Form-item>
                 <Form-item v-if="!detail">
@@ -53,6 +53,8 @@
 import Form from '@/components/form'
 import * as Config from './config.js'
 import api from '@/api'
+import _ from 'lodash'
+import moment from 'moment'
 
 export default {
   extends: Form,
@@ -60,7 +62,8 @@ export default {
     detail: {
       type: Boolean,
       default: false
-    }
+    },
+    dialog: Object
   },
   data () {
     return {
@@ -73,10 +76,19 @@ export default {
     resetFormData () {
       this.$refs.form.resetFields()
     },
+    prepare () {
+      return Promise.resolve(this.dialog.contract_id)
+    },
     fetchApi: api.material.detail,
     saveForm: api.material.save,
     afterDataMerge (results) {
       this.$emit('data-merged', results)
+    },
+    formatter (formdata) {
+      formdata.contract_id = this.dialog.contract_id
+      if (_.isDate(formdata.receiving_time)) {
+        formdata.receiving_time = moment(formdata.receiving_time).format('YYYY-MM-DD hh:mm:ss');
+      }
     },
     afterSubmit(resp) {
       if (resp.flag) {
