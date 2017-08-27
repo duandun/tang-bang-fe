@@ -15,10 +15,6 @@ const routes = [{
   name: 'index',
   component: resolve => require(['@/views/contract/contract-add.vue'], resolve).default
 }, {
-  path: '*',
-  name: '找不到资源',
-  component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
-}, {
   path: '/notFound',
   name: 'notFound',
   component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
@@ -28,7 +24,12 @@ const routes = [{
   component: resolve => require(['@/settings/index.vue'], resolve)
 }].concat(
     ContractRouters,
-    MaterialRouters
+    MaterialRouters,
+  [{
+    path: '*',
+    name: '找不到资源',
+    component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
+  }]
 );
 
 export default new Router({ routes })

@@ -54,12 +54,27 @@ export default {
     }
   },
   methods: {
+    cancel() {
+      this.$emit('cancel');
+    },
     fetchApi () {
       return Promise.resolve(null)
     },
     saveForm: api.material.confirm,
-    cancel() {
-      this.$emit('cancel');
+    fetchConfirmData (results) {
+      if (this.confirmDetail) {
+        const { contract_id } = results
+        api.material.confirmDetail(contract_id).then(results => {
+          Object.assign(this.formData, results)
+        })
+      }
+    },
+    afterSubmit (resp) {
+      if (resp.flag) {
+        this.$emit('save-success')
+      } else {
+        this.$Message.error('保存失败')
+      }
     }
   }
 }

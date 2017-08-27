@@ -45,7 +45,7 @@
                 </Col>
             </Row>
             <Row style="text-align: center" v-if="!confirmDetail">
-                <Button type="primary" @click="confirmContract">确认</Button>
+                <Button type="primary" @click="handleSubmit">确认</Button>
                 <Button @click="resetFormData">重置</Button>
             </Row>
         </Form>
