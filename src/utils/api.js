@@ -5,15 +5,11 @@ let debugHost = window.localStorage.debugApiHost;
 const apiHostConf = {
   dev: {
     host: 'localhost',
-    apiHost: '111.204.219.209:3690/api'
-  },
-  stage: {
-    host: 'ss.com',
-    apiHost: 'ss.com'
+    apiHost: '47.93.29.71/api'
   },
   prod: {
-    host: '111.204.219.209',
-    apiHost: '111.204.219.209:3690/api'
+    host: '47.93.29.71',
+    apiHost: '47.93.29.71/api'
   }
 };
 
