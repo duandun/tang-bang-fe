@@ -1,43 +1,42 @@
 <template lang="html">
     <div class="">
-        <Form ref="form" :model="formData" :label-width="100">
+      <legal-form :detail="true" @data-merged="fetchConfirmData" :dialog="dialog"></legal-form>
+      <span class="line"></span>
+        <Form ref="form" :model="formData" :label-width="100" :rules="rules">
             <Row type="flex" justify="center">
                 <Col span="12">
                     <Form-item label="通知书下发：" prop="">
-                        <Checkbox v-model="formData.checkBox" v-if="!detail"></Checkbox>
-                        <span v-else>XXXXXXX</span>
+                        <Checkbox v-model="formData.notice" :disabled="confirmDetail"></Checkbox>
                     </Form-item>
                     <Form-item label="标记：" prop="">
-                        <Radio-group v-model="formData.flag" v-if="!detail">
-                            <Radio label="不可提交"></Radio>
-                            <Radio label="重新提交"></Radio>
-                            <Radio label="变更提交"></Radio>
+                        <Radio-group v-model="formData.sign">
+                            <Radio label="不可提交" :disabled="confirmDetail"></Radio>
+                            <Radio label="重新提交" :disabled="confirmDetail"></Radio>
+                            <Radio label="变更提交" :disabled="confirmDetail"></Radio>
                         </Radio-group>
-                        <span v-else>XXXXXXX</span>
                     </Form-item>
                     <Form-item label="不可受理：" prop="">
-                        <Radio-group v-model="formData.flag" v-if="!detail">
-                            <Radio label="不可提交"></Radio>
-                            <Radio label="重新提交"></Radio>
-                            <Radio label="变更提交"></Radio>
+                        <Radio-group v-model="formData.accept">
+                            <Radio label="不可提交" :disabled="confirmDetail"></Radio>
+                            <Radio label="重新提交" :disabled="confirmDetail"></Radio>
+                            <Radio label="变更提交" :disabled="confirmDetail"></Radio>
                         </Radio-group>
-                        <span v-else>XXXXXXX</span>
                     </Form-item>
-                    <Form-item label="提交时间：" prop="">
-                        <Date-picker placeholder="选择时间和日期..." type="date" :value="formData.moneyTime" v-if="!detail"></Date-picker>
-                        <span v-else>XXXXXXX</span>
+                    <Form-item label="提交时间：" prop="time">
+                        <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!confirmDetail"></Date-picker>
+                        <span v-else>{{formData.time}}</span>
                     </Form-item>
                     <Form-item label="终止：" prop="">
-                        <Radio-group v-model="formData.pause">
-                            <Radio :label="1">是</Radio>
-                            <Radio :label="0">否</Radio>
+                        <Radio-group v-model="formData.stop">
+                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
+                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" prop="" v-if="formData.pause">
+                    <Form-item label="终止理由：" prop="" v-if="formData.stop">
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea"></Input>
                     </Form-item>
-                    <Form-item label="" prop="" v-if="!detail">
-                        <Button type="primary">确认</Button>
+                    <Form-item label="" prop="" v-if="!confirmDetail">
+                        <Button type="primary" @click="handleSubmit">确认</Button>
                         <Button @click="cancel">取消</Button>
                     </Form-item>
                 </Col>
@@ -47,18 +46,36 @@
 </template>
 
 <script>
+import * as Config from './config.js';
+import Form from '@/components/form';
+import api from '@/api';
+import LegalForm from './legal-form/form.vue'
+import moment from 'moment'
+
 export default {
+  extends: Form,
+  components: {
+    LegalForm
+  },
   props: {
+    confirm: {
+      type: Boolean,
+      default: false
+    },
     detail: {
       type: Boolean,
       default: false
-    }
+    },
+    confirmDetail: {
+      type: Boolean,
+      default: false
+    },
+    dialog: Object
   },
   data() {
     return {
-      formData: {
-
-      }
+      formData: Config.getFormData(),
+      rules: Config.getRules(this)
     }
   },
   created() {
@@ -66,11 +83,41 @@ export default {
   },
   methods: {
     cancel() {
-      this.$emit('cancel');
+      this.$emit('cancel')
+    },
+    fetchApi () {
+      return Promise.resolve(null)
+    },
+    saveForm: api.legal.accept,
+    fetchConfirmData (results) {
+      if (this.confirmDetail) {
+        const { contract_id } = results
+        api.legal.acceptDetail(contract_id).then(results => {
+          Object.assign(this.formData, results)
+        })
+      }
+    },
+    formatter (formdata) {
+      formdata.time = moment(formdata.time).format('YYYY-MM-DD hh:mm:ss')
+    },
+    afterSubmit (resp) {
+      if (resp.flag) {
+        this.$emit('save-success')
+      } else {
+        this.$Message.error('保存失败')
+      }
     }
   }
 }
 </script>
 
 <style lang="less">
+  .line {
+    display: block;
+    width: 70%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
 </style>

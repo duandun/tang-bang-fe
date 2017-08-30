@@ -45,7 +45,7 @@
               <el-table-column
                 prop="contract_id"
                 label="合同编号"
-                width="180">
+                >
               </el-table-column>
               <el-table-column
                 prop="company_name"
@@ -66,60 +66,60 @@
                 <template scope="scope">
                     <el-popover trigger="click"
                     placement="top-end">
-                        <el-steps :space="120" :active="1">
+                        <el-steps :space="120" :active="getActiveStep(scope.$index)">
                         <el-step title="签单录入">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 0"
                                   @click="contractDetail(scope.$index, scope.row)">签单详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="签单确认">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 1"
                                   @click="contractConfirm(scope.$index, scope.row)">签单确认详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="材料录入">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 2"
                                   @click="meterialDetail(scope.$index, scope.row)">材料详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="材料确认">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 3"
                                   @click="materialConfirmDetail(scope.$index, scope.row)">材料确认详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="法务提交">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 4"
                                   @click="legalSubmitDetail(scope.$index, scope.row)">法务提交详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="法务受理">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 5"
                                   @click="legalHandleDetail(scope.$index, scope.row)">受理详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="二次材料提交">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 6"
                                   @click="legalHandleDetail(scope.$index, scope.row)">二次材料提交详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="完成">
                             <div class="" slot="description">
                                 <el-button
-                                  size="small"
+                                  size="small" v-if="getActiveStep(scope.$index) > 7"
                                   @click="legalHandleDetail(scope.$index, scope.row)">结果详情</el-button>
                             </div>
                         </el-step>
@@ -130,39 +130,39 @@
                     </el-popover>
                   </template>
               </el-table-column>
-              <el-table-column label="操作" width="350">
+              <el-table-column label="操作" width="180">
                   <template scope="scope">
                     <el-button
                       size="small"
-                      type="text"
+                      type="text" v-if="getActiveStep(scope.$index) === 1"
                       @click="contractEdit(scope.$index, scope.row)">签单编辑</el-button>
                         <el-button
                           size="small"
-                           type="text"
+                           type="text" v-if="getActiveStep(scope.$index) === 1"
                           @click="contractConfirm(scope.$index, scope.row)">签单确认</el-button>
                         <el-button
                           size="small"
-                           type="text"
+                           type="text" v-if="getActiveStep(scope.$index) === 2"
                           @click="materialEdit(scope.$index, scope.row)">材料录入</el-button>
                         <el-button
                          size="small"
-                          type="text"
+                          type="text" v-if="getActiveStep(scope.$index) === 3"
                          @click="materialConfirm(scope.$index, scope.row)">材料确认</el-button>
                          <el-button
                           size="small"
-                           type="text"
+                           type="text" v-if="getActiveStep(scope.$index) === 4"
                           @click="legalSubmit(scope.$index, scope.row)">法务提交</el-button>
                         <el-button
                           size="small"
-                           type="text"
+                           type="text" v-if="getActiveStep(scope.$index) === 5"
                           @click="legalHandle(scope.$index, scope.row)">法务受理</el-button>
                       <el-button
                         size="small"
-                         type="text"
+                         type="text" v-if="getActiveStep(scope.$index) === 6"
                         @click="materialSubAgain(scope.$index, scope.row)">二次提交材料</el-button>
                         <el-button
                           size="small"
-                           type="text"
+                           type="text" v-if="getActiveStep(scope.$index) === 7"
                           @click="finalResults(scope.$index, scope.row)">填写结果</el-button>
                   </template>
                 </el-table-column>
@@ -197,7 +197,6 @@
 
 <script>
 import List from '@/components/list';
-import * as Config from './list.config.js';
 import ContractForm from '@/components/contract/contract-form/form.vue';
 import ContractConfirm from '@/components/contract/contract-confirm.vue';
 import MaterialForm from '@/components/material/material-form/form.vue';
@@ -208,6 +207,7 @@ import MaterialSubAgainForm from '@/components/material/material-subagain-form.v
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import _ from 'lodash';
 import api from '@/api';
+import { STEP } from '@/constant'
 
 const statusText = {
   0: '驳回',
@@ -251,7 +251,7 @@ export default {
       auth: {
         finance: false
       },
-      tableColumns: Config.getTableColumns(this)
+      constStep: []
     };
   },
   computed: {
@@ -262,12 +262,23 @@ export default {
     this._original_dialog = _.cloneDeep(this.$data.dialog);
   },
   methods: {
+    getActiveStep (index) {
+      const item = this.constStep[index]
+      let stepIndex = 1
+      const keys = Object.keys(item)
+      stepIndex = _.findLastIndex(keys, i => item[i])
+      return stepIndex + 1
+    },
     fetchApi: api.contract.list,
 
     formatData(results) {
+      this.constStep = []
+      const arr = []
       results.forEach(item => {
         item.status = statusText[item.status]
+        arr.push(STEP(item))
       });
+      this.constStep = arr
       return results;
     },
 
