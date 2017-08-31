@@ -1,7 +1,9 @@
 export const getFormData = () => {
   return {
     id: '',
-    contract_id: ''
+    contract_id: '',
+    notice: '',
+    sign: ''
   };
 }
 

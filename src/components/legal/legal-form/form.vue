@@ -2,7 +2,7 @@
   <div class="">
       <Row type="flex" justify="center">
           <Col span="12">
-              <Form ref="form" :model="formData" :label-width="80">
+              <Form ref="form" :model="formData" :label-width="80" :rules="rules">
                   <Form-item label="提交方式：" prop="">
                       <Radio-group v-model="formData.submitType" v-if="!detail">
                           <Radio label="邮寄"></Radio>
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import * as Config from './config.js'
+
 export default {
   props: {
     detail: {
@@ -35,9 +37,8 @@ export default {
   },
   data() {
     return {
-      formData: {
-
-      }
+      formData: Config.getFormData(),
+      rules: Config.getRules(this)
     }
   },
   created() {
