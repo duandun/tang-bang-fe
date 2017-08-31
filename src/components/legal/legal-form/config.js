@@ -2,9 +2,9 @@ export const getFormData = () => {
   return {
     id: '',
     contract_id: '',
-    notice: '',
-    sign: ''
-  };
+    post: '纸质',
+    response: false
+  }
 }
 
 export const getRules = (context) => {
