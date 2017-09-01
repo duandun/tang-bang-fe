@@ -117,7 +117,7 @@ let handleResult = (option) => {
   let reqUrl = option.reqUrl;
 
     // 兼容第三方接口
-  if (typeof resp.code === 'undefined') {
+  if (typeof resp.code === 'undefined' && resp.flag !== false) {
     resolve(resp);
   } else if (resp.code === 0) {
     resolve(resp.data);

@@ -5,17 +5,17 @@
         <Form ref="form" :model="formData" :label-width="100" :rules="rules">
             <Row type="flex" justify="center">
                 <Col span="12">
-                    <Form-item label="通知书下发：" prop="">
+                    <Form-item label="通知书下发：" prop="notice">
                         <Checkbox v-model="formData.notice" :disabled="confirmDetail"></Checkbox>
                     </Form-item>
-                    <Form-item label="标记：" prop="">
+                    <Form-item label="标记：" prop="sign">
                         <Radio-group v-model="formData.sign">
                             <Radio label="不可提交" :disabled="confirmDetail"></Radio>
                             <Radio label="重新提交" :disabled="confirmDetail"></Radio>
                             <Radio label="变更提交" :disabled="confirmDetail"></Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="不可受理：" prop="">
+                    <Form-item label="不可受理：" prop="accept">
                         <Radio-group v-model="formData.accept">
                             <Radio label="不可提交" :disabled="confirmDetail"></Radio>
                             <Radio label="重新提交" :disabled="confirmDetail"></Radio>
@@ -26,7 +26,7 @@
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!confirmDetail"></Date-picker>
                         <span v-else>{{formData.time}}</span>
                     </Form-item>
-                    <Form-item label="终止：" prop="">
+                    <Form-item label="终止：" prop="stop">
                         <Radio-group v-model="formData.stop">
                             <Radio :label="1" :disabled="confirmDetail">是</Radio>
                             <Radio :label="0" :disabled="confirmDetail">否</Radio>
@@ -36,7 +36,7 @@
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea"></Input>
                     </Form-item>
                     <Form-item label="" prop="" v-if="!confirmDetail">
-                        <Button type="primary" @click="handleSubmit">确认</Button>
+                        <Button type="primary" @click.stop="handleSubmit">确认</Button>
                         <Button @click="cancel">取消</Button>
                     </Form-item>
                 </Col>
@@ -95,6 +95,9 @@ export default {
         api.legal.acceptDetail(contract_id).then(results => {
           Object.assign(this.formData, results)
         })
+      }
+      if (this.confirm) {
+        this.formData.contract_id = results.contract_id
       }
     },
     formatter (formdata) {

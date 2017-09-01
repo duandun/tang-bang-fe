@@ -1,23 +1,23 @@
 <template lang="html">
     <div class="">
         <material-form :detail="true" @data-merged="fetchConfirmData" :dialog="dialog"></material-form>
-        <Form ref="form" :model="formData" :label-width="120" style="margin-top: 10px;">
+        <Form ref="form" :model="formData" :label-width="120" style="margin-top: 10px;" :rules="rules">
             <Row type="flex" justify="center">
                 <Col span="12">
-                    <Form-item label="终止：">
-                        <Radio-group v-model="formData.pause"  >
+                    <Form-item label="终止：" prop="pause">
+                        <Radio-group v-model="formData.pause">
                             <Radio :label="1" :disabled="confirmDetail">是</Radio>
                             <Radio :label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" v-if="formData.pause" >
+                    <Form-item label="终止理由：" v-if="formData.pause" prop="pause_reason" >
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!confirmDetail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                 </Col>
             </Row>
             <Row style="text-align: center;" v-if="!confirmDetail">
-                <Button type="primary" @click="handleSubmit">确认</Button>
+                <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="cancel">取消</Button>
             </Row>
         </Form>
@@ -52,12 +52,17 @@ export default {
   },
   data() {
     return {
-      formData: Config.getFormData()
+      formData: Config.getFormData(),
+      rules: Config.getRules(this)
     }
   },
   methods: {
     cancel() {
       this.$emit('cancel');
+    },
+    prepare () {
+      this.formData.contract_id = this.$route.query.id || ''
+      return Promise.resolve(null)
     },
     fetchApi () {
       return Promise.resolve(null)
@@ -69,6 +74,9 @@ export default {
         api.material.confirmDetail(contract_id).then(results => {
           Object.assign(this.formData, results)
         })
+      }
+      if (this.confirm) {
+        this.formData.contract_id = results.contract_id
       }
     },
     afterSubmit (resp) {

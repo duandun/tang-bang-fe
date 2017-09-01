@@ -100,6 +100,10 @@ export default {
           Object.assign(this.formData, results)
         })
       }
+      if (this.confirm) {
+        this.formData.contract_id = results.contract_id
+        this.formData.id = results.id
+      }
     },
     fetchApi () {
       return Promise.resolve(null)
@@ -109,7 +113,7 @@ export default {
       if (resp.flag) {
         this.$emit('save-success');
       } else {
-        this.$Message.error('保存失败');
+        this.$Message.error('保存失败')
       }
     },
     formatter (formdata) {

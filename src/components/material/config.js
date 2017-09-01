@@ -6,3 +6,9 @@ export const getFormData = () => {
     pause_reason: ''
   };
 };
+
+export const getRules = (context) => {
+  return {
+
+  }
+}

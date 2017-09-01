@@ -15,11 +15,11 @@
                 <Col span="6">
                     <Form-item label="合同状态:">
                         <Select v-model="query.status">
-                            <Option label="全部" value="all">
+                            <Option label="全部" value="">
                             </Option>
-                            <Option label="处理中" :value="queryAssist.doing">
+                            <Option label="处理中" :value="1">
                             </Option>
-                            <Option label="已完成" :value="queryAssist.done">
+                            <Option label="已完成" :value="2">
                             </Option>
                         </Select>
                     </Form-item>
@@ -66,7 +66,7 @@
                 <template scope="scope">
                     <el-popover trigger="click"
                     placement="top-end">
-                        <el-steps :space="120" :active="getActiveStep(scope.$index)">
+                        <el-steps :space="120" :active="getActiveStep(scope.$index)" style="z-index: 1;">
                         <el-step title="签单录入">
                             <div class="" slot="description">
                                 <el-button
@@ -78,7 +78,7 @@
                             <div class="" slot="description">
                                 <el-button
                                   size="small" v-if="getActiveStep(scope.$index) > 1"
-                                  @click="contractConfirm(scope.$index, scope.row)">签单确认详情</el-button>
+                                  @click="contractConfirmDetail(scope.$index, scope.row)">签单确认详情</el-button>
                             </div>
                         </el-step>
                         <el-step title="材料录入">
@@ -132,10 +132,10 @@
               </el-table-column>
               <el-table-column label="操作" width="180">
                   <template scope="scope">
-                    <el-button
+                    <!-- <el-button
                       size="small"
                       type="text" v-if="getActiveStep(scope.$index) === 1"
-                      @click="contractEdit(scope.$index, scope.row)">签单编辑</el-button>
+                      @click="contractEdit(scope.$index, scope.row)">签单编辑</el-button> -->
                         <el-button
                           size="small"
                            type="text" v-if="getActiveStep(scope.$index) === 1"
@@ -187,8 +187,9 @@
                 :dialog="dialog"
                 :detail="dialog.detail"
                 :confirm="dialog.confirm"
+                :confirmDetail="dialog.confirmDetail"
                 @cancel="dialog.visible = false"
-                @save-success="dialog.visible = false"></component>
+                @save-success="handleSuccess"></component>
             <div class="" slot="footer">
             </div>
         </Modal>
@@ -233,8 +234,8 @@ export default {
       currentModal: '',
       queryAssist: {
         dIds: [],
-        doing: 'doing',
-        done: 'done'
+        doing: 1,
+        done: 2
       },
       query: {
         contract_id: '',
@@ -262,6 +263,10 @@ export default {
     this._original_dialog = _.cloneDeep(this.$data.dialog);
   },
   methods: {
+    handleSuccess () {
+      this.search()
+      this.dialog.visible = false
+    },
     getActiveStep (index) {
       const item = this.constStep[index]
       let stepIndex = 1
@@ -283,94 +288,119 @@ export default {
     },
 
     resetDialog() {
-      Object.assign(this.dialog, this._original_dialog);
+      this.dialog = {
+        title: '',
+        visible: false,
+        confirm: false,
+        confirmDetail: false,
+        detail: false
+      }
     },
-    showDetail(id) {
+    showDetail(row) {
       this.resetDialog();
       this.dialog.detail = true;
       this.dialog.visible = true;
+      let id = row.contract_id
+      if (this.currentModal === 'ContractForm' || this.currentModal === 'ContractConfirm') {
+        id = row.id
+      }
       this.$router.push({
         query: { id }
       });
     },
-    showConfirm(id) {
+    showConfirm(row) {
       this.resetDialog();
       this.dialog.detail = true;
       this.dialog.confirm = true;
       this.dialog.visible = true;
+      let id = row.contract_id
+      if (this.currentModal === 'ContractForm' || this.currentModal === 'ContractConfirm') {
+        id = row.id
+      }
       this.$router.push({
         query: { id }
       });
     },
-    showEdit(id) {
+    showEdit(row) {
       this.resetDialog();
       this.dialog.detail = false;
       this.dialog.visible = true;
+      let id = row.contract_id
+      if (this.currentModal === 'ContractForm' || this.currentModal === 'ContractConfirm') {
+        id = row.id
+      }
       this.$router.push({
         query: { id }
       });
     },
     contractEdit(index, row) {
-      this.showEdit(row.id);
       this.currentModal = 'ContractForm';
+      this.showEdit(row);
       this.dialog.title = '编辑签单';
     },
     contractDetail(index, row) {
-      this.showDetail(row.id);
       this.currentModal = 'ContractForm';
+      this.showDetail(row);
       this.dialog.title = '签单详情';
     },
     contractConfirm(index, row) {
-      this.showConfirm(row.id);
       this.currentModal = 'ContractConfirm';
+      this.showConfirm(row);
       this.dialog.title = '签单确认';
     },
+    contractConfirmDetail(index, row) {
+      this.currentModal = 'ContractConfirm';
+      this.showConfirm(row);
+      this.dialog.confirmDetail = true;
+      this.dialog.detail = true;
+      this.dialog.title = '签单确认详情';
+    },
     materialEdit(index, row) {
-      this.showEdit(row.id);
       this.currentModal = 'MaterialForm';
+      this.showEdit(row);
       this.dialog.title = '材料录入';
       this.dialog.contract_id = row.contract_id;
     },
     meterialDetail(index, row) {
-      this.showDetail(row.id);
       this.currentModal = 'MaterialForm';
+      this.showDetail(row);
       this.dialog.title = '材料详情';
       this.dialog.contract_id = row.contract_id;
     },
     materialConfirm(index, row) {
-      this.showConfirm(row.id);
       this.currentModal = 'MaterialConfirm';
+      this.showConfirm(row);
       this.dialog.title = '材料确认';
       this.dialog.contract_id = row.contract_id;
     },
     materialConfirmDetail(index, row) {
-      this.showConfirm(row.id);
       this.currentModal = 'MaterialConfirm';
+      this.showConfirm(row);
       this.dialog.title = '材料确认详情';
       this.dialog.contract_id = row.contract_id;
       this.dialog.confirmDetail = true;
     },
     legalSubmit(index, row) {
-      this.showEdit(row.id);
       this.currentModal = 'LegalSubmitForm';
+      this.showEdit(row);
       this.dialog.title = '法务提交';
       this.dialog.contract_id = row.contract_id;
     },
     legalSubmitDetail(index, row) {
-      this.showDetail(row.id);
       this.currentModal = 'LegalSubmitForm';
+      this.showDetail(row);
       this.dialog.title = '法务提交详情';
       this.dialog.contract_id = row.contract_id;
     },
     legalHandle(index, row) {
-      this.showEdit(row.id);
       this.currentModal = 'LegalAcceptForm';
+      this.showEdit(row);
       this.dialog.title = '法务受理';
       this.dialog.contract_id = row.contract_id;
     },
     legalHandleDetail(index, row) {
-      this.showDetail(row.id);
       this.currentModal = 'LegalAcceptForm';
+      this.showDetail(row);
       this.dialog.title = '法务受理详情';
       this.dialog.contract_id = row.contract_id;
     },

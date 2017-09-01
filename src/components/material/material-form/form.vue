@@ -40,7 +40,7 @@
                     <Button type="primary" icon="plus">添加</Button>
                 </Form-item>
                 <Form-item v-if="!detail">
-                    <Button type="primary" @click="handleSubmit" :loading="isSaving">提交</Button>
+                    <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">提交</Button>
                     <Button @click="resetFormData">重置</Button>
                 </Form-item>
             </Col>

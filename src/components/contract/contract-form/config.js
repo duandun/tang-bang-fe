@@ -29,7 +29,7 @@ export const getRules = (context) => {
     ],
     commission_number: [
       { required: true, message: '请正确输入委托事项数量', trigger: 'change', type: 'integer' },
-      { min: 0, trigger: 'change', message: '委托数量大于0', type: 'integer' }
+      { min: 0, trigger: 'change', message: '委托数量不小于0', type: 'integer' }
     ],
     remittance: [
       { required: true, message: '请输入汇款方式', trigger: 'change' },

@@ -3,18 +3,18 @@
       <Row type="flex" justify="center">
           <Col span="12">
               <Form ref="form" :model="formData" :label-width="80" :rules="rules">
-                  <Form-item label="提交方式：" prop="">
+                  <Form-item label="提交方式：" prop="post">
                       <Radio-group v-model="formData.post">
                           <Radio label="邮寄" :disabled="detail"></Radio>
                           <Radio label="纸质" :disabled="detail"></Radio>
                           <Radio label="网上" :disabled="detail"></Radio>
                       </Radio-group>
                   </Form-item>
-                  <Form-item label="回执：" prop="">
+                  <Form-item label="回执：" prop="response">
                       <Checkbox v-model="formData.response" :disabled="detail"></Checkbox>
                   </Form-item>
                   <Form-item label="" prop="" v-if="!detail">
-                      <Button type="primary" @click="handleSubmit">确认</Button>
+                      <Button type="primary" @click.stop="handleSubmit">确认</Button>
                       <Button @click="resetFormData">重置</Button>
                   </Form-item>
               </Form>
@@ -60,6 +60,9 @@ export default {
     },
     formatter (formdata) {
       formdata.contract_id = this.dialog.contract_id
+    },
+    willDataMerge (results) {
+      results.response = results.response === 'true'
     },
     afterSubmit(resp) {
       if (resp.flag) {
