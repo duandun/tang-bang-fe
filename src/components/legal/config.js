@@ -6,7 +6,7 @@ export const getFormData = () => {
     sign: '不可提交',
     accept: '不可提交',
     time: void 0,
-    stop: 0
+    pause: 0
   };
 };
 

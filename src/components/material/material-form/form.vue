@@ -33,7 +33,7 @@
                 </Form-item>
                 <Form-item label="驳回通知书：" prop="">
                     <Radio-group v-model="formData.dismissal">
-                        <Radio :label="index" v-for="(item, index) in enumDismiss" :key="index" :disabled="detail">{{item}}</Radio>
+                        <Radio :label="index.toString()" v-for="(item, index) in enumDismiss" :key="index" :disabled="detail">{{item}}</Radio>
                     </Radio-group>
                 </Form-item>
                 <Form-item v-if="!detail">

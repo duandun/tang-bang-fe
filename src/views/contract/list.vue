@@ -17,9 +17,9 @@
                         <Select v-model="query.status">
                             <Option label="全部" value="">
                             </Option>
-                            <Option label="处理中" :value="1">
+                            <Option label="处理中" :value="2">
                             </Option>
-                            <Option label="已完成" :value="2">
+                            <Option label="已完成" :value="1">
                             </Option>
                         </Select>
                     </Form-item>
@@ -178,7 +178,7 @@
                 style="margin-top: 10px;float: right;">
             </Page>
         </Row>
-        <Modal v-model="dialog.visible" width="800">
+        <Modal v-model="dialog.visible" width="800" :mask-closable="false" :styles="{top: '30px'}">
             <p slot="header">
                 <span>{{ dialog.title }}</span>
             </p>
@@ -213,7 +213,7 @@ import { STEP } from '@/constant'
 const statusText = {
   0: '驳回',
   1: '已完成',
-  2: '进行中'
+  2: '处理中'
 }
 
 export default {
@@ -394,7 +394,7 @@ export default {
     },
     legalHandle(index, row) {
       this.currentModal = 'LegalAcceptForm';
-      this.showEdit(row);
+      this.showConfirm(row);
       this.dialog.title = '法务受理';
       this.dialog.contract_id = row.contract_id;
     },
@@ -402,6 +402,7 @@ export default {
       this.currentModal = 'LegalAcceptForm';
       this.showDetail(row);
       this.dialog.title = '法务受理详情';
+      this.dialog.confirmDetail = true
       this.dialog.contract_id = row.contract_id;
     },
     materialSubAgain(index, row) {
@@ -428,5 +429,8 @@ export default {
         from { transform: rotate(0deg);}
         50%  { transform: rotate(180deg);}
         to   { transform: rotate(360deg);}
+    }
+    .ivu-modal-footer {
+      display: none;
     }
 </style>

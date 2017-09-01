@@ -4,10 +4,17 @@ import router from './router'
 import iView from 'iview'
 import store from './store/index'
 import './styles/main.less'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import { Table, Button, TableColumn, Steps, Step, Popover, Tag } from 'element-ui'
+// import 'element-ui/lib/theme-default/index.css'
 
-Vue.use(ElementUI)
+Vue.use(Table)
+Vue.use(Button)
+Vue.use(TableColumn)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Popover)
+Vue.use(Tag)
+
 Vue.use(iView)
 Vue.config.productionTip = false
 

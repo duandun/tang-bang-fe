@@ -6,8 +6,8 @@
                 <Col span="12">
                     <Form-item label="终止：" prop="pause">
                         <Radio-group v-model="formData.pause">
-                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
-                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
+                            <Radio label="1" :disabled="confirmDetail">是</Radio>
+                            <Radio label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                     <Form-item label="终止理由：" v-if="formData.pause" prop="pause_reason" >
@@ -70,10 +70,10 @@ export default {
     saveForm: api.material.confirm,
     fetchConfirmData (results) {
       if (this.confirmDetail) {
-        const { contract_id } = results
-        api.material.confirmDetail(contract_id).then(results => {
-          Object.assign(this.formData, results)
-        })
+        Object.assign(this.formData, results)
+        // api.material.confirmDetail(contract_id).then(results => {
+        //
+        // })
       }
       if (this.confirm) {
         this.formData.contract_id = results.contract_id

@@ -2,20 +2,20 @@
  * Created by liunan on 2016/9/21.
  */
 
-// $(document).ready(function(){
-//     var config = {
-//         vx: 4,
-//         vy:  4,
-//         height: 2,
-//         width: 2,
-//         count: 100,
-//         color: "88, 206, 255",
-//         stroke: "88,206,255",
-//         dist: 6000,
-//         e_dist: 20000,
-//         max_conn: 10
-//     }
-//     CanvasParticle(config);
+$(document).ready(function(){
+    var config = {
+        vx: 4,
+        vy:  4,
+        height: 2,
+        width: 2,
+        count: 100,
+        color: "88, 206, 255",
+        stroke: "88,206,255",
+        dist: 6000,
+        e_dist: 20000,
+        max_conn: 10
+    }
+    CanvasParticle(config);
 //     $(this).keypress(function(e) {
 //         console.log(e)
 //         if (e.which == 13) {
@@ -23,9 +23,9 @@
 //             loginCheck();
 //         }
 // })
-// });
+});
 $("#loginBtn").on("click",function(){
-    //loginCheck();
+    loginCheck();
     $.ajax({
         url: '/api/login.htm',
         type: 'POST',
@@ -73,6 +73,6 @@ function loginCheck() {
             error: function (data) {
             }
         });
-
+      location.href = location.origin;
     }
 }

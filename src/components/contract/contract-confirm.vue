@@ -6,8 +6,8 @@
               <Col span="12">
                   <Form-item label="到账金额确认无误：" prop="account">
                       <Radio-group v-model="formData.account" v-if="!confirmDetail">
-                          <Radio :label="1">是</Radio>
-                          <Radio :label="0">否</Radio>
+                          <Radio label="1">是</Radio>
+                          <Radio label="0">否</Radio>
                       </Radio-group>
                       <span v-else>{{formData.account}}</span>
                   </Form-item>
@@ -24,8 +24,8 @@
                 <Col span="12">
                     <Form-item label="合同信息确认无误：" prop="">
                         <Radio-group v-model="formData.information" >
-                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
-                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
+                            <Radio label="1" :disabled="confirmDetail">是</Radio>
+                            <Radio label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                 </Col>

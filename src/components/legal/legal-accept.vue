@@ -26,13 +26,13 @@
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!confirmDetail"></Date-picker>
                         <span v-else>{{formData.time}}</span>
                     </Form-item>
-                    <Form-item label="终止：" prop="stop">
-                        <Radio-group v-model="formData.stop">
+                    <Form-item label="终止：" prop="pause">
+                        <Radio-group v-model="formData.pause">
                             <Radio :label="1" :disabled="confirmDetail">是</Radio>
                             <Radio :label="0" :disabled="confirmDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" prop="" v-if="formData.stop">
+                    <Form-item label="终止理由：" prop="" v-if="formData.pause">
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea"></Input>
                     </Form-item>
                     <Form-item label="" prop="" v-if="!confirmDetail">
@@ -78,9 +78,6 @@ export default {
       rules: Config.getRules(this)
     }
   },
-  created() {
-
-  },
   methods: {
     cancel() {
       this.$emit('cancel')
@@ -93,11 +90,13 @@ export default {
       if (this.confirmDetail) {
         const { contract_id } = results
         api.legal.acceptDetail(contract_id).then(results => {
+          results.notice = results.notice === 'true'
           Object.assign(this.formData, results)
         })
       }
       if (this.confirm) {
         this.formData.contract_id = results.contract_id
+        console.log(this.formData)
       }
     },
     formatter (formdata) {

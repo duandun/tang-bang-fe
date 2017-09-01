@@ -2,9 +2,9 @@ export const getFormData = () => {
   return {
     id: '',
     contract_id: '',
-    account: 0,
+    account: '0',
     date: '',
-    information: 0,
+    information: '0',
     pause: 0,
     pause_reason: ''
   };

@@ -70,6 +70,7 @@ export const wrapAsync = (successMsg, errorMsg) => (onOff = TYPE.BASE) => fn => 
           this.$Message.success(successMsg)
         }
       }).catch(resp => {
+        console.log('Error:', `[${resp}]`)
         updateState.call(this, onOff, PHASE.AFTER, true, previous)
 
         if (errorMsg) {
