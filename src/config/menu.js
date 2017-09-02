@@ -8,7 +8,7 @@ export default {
     text: '签单列表',
     icon: 'ios-list'
   }, {
-    name: '/auth/manage',
+    name: '/auth/list',
     text: '权限管理',
     icon: 'android-walk'
   }],

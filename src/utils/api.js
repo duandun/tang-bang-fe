@@ -117,10 +117,10 @@ let handleResult = (option) => {
   let reqUrl = option.reqUrl;
 
     // 兼容第三方接口
-  if (typeof resp.code === 'undefined' && resp.flag !== false) {
-    resolve(resp);
+  if (typeof resp.code === 'undefined' && (resp.flag !== false || resp.flag === null)) {
+    resolve(resp)
   } else if (resp.code === 0) {
-    resolve(resp.data);
+    resolve(resp.data)
   } else {
       // 把异常状态的请求url打印出来
     console.error('fetch [%s] fail:', reqUrl);

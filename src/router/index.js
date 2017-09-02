@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import ContractRouters from './contract';
 import MaterialRouters from './material';
+import AuthRouters from './auth'
 
 Vue.use(Router)
 
@@ -25,6 +26,7 @@ const routes = [{
 }].concat(
     ContractRouters,
     MaterialRouters,
+    AuthRouters,
   [{
     path: '*',
     name: '找不到资源',

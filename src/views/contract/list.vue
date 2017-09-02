@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="list-container">
-        <Form ref="form" :label-width="135">
+        <Form ref="form" :label-width="100">
             <Row>
                 <Col span="6">
                     <Form-item label="合同编号:">
@@ -24,9 +24,10 @@
                         </Select>
                     </Form-item>
                 </Col>
-                <Col span="4" offset="1">
+                <Col span="5" style="margin-left: 20px;">
                     <Button type="primary" icon="search" @click="search">搜索</Button>
                     <Button icon="trash-b" @click="clearQuery">重置</Button>
+                    <Button type="primary" icon="ios-reload" @click="search">刷新</Button>
                 </Col>
             </Row>
         </Form>
@@ -175,7 +176,8 @@
                 @on-page-size-change="handlePageSizeChange"
                 show-sizer
                 placement="top"
-                style="margin-top: 10px;float: right;">
+                class="page-container"
+                >
             </Page>
         </Row>
         <Modal v-model="dialog.visible" width="800" :mask-closable="false" :styles="{top: '30px'}">
@@ -213,7 +215,8 @@ import { STEP } from '@/constant'
 const statusText = {
   0: '驳回',
   1: '已完成',
-  2: '处理中'
+  2: '处理中',
+  3: '已终止'
 }
 
 export default {
@@ -254,10 +257,6 @@ export default {
       },
       constStep: []
     };
-  },
-  computed: {
-  },
-  watch: {
   },
   created() {
     this._original_dialog = _.cloneDeep(this.$data.dialog);
