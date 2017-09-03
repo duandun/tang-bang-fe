@@ -19,10 +19,11 @@ body {
     border-left-style: none;
 }
 .denglu{
-    position: absolute;
-    left: calc(50vw - 250px);
-    top: calc(50vh - 250px);
-}
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
 .biaodan{
     height: 230px;
     width: 500px;
