@@ -1,29 +1,29 @@
 export default [{
   id: 12,
   name: '流程测试',
-  department: '阳区芍药居',
-  applicant: '张三',
-  applicantDate: '2017-04-21',
-  status: '待传资料'
+  account: '11234',
+  actor: '签单员',
+  actorDate: '2017-04-21',
+  status: '已启用'
 }, {
   id: 13,
   name: '流程测试',
-  department: '淀区西二旗',
-  applicant: '张三',
-  applicantDate: '2017-04-21',
-  status: '待传资料'
+  account: 'ddsdun',
+  actor: '签单员',
+  actorDate: '2017-04-21',
+  status: '已启用'
 }, {
   id: 14,
   name: '流程测试',
-  department: '区世纪大道',
-  applicant: '张三',
+  account: 'wqeff',
+  actor: '签单员',
   applicantDate: '2017-04-21',
-  status: '待传资料'
+  status: '已启用'
 }, {
   id: 15,
   name: '流程测试',
-  department: '山区深南大道',
-  applicant: '张三',
+  account: 'dfgs',
+  actor: '签单员',
   applicantDate: '2017-04-21',
-  status: '待传资料'
+  status: '已启用'
 }]
