@@ -5,11 +5,11 @@ let debugHost = window.localStorage.debugApiHost;
 const apiHostConf = {
   dev: {
     host: 'localhost',
-    apiHost: '47.93.29.71/api'
+    apiHost: '47.93.29.71'
   },
   prod: {
     host: '47.93.29.71',
-    apiHost: '47.93.29.71/api'
+    apiHost: '47.93.29.71'
   }
 };
 
@@ -35,7 +35,7 @@ export function getApiHost() {
 
 const loginPageUrl = '';
 
-export function url(path) {
+export function url(path, type) {
   if (!path) {
     return path;
   }
@@ -43,8 +43,10 @@ export function url(path) {
   if (path.indexOf('http') !== -1) {
     return path;
   }
-
-  return 'http://' + host + path;
+  if (!type) {
+    type = '/api'
+  }
+  return 'http://' + host + type + path;
 }
 
 const validMethods = ['GET', 'POST', 'DELETE', 'PATCH', 'PUT'];
@@ -64,14 +66,14 @@ function sendMessage(message) {
   });
 }
 
-function handleParams(api, data, rawMethod) {
+function handleParams(api, data, rawMethod, type) {
   let method = rawMethod;
 
   if (rawMethod && validMethods.indexOf(rawMethod) === -1) {
     data.method = 'GET';
     data._method = rawMethod;
   }
-  let newUrl = url(api);
+  let newUrl = url(api, type);
 
   if (rawMethod === 'GET') {
         // ver存在的时候, 删除sw中的cache
@@ -142,8 +144,8 @@ let handleXhrFields = (options) => {
   };
 };
 
-export function fetch(api, data = {}, rawMethod = 'GET') {
-  return handleParams(api, data, rawMethod).then(options => {
+export function fetch(api, data = {}, rawMethod = 'GET', type = '/api') {
+  return handleParams(api, data, rawMethod, type).then(options => {
     return new Promise((resolve, reject) => {
       $.ajax({
         url: options.url,
