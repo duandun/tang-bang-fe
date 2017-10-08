@@ -89,6 +89,7 @@ $('#loginBtn').on('click', function() {
         console.log(data);
         if (data.checkUser) {
           layer.msg('登录成功', {icon: 1});
+          Cookies.set('user', 'hhh')
         } else {
           layer.msg('用户名或密码不正确', {icon: 5});
         }
