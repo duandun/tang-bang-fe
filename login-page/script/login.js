@@ -37,11 +37,11 @@ $(document).ready(function(){
       var phone = $(reg + 'input[name="phone"]').val().trim()
       var department = $(reg + 'input[name="department"]').val().trim()
       if (userName === '' || password === '' || province === '' || city === '' || phone === '' || department === '') {
-        alert('表单填写有误，请核对后再提交');
+        layer.msg('表单填写有误，请核对后再提交', { icon: 5 });
         return;
       }
       if (password !== repassword) {
-        alert('密码两次输入不一致')
+        layer.msg('密码两次输入不一致', { icon: 5 })
         return;
       }
       var postData = {
@@ -63,11 +63,10 @@ $(document).ready(function(){
         success: function (data) {
           console.log(data);
           if (data.checkUser) {
-            layer.msg('登录成功', {icon: 1});
-            //location.href=CONTEXTPATH+'/user/main.htm';
-            //location.href=CONTEXTPATH+'/buildModel/denglitestD3.htm';
+            layer.msg('注册成功', {icon: 1});
+            location.reload();
           } else {
-            layer.msg('用户名或密码不正确', {icon: 5});
+            layer.msg('注册失败', {icon: 5});
           }
         },
         error: function (data) {
@@ -90,8 +89,6 @@ $('#loginBtn').on('click', function() {
         console.log(data);
         if (data.checkUser) {
           layer.msg('登录成功', {icon: 1});
-          //location.href=CONTEXTPATH+'/user/main.htm';
-          //location.href=CONTEXTPATH+'/buildModel/denglitestD3.htm';
         } else {
           layer.msg('用户名或密码不正确', {icon: 5});
         }
