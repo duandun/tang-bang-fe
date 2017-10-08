@@ -16,19 +16,70 @@ $(document).ready(function(){
         max_conn: 10
     }
     CanvasParticle(config);
-//     $(this).keypress(function(e) {
-//         console.log(e)
-//         if (e.which == 13) {
-//             // console.log('enter被按下')
-//             loginCheck();
-//         }
-// })
+    $('#jumptoRegist').on('click', function () {
+      $('.login-container').hide();
+      $('.register-container').show();
+      $('.anniu').hide();
+      $('.regBtn-wrapper').show();
+      $('#city_1').citySelect({
+    		nodata:"none",
+    		required:false
+    	});
+    })
+
+    $('#registBtn').on('click', function () {
+      var reg = '.register-container ';
+      var userName = $('.register-container input[name="userName"]').val().trim();
+      var password = $(reg + 'input[name="password"]').val();
+      var repassword = $(reg + 'input[name="repassword"]').val();
+      var province = $(reg + 'select.prov').val()
+      var city = $(reg + 'select.city').val()
+      var phone = $(reg + 'input[name="phone"]').val().trim()
+      var department = $(reg + 'input[name="department"]').val().trim()
+      if (userName === '' || password === '' || province === '' || city === '' || phone === '' || department === '') {
+        alert('表单填写有误，请核对后再提交');
+        return;
+      }
+      if (password !== repassword) {
+        alert('密码两次输入不一致')
+        return;
+      }
+      var postData = {
+        userName: userName,
+        password: password,
+        province: province,
+        city: city,
+        phone: phone,
+        department: department
+      };
+      $.ajax({
+        url: 'http://47.93.29.71/api/user/register',
+        type: 'POST',
+        data: postData,
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (data) {
+          console.log(data);
+          if (data.checkUser) {
+            layer.msg('登录成功', {icon: 1});
+            //location.href=CONTEXTPATH+'/user/main.htm';
+            //location.href=CONTEXTPATH+'/buildModel/denglitestD3.htm';
+          } else {
+            layer.msg('用户名或密码不正确', {icon: 5});
+          }
+        },
+        error: function (data) {
+        }
+      });
+    })
 });
 $('#loginBtn').on('click', function() {
   var postData = loginCheck();
   if (postData) {
     $.ajax({
-      url: 'http://47.93.29.71/api/u/submitLogin',
+      url: 'http://47.93.29.71/api/user/login',
       type: 'POST',
       data: postData,
       dataType: 'json',
@@ -37,7 +88,7 @@ $('#loginBtn').on('click', function() {
       },
       success: function (data) {
         console.log(data);
-        if (data.flag) {
+        if (data.checkUser) {
           layer.msg('登录成功', {icon: 1});
           //location.href=CONTEXTPATH+'/user/main.htm';
           //location.href=CONTEXTPATH+'/buildModel/denglitestD3.htm';
@@ -60,28 +111,10 @@ function loginCheck() {
       layer.msg('密码不能为空', {icon: 5});
     }else {
       var postData = {
-        email: userName,
-        pswd: MD5(userName + '#' + password),
+        userName: userName,
+        password: password,
         rememberMe: rememberMe.is(':checked')
       }
       return postData;
-        // $.ajax({
-        //     url: '/user/login.htm',
-        //     type: 'POST',
-        //     data: postData,
-        //     success: function (data) {
-        //         console.log(data);
-        //         if(data.flag){
-        //             layer.msg('登录成功', {icon: 1});
-        //             location.href=CONTEXTPATH+'/user/main.htm';
-        //             //location.href=CONTEXTPATH+'/buildModel/denglitestD3.htm';
-        //         }else{
-        //             layer.msg('用户名或密码不正确', {icon: 5});
-        //         }
-        //     },
-        //     error: function (data) {
-        //     }
-        // });
-      // location.href = location.origin;
     }
 }
