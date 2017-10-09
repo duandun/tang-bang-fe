@@ -1,7 +1,7 @@
 export default {
   methods: {
     handleCurrentChange(curPage) {
-      if (curPage === this.query.pageNum) {
+      if (curPage === this.query.pageStart) {
         return;
       }
 

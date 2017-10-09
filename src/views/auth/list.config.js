@@ -9,13 +9,24 @@ export const getTableColumns = (context) => {
     key: 'name'
   }, {
     title: '账号',
-    key: 'account'
+    key: 'email'
   }, {
     title: '状态',
     key: 'status'
   }, {
     title: '角色',
-    key: 'actor'
+    key: 'role'
+  }, {
+    title: '省市',
+    render: (h, params) => {
+      if (params.row.province) {
+        return <div>{params.row.province},{params.row.city}</div>
+      }
+      return <div></div>
+    }
+  }, {
+    title: '部门',
+    key: 'department'
   }, {
     title: '操作',
     key: 'action',

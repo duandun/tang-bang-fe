@@ -5,12 +5,12 @@
         <Row>
             <Col span="7">
                 <Form-item label="账号/姓名：">
-                    <Input placeholder="请输入..." v-model="query.name"></Input>
+                    <Input placeholder="请输入..." v-model="query.userName"></Input>
                 </Form-item>
             </Col>
             <Col span="7">
                 <Form-item label="角色：">
-                    <Select v-model="query.actor">
+                    <Select v-model="query.role">
                         <Option value="">全部</Option>
                         <Option v-for="item in actorList" :value="item.value" :key="item">{{ item.label }}</Option>
                     </Select>
@@ -34,7 +34,7 @@
         class="page-container"
         :total="total"
         :page-size="query.pageSize"
-        :current="query.pageNum"
+        :current="query.pageStart"
         @on-change="handleCurrentChange"
         @on-page-size-change="handlePageSizeChange"
         show-sizer>
@@ -53,9 +53,9 @@
 <script>
 import List from '@/components/list'
 import * as Config from './list.config.js'
-import mock from '@/../mock/list'
 import SelectForm from './components/select-form.vue'
 import { ACTOR } from '@/constant'
+import api from '@/api'
 
 export default {
   extends: List,
@@ -66,9 +66,9 @@ export default {
     return {
       cacheQuery: true,
       query: {
-        actor: void 0,
-        name: '',
-        pageNum: 1,
+        role: void 0,
+        userName: '',
+        pageStart: 1,
         pageSize: 10
       },
       actorList: ACTOR,
@@ -79,11 +79,7 @@ export default {
     }
   },
   methods: {
-    fetchApi () {
-      return Promise.resolve({
-        data: mock
-      })
-    },
+    fetchApi: api.auth.list,
     confirmActor () {
       this.$refs.selectForm.handleSubmit()
     },
