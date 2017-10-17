@@ -5,15 +5,15 @@
               <Form ref="form" :model="formData" :label-width="80" :rules="rules">
                   <Form-item label="提交方式：" prop="post">
                       <Radio-group v-model="formData.post">
-                          <Radio label="邮寄" :disabled="detail"></Radio>
-                          <Radio label="纸质" :disabled="detail"></Radio>
-                          <Radio label="网上" :disabled="detail"></Radio>
+                          <Radio label="邮寄" :disabled="comDetail"></Radio>
+                          <Radio label="纸质" :disabled="comDetail"></Radio>
+                          <Radio label="网上" :disabled="comDetail"></Radio>
                       </Radio-group>
                   </Form-item>
                   <Form-item label="回执：" prop="response">
-                      <Checkbox v-model="formData.response" :disabled="detail"></Checkbox>
+                      <Checkbox v-model="formData.response" :disabled="comDetail"></Checkbox>
                   </Form-item>
-                  <Form-item label="" prop="" v-if="!detail">
+                  <Form-item label="" prop="" v-if="!comDetail">
                       <Button type="primary" @click.stop="handleSubmit">确认</Button>
                       <Button @click="resetFormData">重置</Button>
                   </Form-item>
@@ -43,8 +43,10 @@ export default {
       rules: Config.getRules(this)
     }
   },
-  created() {
-
+  computed: {
+    comDetail () {
+      return this.dialog.detail || this.detail
+    }
   },
   methods: {
     resetFormData () {

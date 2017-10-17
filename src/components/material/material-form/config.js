@@ -10,7 +10,8 @@ export const getFormData = () => {
     commission_number: void 0,
     application_number: void 0,
     license_number: void 0,
-    dismissal: '0'
+    dismissal: '0',
+    jsonarray: []
   };
 };
 

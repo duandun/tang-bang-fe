@@ -4,7 +4,7 @@
             <p slot="title">
             {{showSubmitBtns ? '签单录入' : '签单修改'}}
             </p>
-            <contract-form></contract-form>
+            <contract-form :detail="false" :dialog="dialog"></contract-form>
         </Card>
     </div>
 </template>
@@ -30,6 +30,9 @@ export default {
     return {
       formData: {
         submitType: ''
+      },
+      dialog: {
+        detail: false
       },
       toAccount: '是'
     }

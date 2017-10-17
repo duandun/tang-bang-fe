@@ -71,6 +71,7 @@ export default {
         pageStart: 1,
         pageSize: 10
       },
+      userRoles: [],
       actorList: ACTOR,
       dialog: {
         visible: false

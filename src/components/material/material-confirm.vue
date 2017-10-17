@@ -6,17 +6,17 @@
                 <Col span="12">
                     <Form-item label="终止：" prop="pause">
                         <Radio-group v-model="formData.pause">
-                            <Radio label="1" :disabled="confirmDetail">是</Radio>
-                            <Radio label="0" :disabled="confirmDetail">否</Radio>
+                            <Radio label="1" :disabled="dialog.detail">是</Radio>
+                            <Radio label="0" :disabled="dialog.detail">否</Radio>
                         </Radio-group>
                     </Form-item>
                     <Form-item label="终止理由：" v-if="formData.pause" prop="pause_reason" >
-                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!confirmDetail"></Input>
+                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                 </Col>
             </Row>
-            <Row style="text-align: center;" v-if="!confirmDetail">
+            <Row style="text-align: center;" v-if="!dialog.detail">
                 <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="cancel">取消</Button>
             </Row>
@@ -33,18 +33,6 @@ import MaterialForm from './material-form/form.vue'
 export default {
   extends: Form,
   props: {
-    confirm: {
-      type: Boolean,
-      default: false
-    },
-    detail: {
-      type: Boolean,
-      default: false
-    },
-    confirmDetail: {
-      type: Boolean,
-      default: false
-    },
     dialog: Object
   },
   components: {

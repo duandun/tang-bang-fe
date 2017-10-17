@@ -1,11 +1,11 @@
 <template lang="html">
     <div class="">
-        <contract-form :detail="true" @data-merged="fetchConfirmData"></contract-form>
+        <contract-form :dialog="dialog" :detail="true" @data-merged="fetchConfirmData"></contract-form>
         <Form ref="form" :model="formData" :label-width="120" :rules="rules">
             <Row>
               <Col span="12">
                   <Form-item label="到账金额确认无误：" prop="account">
-                      <Radio-group v-model="formData.account" v-if="!confirmDetail">
+                      <Radio-group v-model="formData.account" v-if="!dialog.detail">
                           <Radio label="1">是</Radio>
                           <Radio label="0">否</Radio>
                       </Radio-group>
@@ -14,7 +14,7 @@
               </Col>
               <Col span="12">
                   <Form-item label="到账时间：" prop="date">
-                      <Date-picker v-if="!confirmDetail" placeholder="选择时间和日期..."
+                      <Date-picker v-if="!dialog.detail" placeholder="选择时间和日期..."
                       type="date" v-model="formData.date"></Date-picker>
                       <span v-else>{{formData.date}}</span>
                   </Form-item>
@@ -24,8 +24,8 @@
                 <Col span="12">
                     <Form-item label="合同信息确认无误：" prop="">
                         <Radio-group v-model="formData.information" >
-                            <Radio label="1" :disabled="confirmDetail">是</Radio>
-                            <Radio label="0" :disabled="confirmDetail">否</Radio>
+                            <Radio label="1" :disabled="dialog.detail">是</Radio>
+                            <Radio label="0" :disabled="dialog.detail">否</Radio>
                         </Radio-group>
                     </Form-item>
                 </Col>
@@ -34,17 +34,17 @@
                 <Col span="12">
                     <Form-item label="终止：" prop="">
                         <Radio-group v-model="formData.pause">
-                            <Radio :label="1" :disabled="confirmDetail">是</Radio>
-                            <Radio :label="0" :disabled="confirmDetail">否</Radio>
+                            <Radio :label="1" :disabled="dialog.detail">是</Radio>
+                            <Radio :label="0" :disabled="dialog.detail">否</Radio>
                         </Radio-group>
                     </Form-item>
                     <Form-item label="终止理由：" prop="" v-if="formData.pause">
-                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!confirmDetail"></Input>
+                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                 </Col>
             </Row>
-            <Row style="text-align: center" v-if="!confirmDetail">
+            <Row style="text-align: center" v-if="!dialog.detail">
                 <Button type="primary" @click="handleSubmit">确认</Button>
                 <Button @click="resetFormData">重置</Button>
             </Row>
@@ -66,18 +66,7 @@ export default {
     ContractForm
   },
   props: {
-    detail: {
-      type: Boolean,
-      default: false
-    },
-    confirm: {
-      type: Boolean,
-      default: false
-    },
-    confirmDetail: {
-      type: Boolean,
-      default: false
-    }
+    dialog: Object
   },
   data() {
     return {
@@ -94,16 +83,16 @@ export default {
       this.$refs['form'].resetFields();
     },
     fetchConfirmData (results) {
-      if (this.confirmDetail) {
-        const { contract_id } = results
-        api.contract.confirmDetail(contract_id).then((results) => {
-          Object.assign(this.formData, results)
-        })
-      }
-      if (this.confirm) {
-        this.formData.contract_id = results.contract_id
-        this.formData.id = results.id
-      }
+      const { contract_id } = results
+      api.contract.confirmDetail(contract_id).then((results) => {
+        Object.assign(this.formData, results)
+      })
+      this.formData.contract_id = results.contract_id
+      this.formData.id = results.id
+      // if (this.confirm) {
+      //   this.formData.contract_id = results.contract_id
+      //   this.formData.id = results.id
+      // }
     },
     fetchApi () {
       return Promise.resolve(null)
