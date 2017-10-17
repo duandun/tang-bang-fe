@@ -53,7 +53,7 @@ export default {
       this.$refs.form.resetFields()
     },
     prepare () {
-      return Promise.resolve(this.dialog.contract_id)
+      return Promise.resolve(this.$route.query.id)
     },
     fetchApi: api.legal.detail,
     saveForm: api.legal.save,

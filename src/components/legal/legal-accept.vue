@@ -75,17 +75,12 @@ export default {
     },
     saveForm: api.legal.accept,
     fetchConfirmData (results) {
-      if (this.confirmDetail) {
-        const { contract_id } = results
-        api.legal.acceptDetail(contract_id).then(results => {
-          results.notice = results.notice === 'true'
-          Object.assign(this.formData, results)
-        })
-      }
-      if (this.confirm) {
-        this.formData.contract_id = results.contract_id
-        console.log(this.formData)
-      }
+      const { contract_id } = results
+      api.legal.acceptDetail(contract_id).then(results => {
+        results.notice = results.notice === 'true'
+        Object.assign(this.formData, results)
+      })
+      this.formData.contract_id = results.contract_id
     },
     formatter (formdata) {
       formdata.time = moment(formdata.time).format('YYYY-MM-DD hh:mm:ss')
