@@ -90,9 +90,9 @@ $('#loginBtn').on('click', function() {
         if (data.checkUser) {
           layer.msg('登录成功', {icon: 1});
           setTimeout(function () {
-            var host = location.host
-            location.replace(host)
-          }, 1000)
+            var origin = location.origin
+            location.replace(origin)
+          }, 500)
         } else {
           layer.msg('用户名或密码不正确', {icon: 5});
         }

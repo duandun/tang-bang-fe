@@ -41,7 +41,7 @@
       </Page>
     </Row>
     <Modal v-model="dialog.visible" :mask-closable="false" title="选择角色">
-      <select-form ref="selectForm" v-if="dialog.visible" @close-dialog="afterConfirm"></select-form>
+      <select-form ref="selectForm" v-if="dialog.visible" @close-dialog="afterConfirm" :userId="userId" :userRoles="userRoles"></select-form>
       <div class="" slot="footer">
         <Button type="primary" @click="confirmActor">确认</Button>
         <Button @click="cancelActor">取消</Button>
@@ -75,6 +75,7 @@ export default {
       dialog: {
         visible: false
       },
+      userId: '',
       tableColumns: Config.getTableColumns(this)
     }
   },
@@ -88,6 +89,7 @@ export default {
     },
     afterConfirm (formdata) {
       this.dialog.visible = false
+      this.search()
     }
   }
 }

@@ -2,9 +2,9 @@
   <div class="actor-list-container">
     <Form ref="form" :model="formData" :label-width="80">
         <Form-item label="角色：" prop="">
-            <Radio-group v-model="formData.actor">
-                <Radio :label="item.value" v-for="item in actorList" :key="item">{{item.label}}</Radio>
-            </Radio-group>
+            <CheckboxGroup v-model="formData.permission">
+                <Checkbox :label="item.value" v-for="item in actorList" :key="item">{{item.label}}</Checkbox>
+            </CheckboxGroup>
         </Form-item>
     </Form>
   </div>
@@ -12,24 +12,48 @@
 
 <script>
 import { ACTOR } from '@/constant'
-import Form from '@/components/form'
+import api from '@/api'
+import _ from 'lodash'
 
 export default {
-  extends: Form,
+  props: {
+    userId: String,
+    userRoles: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
   data () {
     return {
       actorList: ACTOR,
       formData: {
-        actor: 1
+        permission: [],
+        id: ''
       }
     }
+  },
+  created () {
+    this.formData.permission = _.cloneDeep(this.userRoles)
   },
   methods: {
     fetchApi: function () {
       return Promise.resolve(null)
     },
-    saveForm () {
-      return Promise.resolve(null)
+    saveForm: api.auth.addRole,
+    handleSubmit () {
+      let params = {
+        permission: this.formData.permission.join(),
+        id: this.userId
+      }
+      return this.saveForm(params).then(results => {
+        if (results.addRole) {
+          this.afterSubmit()
+        } else {
+          this.$Message.error('保存出错，请稍后重试')
+        }
+      })
     },
     afterSubmit () {
       this.$emit('close-dialog', this.formData)

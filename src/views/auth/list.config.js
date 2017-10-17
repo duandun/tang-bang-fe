@@ -35,6 +35,10 @@ export const getTableColumns = (context) => {
     render: (h, params) => {
       const openDialog = () => {
         context.dialog.visible = true
+        context.userId = params.row.id
+        if (params.row.role) {
+          context.userRoles = params.row.role.split(',')
+        }
       }
       return <i-button type="text" onClick={openDialog} style="color: #2d8cf0;">选择角色</i-button>
     }

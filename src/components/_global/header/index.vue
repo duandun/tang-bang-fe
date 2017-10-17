@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import api from '@/api'
+
 export default {
   data() {
     return {
@@ -24,6 +26,12 @@ export default {
     logout(name) {
       if (name === 'userLogout') {
         console.log('logout');
+        api.auth.logout().then(results => {
+          if (results.logout) {
+            let origin = location.origin
+            location.replace(`${origin}/account/login/`)
+          }
+        })
       }
     }
   }
