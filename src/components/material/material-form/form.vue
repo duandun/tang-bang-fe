@@ -37,7 +37,7 @@
                     </Radio-group>
                 </Form-item>
 
-                <div class=""  v-for="(item, index) in formData.jsonarray" :key="item">
+                <div class=""  v-for="(item, index) in formData.extra_material" :key="item">
                   <Form-item label="名称：" prop="" v-if="!comDetail">
                     <Input placeholder="请输入材料名称" v-model="item.key"></Input>
                   </Form-item>
@@ -106,10 +106,10 @@ export default {
         key: '',
         value: ''
       }
-      this.formData.jsonarray.push(oneColumn)
+      this.formData.extra_material.push(oneColumn)
     },
     handleRemove (index) {
-      this.formData.jsonarray.splice(index, 1)
+      this.formData.extra_material.splice(index, 1)
     },
     resetFormData () {
       this.$refs.form.resetFields()
@@ -129,8 +129,8 @@ export default {
       if (_.isDate(formdata.receiving_time)) {
         formdata.receiving_time = moment(formdata.receiving_time).format('YYYY-MM-DD hh:mm:ss');
       }
-      if (!_.isEmpty(formdata.jsonarray)) {
-        formdata.jsonarray = JSON.stringify(formdata.jsonarray)
+      if (!_.isEmpty(formdata.extra_material)) {
+        formdata.extra_material = JSON.stringify(formdata.extra_material)
       }
     },
     afterSubmit(resp) {

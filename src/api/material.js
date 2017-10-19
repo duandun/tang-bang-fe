@@ -17,3 +17,13 @@ export function detail (contractId) {
 export function confirm (params) {
   return fetch('/material/confirm', params, 'POST')
 }
+
+// 二次材料提交
+export function twice (params) {
+  return fetch('/twicematerial/submit', params, 'POST')
+}
+
+// 二次提交详情
+export function twiceDetail (params) {
+  return fetch('/twicematerial/detail', params)
+}

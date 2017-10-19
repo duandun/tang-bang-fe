@@ -11,7 +11,7 @@ export const getFormData = () => {
     application_number: void 0,
     license_number: void 0,
     dismissal: '0',
-    jsonarray: []
+    extra_material: []
   };
 };
 
