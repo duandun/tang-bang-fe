@@ -12,7 +12,7 @@
                 <Form-item label="角色：">
                     <Select v-model="query.role">
                         <Option value="">全部</Option>
-                        <Option v-for="item in actorList" :value="item.value" :key="item">{{ item.label }}</Option>
+                        <Option v-for="(item,index) in actorList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
                 </Form-item>
             </Col>
@@ -25,11 +25,11 @@
     <!-- 搜索条件 -->
 
     <Row class="table-container">
-      <Spin fix class="spin-loading" v-if="loading">
+      <!-- <Spin fix class="spin-loading" v-if="loading">
         <Icon type="load-c" size="18" class="auth-spin-icon-load"></Icon>
         <div>Loading</div>
-      </Spin>
-      <Table :columns="tableColumns" :data="tableList" />
+      </Spin> -->
+      <Table :columns="tableColumns" :data="tableList" :loading="loading"/>
       <Page
         class="page-container"
         :total="total"

@@ -37,7 +37,7 @@
                 <div>Loading</div>
             </Spin> -->
             <el-table
-              :data="tableList"
+              :data="tableList" v-loading.body="loading"
               style="width: 100%">
               <el-table-column
                 type="index"

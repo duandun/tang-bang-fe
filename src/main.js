@@ -4,7 +4,7 @@ import router from './router'
 import iView from 'iview'
 import store from './store/index'
 import './styles/main.less'
-import { Table, Button, TableColumn, Steps, Step, Popover, Tag } from 'element-ui'
+import { Table, Button, TableColumn, Steps, Step, Popover, Tag, Loading } from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 
 Vue.use(Table)
@@ -14,6 +14,7 @@ Vue.use(Steps)
 Vue.use(Step)
 Vue.use(Popover)
 Vue.use(Tag)
+Vue.use(Loading.directive)
 
 Vue.use(iView)
 Vue.config.productionTip = false

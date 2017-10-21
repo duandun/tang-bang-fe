@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="my-info">
-        <Dropdown trigger="click" @on-click="logout">
+        <Dropdown @on-click="logout">
             <a href="javascript:void(0);">
                 <Icon type="person"></Icon>
                 <span class="m-desc">Hello</span>
