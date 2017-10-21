@@ -1,5 +1,15 @@
 import _ from 'lodash';
 
+export const radioHandle = (value) => {
+  if (typeof value === 'boolean') {
+    return Number(value)
+  } else if (typeof value === 'number') {
+    return Boolean(value)
+  }
+
+  return null
+}
+
 export const createFormDataFormatter = (formatter) => (rawFormData) => {
   let formdata = _.cloneDeep(rawFormData);
 

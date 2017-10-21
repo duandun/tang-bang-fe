@@ -90,7 +90,7 @@
                       @click="contractEdit(scope.$index, scope.row)">签单编辑</el-button> -->
                         <el-button v-for="(item, index) in MODAL" :key="index"
                           size="small"
-                           type="text" v-if="getActiveStep(scope.$index) === index"
+                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(scope.$index)"
                           @click="showDialog(item, 'edit', scope.row)">{{item.text}}</el-button>
                   </template>
                 </el-table-column>
@@ -134,6 +134,7 @@ import FinalResultsForm from '@/components/final-results/final-results-form.vue'
 import _ from 'lodash';
 import api from '@/api';
 import { STEP, MODAL } from '@/constant'
+import { mapGetters } from 'vuex'
 
 const statusText = {
   0: '驳回',
@@ -180,10 +181,20 @@ export default {
       constStep: []
     };
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   created() {
     this._original_dialog = _.cloneDeep(this.$data.dialog);
   },
   methods: {
+    curOp (index) {
+      const operates = this.userInfo.permission
+      if (_.includes(operates, index.toString())) {
+        return true
+      }
+      return true
+    },
     handleSuccess () {
       this.search()
       this.dialog.visible = false

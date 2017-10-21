@@ -22,6 +22,8 @@ import Footers from '../components/_global/footer/index.vue';
 import Sidebars from '../components/_global/sidebar/index.vue';
 import Headers from '../components/_global/header/index.vue';
 import { BaseMixins } from '@/mixins';
+import api from '@/api'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'app',
@@ -37,20 +39,19 @@ export default {
       config
     }
   },
-  computed: {
-  },
   mixins: [
     BaseMixins
   ],
   created() {
+    this.setUserInfo()
   },
   watch: {
     '$route': function(to, from) {
-      this.config.menu.activeName = to.path;
-      console.log(`%c enter view: ${to.name}`, 'color: #3399ff');
+      this.config.menu.activeName = to.path
     }
   },
   methods: {
+    ...mapActions(['setUserInfo']),
     onMenuSelect: function(path) {
       this.$router.push(path)
     }

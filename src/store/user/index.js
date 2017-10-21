@@ -1,39 +1,31 @@
 
 import * as types from '../mutation-types.js';
-import * as CONST from './const.js';
+import api from '@/api'
 
 const state = {
-  status: CONST.ST_NOT_LOGINED,
-  userInfo: null
+  userInfo: {}
 };
 
 const getters = {
-  getUserInfo(state) {
-    return state.userInfo;
+  userInfo(state) {
+    return state.userInfo
   },
   getUserStatus(state) {
-    return state.status;
+    return state.status
   }
 };
 
 const mutations = {
-  [types.USER_LOGIN] (state, userInfo) {
-    state.userInfo = userInfo;
-    state.status = CONST.ST_HAS_LOGINED;
-  },
-  [types.USER_LOGOUT] (state) {
-    state.userInfo = null;
-    state.status = CONST.ST_NOT_LOGINED;
+  [types.USER_INFO] (state, userInfo) {
+    state.userInfo = userInfo
   }
 };
 
 const actions = {
-  login({ commit }) {
-    let userObj = {};
-    commit(types.USER_LOGIN, userObj);
-  },
-  logout({ commit }) {
-    commit(types.USER_LOGOUT);
+  setUserInfo({ commit }) {
+    api.auth.getUserInfo().then(results => {
+      commit(types.USER_INFO, results)
+    })
   }
 }
 

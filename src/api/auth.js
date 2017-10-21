@@ -9,10 +9,9 @@ export function logout () {
 }
 
 export function addRole (params) {
-  console.log(111)
   return fetch('/user/addRole', params)
 }
 
-export function getUser (id) {
-  return fetch('')
+export function getUserInfo () {
+  return fetch('/user/getUserInfo')
 }
