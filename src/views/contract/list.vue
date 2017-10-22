@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="list-container">
-        <Form ref="form" :label-width="100">
+        <Form ref="form" :label-width="100" onSubmit="return false;">
             <Row>
                 <Col span="6">
                     <Form-item label="合同编号:">
@@ -17,9 +17,8 @@
                         <Select v-model="query.status">
                             <Option label="全部" value="">
                             </Option>
-                            <Option label="处理中" :value="2">
-                            </Option>
-                            <Option label="已完成" :value="1">
+                            <Option v-for="item in statusList"
+                              :key="item.value" :label="item.label" :value="item.value">
                             </Option>
                         </Select>
                     </Form-item>
@@ -62,7 +61,7 @@
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="status"
+                prop="resultStatusTxt"
                 label="进度">
                 <template scope="scope">
                     <el-popover trigger="click"
@@ -77,20 +76,16 @@
                           </el-step>
                       </el-steps>
                       <div slot="reference" style="display: inline-block;">
-                        <el-tag>{{ scope.row.status }}</el-tag>
+                        <el-tag>{{ scope.row.resultStatusTxt }}</el-tag>
                       </div>
                     </el-popover>
                   </template>
               </el-table-column>
               <el-table-column label="操作" width="180">
                   <template scope="scope">
-                    <!-- <el-button
-                      size="small"
-                      type="text" v-if="getActiveStep(scope.$index) === 1"
-                      @click="contractEdit(scope.$index, scope.row)">签单编辑</el-button> -->
                         <el-button v-for="(item, index) in MODAL" :key="index"
                           size="small"
-                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(scope.$index)"
+                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(scope.$index) && scope.row.status === '1'"
                           @click="showDialog(item, 'edit', scope.row)">{{item.text}}</el-button>
                   </template>
                 </el-table-column>
@@ -137,9 +132,8 @@ import { STEP, MODAL } from '@/constant'
 import { mapGetters } from 'vuex'
 
 const statusText = {
-  0: '驳回',
-  1: '已完成',
-  2: '处理中',
+  1: '处理中',
+  2: '已完成',
   3: '已终止'
 }
 
@@ -156,7 +150,15 @@ export default {
     FinalResultsForm
   },
   data() {
+    const statusList = []
+    Object.keys(statusText).forEach(i => {
+      statusList.push({
+        value: i,
+        label: statusText[i]
+      })
+    })
     return {
+      statusList,
       popVis: false,
       currentModal: '',
       MODAL: MODAL,
@@ -190,7 +192,7 @@ export default {
   methods: {
     curOp (index) {
       const operates = this.userInfo.permission
-      if (_.includes(operates, index)) {
+      if (_.includes(operates, index.toString())) {
         return true
       }
       return true
@@ -215,7 +217,6 @@ export default {
 
     showDialog (item, type, row) {
       this.currentModal = item.name
-      this.dialog.visible = true
       this.dialog.detail = type === 'detail'
       this.dialog.title = type === 'detail' ? `${item.text}详情` : `${item.text}`
       this.dialog.contract_id = row.contract_id
@@ -229,13 +230,28 @@ export default {
           id
         }
       })
+      if (item.name === 'FinalResultsForm') {
+        this.$Modal.confirm({
+          title: '结果',
+          content: '是否结束流程？',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            api.result.end(id).then(results => {
+              this.search()
+            })
+          }
+        })
+      } else {
+        this.dialog.visible = true
+      }
     },
 
     formatData(results) {
       this.constStep = []
       const arr = []
       results.forEach(item => {
-        item.status = statusText[item.status]
+        item.resultStatusTxt = statusText[item.status]
         arr.push(STEP(item))
       });
       this.constStep = arr

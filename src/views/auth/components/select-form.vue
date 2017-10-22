@@ -36,15 +36,20 @@ export default {
   },
   created () {
     this.formData.permission = _.cloneDeep(this.userRoles)
+    this.$nextTick(() => {
+      if (!this.userId) return
+      this.fetchApi(this.userId).then(results => {
+        this.formData.permission = results.permission
+        this.formData.id = this.userId
+      })
+    })
   },
   methods: {
-    fetchApi: function () {
-      return Promise.resolve(null)
-    },
+    fetchApi: api.auth.getOtherUserInfo,
     saveForm: api.auth.addRole,
     handleSubmit () {
       let params = {
-        permission: JSON.stringify(this.formData.permission),
+        permission: this.formData.permission.join(),
         id: this.userId
       }
       return this.saveForm(params).then(results => {

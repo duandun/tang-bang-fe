@@ -95,7 +95,6 @@ export default {
       formdata.no_time = formdata.no_time && moment(formdata.no_time).format('YYYY-MM-DD hh:mm:ss')
     },
     afterSubmit (resp) {
-      console.log(resp)
       if (resp.flag) {
         this.$emit('save-success');
       } else {

@@ -9,7 +9,8 @@ export const getFormData = () => {
     remittance_time: '',
     commissioned_applicant: '',
     deadline: '',
-    precautions: ''
+    precautions: '',
+    nickname: ''
   };
 };
 

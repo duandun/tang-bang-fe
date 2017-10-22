@@ -10,7 +10,7 @@
                             <Radio label="0" :disabled="dialog.detail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" v-if="formData.pause" prop="pause_reason" >
+                    <Form-item label="终止理由：" v-if="formData.pause === '1'" prop="pause_reason" >
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>

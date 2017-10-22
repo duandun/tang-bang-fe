@@ -30,6 +30,7 @@ $(document).ready(function(){
     $('#registBtn').on('click', function () {
       var reg = '.register-container ';
       var userName = $('.register-container input[name="userName"]').val().trim();
+      var nickName = $(reg + 'input[name="nickName"]').val().trim();
       var password = $(reg + 'input[name="password"]').val();
       var repassword = $(reg + 'input[name="repassword"]').val();
       var province = $(reg + 'select.prov').val()
@@ -46,6 +47,7 @@ $(document).ready(function(){
       }
       var postData = {
         userName: userName,
+        nickName: nickName,
         password: password,
         province: province,
         city: city,
@@ -61,7 +63,7 @@ $(document).ready(function(){
           withCredentials: true
         },
         success: function (data) {
-          if (data.checkUser) {
+          if (data.insetUser) {
             layer.msg('注册成功', {icon: 1});
             location.reload();
           } else {
@@ -111,7 +113,6 @@ $('#loginBtn').on('click', function() {
 function loginCheck() {
     var userName = $('#userName').val();
     var password = $('#password').val();
-    var rememberMe = $('#remember');
     if(userName.trim() === '') {
       layer.msg('用户名不能为空', {icon: 5});
     }else if(password.trim() === '') {
@@ -119,8 +120,7 @@ function loginCheck() {
     }else {
       var postData = {
         userName: userName,
-        password: password,
-        rememberMe: rememberMe.is(':checked')
+        password: password
       }
       return postData;
     }

@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="auth-list-container">
     <!-- 搜索条件 -->
-    <Form ref="form" :label-width="100">
+    <Form ref="form" :label-width="100" onSubmit="return false;">
         <Row>
             <Col span="7">
                 <Form-item label="账号/姓名：">
@@ -10,7 +10,7 @@
             </Col>
             <Col span="7">
                 <Form-item label="角色：">
-                    <Select v-model="query.role">
+                    <Select v-model="query.permission">
                         <Option value="">全部</Option>
                         <Option v-for="(item,index) in actorList" :value="item.value" :key="index">{{ item.label }}</Option>
                     </Select>
@@ -38,7 +38,7 @@
     </Row>
     <Modal v-model="dialog.visible" :mask-closable="false" title="选择权限">
       <select-form ref="selectForm" v-if="dialog.visible" @close-dialog="afterConfirm" :userId="userId" :userRoles="userRoles"></select-form>
-      <div class="" slot="footer">
+      <div slot="footer">
         <Button type="primary" @click="confirmActor">确认</Button>
         <Button @click="cancelActor">取消</Button>
       </div>
@@ -62,7 +62,7 @@ export default {
     return {
       cacheQuery: true,
       query: {
-        role: void 0,
+        permission: void 0,
         userName: '',
         pageStart: 1,
         pageSize: 10
@@ -93,14 +93,6 @@ export default {
 </script>
 
 <style lang="less">
-.auth-spin-icon-load{
-  animation: ani-demo-spin 1s linear infinite;
-}
-@keyframes ani-demo-spin {
-  from { transform: rotate(0deg);}
-  50%  { transform: rotate(180deg);}
-  to   { transform: rotate(360deg);}
-}
 .table-container {
   padding: 10px 0;
 }

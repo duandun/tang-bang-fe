@@ -5,11 +5,10 @@
             <Row>
               <Col span="12">
                   <Form-item label="到账金额确认无误：" prop="account">
-                      <Radio-group v-model="formData.account" v-if="!dialog.detail">
-                          <Radio label="1">是</Radio>
-                          <Radio label="0">否</Radio>
+                      <Radio-group v-model="formData.account">
+                          <Radio label="1" :disabled="dialog.detail">是</Radio>
+                          <Radio label="0" :disabled="dialog.detail">否</Radio>
                       </Radio-group>
-                      <span v-else>{{formData.account}}</span>
                   </Form-item>
               </Col>
               <Col span="12">
@@ -34,18 +33,18 @@
                 <Col span="12">
                     <Form-item label="终止：" prop="">
                         <Radio-group v-model="formData.pause">
-                            <Radio :label="1" :disabled="dialog.detail">是</Radio>
-                            <Radio :label="0" :disabled="dialog.detail">否</Radio>
+                            <Radio label="1" :disabled="dialog.detail">是</Radio>
+                            <Radio label="0" :disabled="dialog.detail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" prop="" v-if="formData.pause">
+                    <Form-item label="终止理由：" prop="" v-if="formData.pause === '1'">
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                 </Col>
             </Row>
             <Row style="text-align: center" v-if="!dialog.detail">
-                <Button type="primary" @click="handleSubmit">确认</Button>
+                <Button type="primary" @click="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="resetFormData">重置</Button>
             </Row>
         </Form>

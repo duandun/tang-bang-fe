@@ -15,3 +15,7 @@ export function addRole (params) {
 export function getUserInfo () {
   return fetch('/user/getUserInfo')
 }
+
+export function getOtherUserInfo (id) {
+  return fetch('/user/getOtherUserInfo', { id })
+}

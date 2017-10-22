@@ -28,12 +28,13 @@
                     </Form-item>
                     <Form-item label="终止：" prop="pause">
                         <Radio-group v-model="formData.pause">
-                            <Radio :label="1" :disabled="dialog.detail">是</Radio>
-                            <Radio :label="0" :disabled="dialog.detail">否</Radio>
+                            <Radio label="1" :disabled="dialog.detail">是</Radio>
+                            <Radio label="0" :disabled="dialog.detail">否</Radio>
                         </Radio-group>
                     </Form-item>
-                    <Form-item label="终止理由：" prop="" v-if="formData.pause">
-                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea"></Input>
+                    <Form-item label="终止理由：" prop="" v-if="formData.pause === '1'">
+                      <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
+                      <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                     <Form-item label="" prop="" v-if="!dialog.detail">
                         <Button type="primary" @click.stop="handleSubmit">确认</Button>

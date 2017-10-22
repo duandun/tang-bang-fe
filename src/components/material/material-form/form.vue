@@ -51,7 +51,7 @@
                         </Col>
                     </Row>
                   </Form-item>
-                  <Form-item :label="item.key" prop="" v-if="comDetail">
+                  <Form-item :label="`${item.key}：`" prop="" v-if="comDetail">
                       <span>{{item.value}}</span>
                   </Form-item>
                 </div>

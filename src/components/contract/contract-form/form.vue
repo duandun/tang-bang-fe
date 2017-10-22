@@ -71,6 +71,15 @@
               <Col span="12">
               </Col>
           </Row>
+          <Row v-if="comDetail">
+              <Col span="12">
+                  <Form-item label="签单员：">
+                      <span>{{formData.nickname}}</span>
+                  </Form-item>
+              </Col>
+              <Col span="12">
+              </Col>
+          </Row>
           <Row style="text-align: center; margin-top: 10px;" v-if="!comDetail">
               <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">提交</Button>
               <Button @click="resetFormData">重置</Button>
@@ -128,6 +137,7 @@ export default {
       if (!formdata.id) {
         delete formdata.id
       }
+      delete formdata.nickname
     },
     willDataMerge (results) {
       // if (this.detail) {
