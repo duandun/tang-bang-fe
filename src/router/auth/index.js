@@ -1,7 +1,7 @@
 const routers = [{
   name: 'authManage',
   path: '/auth/list',
-  component: resolve => require(['@/views/auth/list.vue'], resolve)
+  component: () => import('@/views/auth/list.vue')
 }];
 
 export default routers;

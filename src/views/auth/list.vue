@@ -36,11 +36,11 @@
         show-sizer>
       </Page>
     </Row>
-    <Modal v-model="dialog.visible" :mask-closable="false" title="选择权限">
+    <Modal v-model="dialog.visible" :mask-closable="false" title="选择权限" :transfer="true">
       <select-form ref="selectForm" v-if="dialog.visible" @close-dialog="afterConfirm" :userId="userId" :userRoles="userRoles"></select-form>
       <div slot="footer">
-        <Button type="primary" @click="confirmActor">确认</Button>
-        <Button @click="cancelActor">取消</Button>
+        <Button type="primary" @click.stop="confirmActor">确认</Button>
+        <Button @click.stop="cancelActor">取消</Button>
       </div>
     </Modal>
   </div>

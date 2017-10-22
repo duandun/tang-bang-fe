@@ -1,7 +1,7 @@
 const routers = [{
   name: 'materialAdd',
   path: '/material/add',
-  component: resolve => require(['@/views/contract/contract-add.vue'], resolve)
+  component: () => import('@/views/contract/contract-add.vue')
 }];
 
 export default routers;

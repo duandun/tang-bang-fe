@@ -101,7 +101,7 @@
                 class="page-container">
             </Page>
         </Row>
-        <Modal v-model="dialog.visible" width="800" :mask-closable="false" :styles="{top: '30px'}">
+        <Modal v-model="dialog.visible" width="800" :mask-closable="false" :styles="{top: '30px'}" :transfer="true">
             <p slot="header">
                 <span>{{ dialog.title }}</span>
             </p>
@@ -110,7 +110,7 @@
                 :dialog="dialog"
                 @cancel="dialog.visible = false"
                 @save-success="handleSuccess"></component>
-            <div class="" slot="footer">
+            <div class="" slot="footer" style="display: none;">
             </div>
         </Modal>
     </div>
@@ -192,10 +192,10 @@ export default {
   methods: {
     curOp (index) {
       const operates = this.userInfo.permission
-      if (_.includes(operates, index.toString())) {
+      if (_.includes(operates, (index + 1).toString())) {
         return true
       }
-      return true
+      return false
     },
     curMaxPerm (index) {
       const operates = this.userInfo.permission
@@ -270,17 +270,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-    .demo-spin-icon-load{
-            animation: ani-demo-spin 1s linear infinite;
-    }
-    @keyframes ani-demo-spin {
-        from { transform: rotate(0deg);}
-        50%  { transform: rotate(180deg);}
-        to   { transform: rotate(360deg);}
-    }
-    .ivu-modal-footer {
-      display: none;
-    }
-</style>

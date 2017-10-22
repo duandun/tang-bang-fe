@@ -9,20 +9,16 @@ Vue.use(Router)
 const routes = [{
   path: '/',
   name: '首页',
-  component: resolve => require(['@/views/default'], resolve).default,
-  redirect: '/contract/add'
+  component: () => import('@/views/default'),
+  redirect: '/contract/list'
 }, {
   path: '/index',
   name: 'index',
-  component: resolve => require(['@/views/contract/contract-add.vue'], resolve).default
-}, {
-  path: '/notFound',
-  name: 'notFound',
-  component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
+  component: () => import('@/views/contract/contract-add.vue')
 }, {
   path: '/settings',
   name: 'settings',
-  component: resolve => require(['@/settings/index.vue'], resolve)
+  component: () => import('@/settings/index.vue')
 }].concat(
     ContractRouters,
     MaterialRouters,
@@ -30,7 +26,7 @@ const routes = [{
   [{
     path: '*',
     name: '找不到资源',
-    component: resolve => require(['@/eview/components/e-404/e-404.vue'], resolve).default
+    component: () => import('@/eview/components/e-404/e-404.vue')
   }]
 );
 
