@@ -2,7 +2,7 @@
   <div id="app-container">
     <e-layout>
       <div slot='logo'><a href="/">唐邦</a></div>
-      <e-menu slot='menu' :menus='config.menu.list' :openNames='config.menu.openNames' :activeName='config.menu.activeName' :onSelect='onMenuSelect'>
+      <e-menu slot='menu' :menus='menuList' :openNames='config.menu.openNames' :activeName='config.menu.activeName' :onSelect='onMenuSelect'>
       </e-menu>
       <div slot="header-right">
           <headers></headers>
@@ -23,7 +23,7 @@ import Sidebars from '../components/_global/sidebar/index.vue';
 import Headers from '../components/_global/header/index.vue';
 import { BaseMixins } from '@/mixins';
 import api from '@/api'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'app',
@@ -39,11 +39,14 @@ export default {
       config
     }
   },
+  computed: {
+    ...mapGetters(['menuList'])
+  },
   mixins: [
     BaseMixins
   ],
   created() {
-    this.setUserInfo()
+    this.setUserInfo({ menu: config.menu })
   },
   watch: {
     '$route': function(to, from) {

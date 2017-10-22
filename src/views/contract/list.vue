@@ -71,7 +71,7 @@
                           <el-step :title="item.text" v-for="(item, index) in MODAL" :key="index">
                               <div class="" slot="description">
                                   <el-button
-                                    size="small" v-if="getActiveStep(scope.$index) > index"
+                                    size="small" v-if="getActiveStep(scope.$index) > index && curMaxPerm(scope.$index) > index"
                                     @click="showDialog(item, 'detail', scope.row)">{{item.text + '详情'}}</el-button>
                               </div>
                           </el-step>
@@ -190,10 +190,15 @@ export default {
   methods: {
     curOp (index) {
       const operates = this.userInfo.permission
-      if (_.includes(operates, index.toString())) {
+      if (_.includes(operates, index)) {
         return true
       }
       return true
+    },
+    curMaxPerm (index) {
+      const operates = this.userInfo.permission
+      const operatesNum = operates.map(i => Number(i))
+      return _.max(operatesNum)
     },
     handleSuccess () {
       this.search()

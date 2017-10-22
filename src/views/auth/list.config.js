@@ -40,7 +40,7 @@ export const getTableColumns = (context) => {
           context.userRoles = params.row.role.split(',')
         }
       }
-      return <i-button type="text" onClick={openDialog} style="color: #2d8cf0;">选择角色</i-button>
+      return <i-button type="text" onClick={openDialog} style="color: #2d8cf0;">选择权限</i-button>
     }
   }]
   return columns

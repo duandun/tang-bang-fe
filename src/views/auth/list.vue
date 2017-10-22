@@ -25,10 +25,6 @@
     <!-- 搜索条件 -->
 
     <Row class="table-container">
-      <!-- <Spin fix class="spin-loading" v-if="loading">
-        <Icon type="load-c" size="18" class="auth-spin-icon-load"></Icon>
-        <div>Loading</div>
-      </Spin> -->
       <Table :columns="tableColumns" :data="tableList" :loading="loading"/>
       <Page
         class="page-container"
@@ -40,7 +36,7 @@
         show-sizer>
       </Page>
     </Row>
-    <Modal v-model="dialog.visible" :mask-closable="false" title="选择角色">
+    <Modal v-model="dialog.visible" :mask-closable="false" title="选择权限">
       <select-form ref="selectForm" v-if="dialog.visible" @close-dialog="afterConfirm" :userId="userId" :userRoles="userRoles"></select-form>
       <div class="" slot="footer">
         <Button type="primary" @click="confirmActor">确认</Button>

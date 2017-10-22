@@ -37,7 +37,7 @@
                     </Radio-group>
                 </Form-item>
 
-                <div class=""  v-for="(item, index) in formData.extra_material" :key="item">
+                <div class=""  v-for="(item, index) in formData.extra_material" :key="index">
                   <Form-item label="名称：" prop="" v-if="!comDetail">
                     <Input placeholder="请输入材料名称" v-model="item.key"></Input>
                   </Form-item>

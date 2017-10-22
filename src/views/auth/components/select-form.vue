@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="actor-list-container">
     <Form ref="form" :model="formData" :label-width="80">
-        <Form-item label="角色：" prop="">
+        <Form-item label="权限：" prop="">
             <CheckboxGroup v-model="formData.permission">
-                <Checkbox :label="item.value" v-for="item in actorList" :key="item">{{item.label}}</Checkbox>
+                <Checkbox :label="item.value" v-for="(item, index) in actorList" :key="index">{{item.label}}</Checkbox>
             </CheckboxGroup>
         </Form-item>
     </Form>
@@ -44,7 +44,7 @@ export default {
     saveForm: api.auth.addRole,
     handleSubmit () {
       let params = {
-        permission: this.formData.permission.join(),
+        permission: JSON.stringify(this.formData.permission),
         id: this.userId
       }
       return this.saveForm(params).then(results => {

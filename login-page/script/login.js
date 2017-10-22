@@ -61,7 +61,6 @@ $(document).ready(function(){
           withCredentials: true
         },
         success: function (data) {
-          console.log(data);
           if (data.checkUser) {
             layer.msg('注册成功', {icon: 1});
             location.reload();
@@ -72,6 +71,13 @@ $(document).ready(function(){
         error: function (data) {
         }
       });
+    })
+
+    $('#returnLogin').on('click', function () {
+      $('.login-container').show();
+      $('.register-container').hide();
+      $('.anniu').show();
+      $('.regBtn-wrapper').hide();
     })
 });
 $('#loginBtn').on('click', function() {

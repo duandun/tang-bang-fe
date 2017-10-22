@@ -3,7 +3,8 @@ import * as types from '../mutation-types.js';
 import api from '@/api'
 
 const state = {
-  userInfo: {}
+  userInfo: {},
+  menuList: []
 };
 
 const getters = {
@@ -12,19 +13,30 @@ const getters = {
   },
   getUserStatus(state) {
     return state.status
+  },
+  menuList(state) {
+    return state.menuList
   }
 };
 
 const mutations = {
   [types.USER_INFO] (state, userInfo) {
     state.userInfo = userInfo
+  },
+  [types.MENU_LIST] (state, menu) {
+    state.menuList = menu.list
+    if (state.userInfo.name !== 'admin') {
+      state.menuList.splice(2, 1)
+    }
   }
 };
 
 const actions = {
-  setUserInfo({ commit }) {
-    api.auth.getUserInfo().then(results => {
+  setUserInfo({ commit }, { menu }) {
+    return api.auth.getUserInfo().then(results => {
       commit(types.USER_INFO, results)
+      commit(types.MENU_LIST, menu)
+      return results
     })
   }
 }
