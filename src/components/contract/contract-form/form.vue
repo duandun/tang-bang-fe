@@ -92,7 +92,7 @@
 import Form from '@/components/form'
 import * as Config from './config.js'
 import api from '@/api'
-import _ from 'lodash'
+import isDate from 'lodash/isDate'
 import moment from 'moment'
 
 export default {
@@ -128,10 +128,10 @@ export default {
       this.$refs['form'].resetFields();
     },
     formatter(formdata) {
-      if (_.isDate(formdata.remittance_time)) {
+      if (isDate(formdata.remittance_time)) {
         formdata.remittance_time = moment(formdata.remittance_time).format('YYYY-MM-DD hh:mm:ss');
       }
-      if (_.isDate(formdata.deadline)) {
+      if (isDate(formdata.deadline)) {
         formdata.deadline = moment(formdata.deadline).format('YYYY-MM-DD');
       }
       if (!formdata.id) {

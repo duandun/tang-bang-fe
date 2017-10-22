@@ -1,5 +1,5 @@
 import moment from 'moment';
-import _ from 'lodash';
+import isDate from 'lodash/isDate';
 
 export default {
   data() {
@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     dateFormat(date) {
-      if (_.isDate(date)) {
+      if (isDate(date)) {
         return moment(date).format('YYYY-MM-DD HH:mm:ss');
       }
       return date;

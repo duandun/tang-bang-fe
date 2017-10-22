@@ -126,7 +126,10 @@ import LegalAcceptForm from '@/components/legal/legal-accept.vue';
 import LegalSubmitForm from '@/components/legal/legal-form/form.vue';
 import MaterialSubAgainForm from '@/components/material/material-subagain-form.vue';
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import includes from 'lodash/includes'
+import max from 'lodash/max'
+import findLastIndex from 'lodash/findLastIndex'
 import api from '@/api';
 import { STEP, MODAL } from '@/constant'
 import { mapGetters } from 'vuex'
@@ -187,12 +190,12 @@ export default {
     ...mapGetters(['userInfo'])
   },
   created() {
-    this._original_dialog = _.cloneDeep(this.$data.dialog);
+    this._original_dialog = cloneDeep(this.$data.dialog);
   },
   methods: {
     curOp (index) {
       const operates = this.userInfo.permission
-      if (_.includes(operates, (index + 1).toString())) {
+      if (includes(operates, (index + 1).toString())) {
         return true
       }
       return false
@@ -200,7 +203,7 @@ export default {
     curMaxPerm (index) {
       const operates = this.userInfo.permission
       const operatesNum = operates.map(i => Number(i))
-      return _.max(operatesNum)
+      return max(operatesNum)
     },
     handleSuccess () {
       this.search()
@@ -210,7 +213,7 @@ export default {
       const item = this.constStep[index]
       let stepIndex = 1
       const keys = Object.keys(item)
-      stepIndex = _.findLastIndex(keys, i => item[i])
+      stepIndex = findLastIndex(keys, i => item[i])
       return stepIndex + 1
     },
     fetchApi: api.contract.list,

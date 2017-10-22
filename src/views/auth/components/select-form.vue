@@ -13,7 +13,7 @@
 <script>
 import { ACTOR } from '@/constant'
 import api from '@/api'
-import _ from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   props: {
@@ -35,7 +35,7 @@ export default {
     }
   },
   created () {
-    this.formData.permission = _.cloneDeep(this.userRoles)
+    this.formData.permission = cloneDeep(this.userRoles)
     this.$nextTick(() => {
       if (!this.userId) return
       this.fetchApi(this.userId).then(results => {

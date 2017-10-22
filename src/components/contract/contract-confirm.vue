@@ -56,7 +56,7 @@ import * as Config from './config.js';
 import Form from '@/components/form';
 import api from '@/api';
 import moment from 'moment';
-import _ from 'lodash';
+import isDate from 'lodash/isDate';
 import ContractForm from './contract-form/form.vue'
 
 export default {
@@ -105,13 +105,13 @@ export default {
       }
     },
     formatter (formdata) {
-      if (_.isDate(formdata.date)) {
+      if (isDate(formdata.date)) {
         formdata.date = moment(formdata.date).format('YYYY-MM-DD')
       }
     },
     confirmContract () {
       let {account, date, information, pause, pause_reason, contract_id} = this.formData
-      if (_.isDate(date)) {
+      if (isDate(date)) {
         date = moment(date).format('YYYY-MM-DD')
       }
       api.contract.confirm({account, date, information, pause, pause_reason, contract_id}).then((results) => {

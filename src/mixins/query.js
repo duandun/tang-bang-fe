@@ -1,12 +1,12 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { storage } from '@/utils';
 
 export default {
   created() {
     if (this.cacheQuery) {
       this._original = {};
-      this._original.query = _.cloneDeep(this.$data.query);
-      this._original.queryAssist = _.cloneDeep(this.$data.queryAssist);
+      this._original.query = cloneDeep(this.$data.query);
+      this._original.queryAssist = cloneDeep(this.$data.queryAssist);
       this.mergeQuery(this.$route.name);
     }
   },

@@ -76,7 +76,8 @@
 import Form from '@/components/form'
 import * as Config from './config.js'
 import api from '@/api'
-import _ from 'lodash'
+import isDate from 'lodash/isDate'
+import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
 export default {
@@ -126,10 +127,10 @@ export default {
       this.$emit('data-merged', results)
     },
     formatter (formdata) {
-      if (_.isDate(formdata.receiving_time)) {
+      if (isDate(formdata.receiving_time)) {
         formdata.receiving_time = moment(formdata.receiving_time).format('YYYY-MM-DD hh:mm:ss');
       }
-      if (!_.isEmpty(formdata.extra_material)) {
+      if (!isEmpty(formdata.extra_material)) {
         formdata.extra_material = JSON.stringify(formdata.extra_material)
       }
     },

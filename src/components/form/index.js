@@ -1,6 +1,6 @@
 import { FormHelper, Wrapper, BaseUtils } from '@/utils'
 import { TEXT, LIFECYCLE } from '@/constant'
-import _ from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 const lifecycleMap = BaseUtils.reverseKeyVal(LIFECYCLE)
 
@@ -194,7 +194,7 @@ export default {
 
         // internal api
     formatBeforeSumbit: function (rawFormData) {
-      let formdata = _.cloneDeep(rawFormData)
+      let formdata = cloneDeep(rawFormData)
 
       this.formatter(formdata)
 

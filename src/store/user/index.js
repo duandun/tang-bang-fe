@@ -1,7 +1,6 @@
-
 import * as types from '../mutation-types.js';
 import api from '@/api'
-import _ from 'lodash'
+import includes from 'lodash/includes'
 
 const state = {
   userInfo: {},
@@ -30,7 +29,7 @@ const mutations = {
       state.menuList.splice(2, 1)
     }
     const permission = state.userInfo.permission
-    if (!_.includes(permission, '1')) {
+    if (!includes(permission, '1')) {
       state.menuList.splice(0, 1)
     }
   }

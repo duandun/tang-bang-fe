@@ -1,7 +1,7 @@
 import { FormHelper, Wrapper, storage } from '@/utils';
 import { TEXT } from '@/constant';
 import { QueryMixins, PaginationMixins } from '@/mixins';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default {
   data() {
@@ -90,8 +90,8 @@ export default {
     },
 
     resetQuery() {
-      this.query = _.cloneDeep(this._original.query);
-      this.queryAssist = _.cloneDeep(this._original.queryAssist);
+      this.query = cloneDeep(this._original.query);
+      this.queryAssist = cloneDeep(this._original.queryAssist);
     },
 
     clearQuery() {

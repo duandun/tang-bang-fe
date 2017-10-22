@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import sortBy from 'lodash/sortBy'
+import pick from 'lodash/pick'
 
 const arr = [
   'contract_submit',
@@ -13,7 +14,7 @@ const arr = [
 
 function convert2Obj (obj) {
   const mapArr = arr.map(i => i + '_status')
-  const newObj = _.sortBy(_.pick(obj, mapArr), arr)
+  const newObj = sortBy(pick(obj, mapArr), arr)
   Object.keys(newObj).forEach(i => {
     newObj[i] === '1' ? (newObj[i] = true) : (newObj[i] = false)
   })

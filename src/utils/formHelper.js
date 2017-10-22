@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 export const radioHandle = (value) => {
   if (typeof value === 'boolean') {
@@ -11,7 +11,7 @@ export const radioHandle = (value) => {
 }
 
 export const createFormDataFormatter = (formatter) => (rawFormData) => {
-  let formdata = _.cloneDeep(rawFormData);
+  let formdata = cloneDeep(rawFormData);
 
   formatter(formdata);
 
