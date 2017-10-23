@@ -3,7 +3,7 @@
         <Dropdown @on-click="logout">
             <a href="javascript:void(0);">
                 <Icon type="person"></Icon>
-                <span class="m-desc">{{userInfo.name || '匿名用户'}}</span>
+                <span class="m-desc">{{userInfo.nickname || userInfo.name || '匿名用户'}}</span>
             </a>
             <Dropdown-menu slot="list">
                 <Dropdown-item name="userLogout">退出登录</Dropdown-item>
