@@ -31,7 +31,7 @@
                     <Input placeholder="请输入..." v-model.number="formData.license_number" v-if="!comDetail"></Input>
                     <span v-else>{{formData.license_number}}</span>
                 </Form-item>
-                <Form-item label="驳回通知书：" prop="">
+                <Form-item label="驳回通知书或其他：" prop="">
                     <Radio-group v-model="formData.dismissal">
                         <Radio :label="index.toString()" v-for="(item, index) in enumDismiss" :key="index" :disabled="comDetail">{{item}}</Radio>
                     </Radio-group>
