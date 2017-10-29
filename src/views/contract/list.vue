@@ -87,6 +87,12 @@
                           size="small"
                            type="text" v-if="getActiveStep(scope.$index) === index && curOp(scope.$index) && scope.row.status === '1'"
                           @click="showDialog(item, 'edit', scope.row)">{{item.text}}</el-button>
+                        <el-button
+                          size="small"
+                          type="text"
+                          v-if="scope.row.receipt === 0"
+                          @click="showReceipt(scope.row)"
+                        >填写票据</el-button>
                   </template>
                 </el-table-column>
             </el-table>
@@ -113,6 +119,7 @@
             <div class="" slot="footer" style="display: none;">
             </div>
         </Modal>
+        <receipt @save-success="handleSuccess" :dialog="receiptDialog"></receipt>
     </div>
 </template>
 
@@ -133,6 +140,7 @@ import findLastIndex from 'lodash/findLastIndex'
 import api from '@/api';
 import { STEP, MODAL } from '@/constant'
 import { mapGetters } from 'vuex'
+import Receipt from './receipt.vue'
 
 const statusText = {
   1: '处理中',
@@ -150,7 +158,8 @@ export default {
     LegalAcceptForm,
     LegalSubmitForm,
     MaterialSubAgainForm,
-    FinalResultsForm
+    FinalResultsForm,
+    Receipt
   },
   data() {
     const statusList = []
@@ -183,7 +192,11 @@ export default {
         id: '',
         contract_id: ''
       },
-      constStep: []
+      constStep: [],
+      receiptDialog: {
+        visible: false,
+        id: ''
+      }
     };
   },
   computed: {
@@ -217,6 +230,11 @@ export default {
       return stepIndex + 1
     },
     fetchApi: api.contract.list,
+
+    showReceipt (row) {
+      this.receiptDialog.id = row.contract_id
+      this.receiptDialog.visible = true
+    },
 
     showDialog (item, type, row) {
       this.currentModal = item.name

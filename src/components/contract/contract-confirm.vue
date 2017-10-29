@@ -29,19 +29,20 @@
                     </Form-item>
                 </Col>
             </Row>
-            <Row>
+            <Row v-if="dialog.detail && formData.receipt">
               <Col span="12">
-                <Form-item label="票据：" prop="piaoju">
-                    <Radio-group v-model="formData.piaoju" >
-                        <Radio label="普通发票" :disabled="dialog.detail"></Radio>
-                        <Radio label="专用发票" :disabled="dialog.detail"></Radio>
-                        <Radio label="收据" :disabled="dialog.detail"></Radio>
+                <Form-item label="票据：" prop="receipt">
+                    <Radio-group v-model="formData.receipt" >
+                        <Radio :label="1" :disabled="dialog.detail">普通发票</Radio>
+                        <Radio :label="2" :disabled="dialog.detail">专用发票</Radio>
+                        <Radio :label="3" :disabled="dialog.detail">收据</Radio>
                     </Radio-group>
                 </Form-item>
               </Col>
               <Col span="12">
-                <Form-item label="开据时间：" prop="piaojuTime">
-                    <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.piaojuTime" v-if="!dialog.detail"></Date-picker>
+                <Form-item label="开据时间：" prop="time">
+                    <!-- <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!dialog.detail"></Date-picker> -->
+                    <span>{{formData.time}}</span>
                 </Form-item>
               </Col>
             </Row>

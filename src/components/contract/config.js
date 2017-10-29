@@ -7,8 +7,8 @@ export const getFormData = () => {
     information: '0',
     pause: 0,
     pause_reason: '',
-    piaoju: '普通发票',
-    piaojuTime: ''
+    receipt: 0,
+    time: ''
   };
 };
 
