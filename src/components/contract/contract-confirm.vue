@@ -30,6 +30,22 @@
                 </Col>
             </Row>
             <Row>
+              <Col span="12">
+                <Form-item label="票据：" prop="piaoju">
+                    <Radio-group v-model="formData.piaoju" >
+                        <Radio label="普通发票" :disabled="dialog.detail"></Radio>
+                        <Radio label="专用发票" :disabled="dialog.detail"></Radio>
+                        <Radio label="收据" :disabled="dialog.detail"></Radio>
+                    </Radio-group>
+                </Form-item>
+              </Col>
+              <Col span="12">
+                <Form-item label="开据时间：" prop="piaojuTime">
+                    <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.piaojuTime" v-if="!dialog.detail"></Date-picker>
+                </Form-item>
+              </Col>
+            </Row>
+            <Row>
                 <Col span="12">
                     <Form-item label="终止：" prop="">
                         <Radio-group v-model="formData.pause">
@@ -108,13 +124,19 @@ export default {
       if (isDate(formdata.date)) {
         formdata.date = moment(formdata.date).format('YYYY-MM-DD')
       }
+      if (isDate(formdata.piaojuTime)) {
+        formdata.piaojuTime = moment(formdata.piaojuTime).format('YYYY-MM-DD hh:mm:ss')
+      }
     },
     confirmContract () {
-      let {account, date, information, pause, pause_reason, contract_id} = this.formData
+      let {account, date, information, pause, pause_reason, contract_id, piaoju, piaojuTime} = this.formData
       if (isDate(date)) {
         date = moment(date).format('YYYY-MM-DD')
       }
-      api.contract.confirm({account, date, information, pause, pause_reason, contract_id}).then((results) => {
+      if (isDate(piaojuTime)) {
+        piaojuTime = moment(piaojuTime).format('YYYY-MM-DD hh:mm:ss')
+      }
+      api.contract.confirm({account, date, information, pause, pause_reason, contract_id, piaoju, piaojuTime}).then((results) => {
         if (results) {
           this.$Message.success('保存成功')
           this.$emit('save-success')

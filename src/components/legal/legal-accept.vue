@@ -5,10 +5,20 @@
         <Form ref="form" :model="formData" :label-width="100" :rules="rules">
             <Row type="flex" justify="center">
                 <Col span="12">
-                    <Form-item label="通知书下发：" prop="notice">
-                        <Checkbox v-model="formData.notice" :disabled="dialog.detail"></Checkbox>
+                  <Form-item label="通知书：">
+                      <Radio-group v-model="formData.accept">
+                        <Radio label="已受理" :disabled="dialog.detail"></Radio>
+                        <Radio label="不予受理" :disabled="dialog.detail"></Radio>
+                        <Radio label="补正通知" :disabled="dialog.detail"></Radio>
+                      </Radio-group>
                     </Form-item>
-                    <Form-item label="标记：" prop="sign">
+                    <Form-item label="通知书下发：" prop="notice">
+                      <Radio-group v-model="formData.notice">
+                        <Radio label="true" :disabled="dialog.detail">已下发</Radio>
+                        <Radio label="false" :disabled="dialog.detail">未下发</Radio>
+                      </Radio-group>
+                    </Form-item>
+                    <!-- <Form-item label="标记：" prop="sign">
                         <Radio-group v-model="formData.sign">
                             <Radio label="不可提交" :disabled="dialog.detail"></Radio>
                             <Radio label="重新提交" :disabled="dialog.detail"></Radio>
@@ -21,7 +31,7 @@
                             <Radio label="重新提交" :disabled="dialog.detail"></Radio>
                             <Radio label="变更提交" :disabled="dialog.detail"></Radio>
                         </Radio-group>
-                    </Form-item>
+                    </Form-item> -->
                     <Form-item label="提交时间：" prop="time">
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!dialog.detail"></Date-picker>
                         <span v-else>{{formData.time}}</span>
@@ -78,7 +88,6 @@ export default {
     fetchConfirmData (results) {
       const { contract_id } = results
       api.legal.acceptDetail(contract_id).then(results => {
-        results.notice = results.notice === 'true'
         Object.assign(this.formData, results)
       })
       this.formData.contract_id = results.contract_id

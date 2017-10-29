@@ -19,6 +19,11 @@ Vue.use(Loading.directive)
 Vue.use(iView)
 Vue.config.productionTip = false
 
+Vue.config.errorHandler = function (err, vm, info) {
+  console.error(err)
+  console.error(vm)
+}
+
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();
   next();

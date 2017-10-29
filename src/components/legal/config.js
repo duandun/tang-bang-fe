@@ -2,9 +2,9 @@ export const getFormData = () => {
   return {
     id: '',
     contract_id: '',
-    notice: false,
+    notice: 'false',
     sign: '不可提交',
-    accept: '不可提交',
+    accept: '已受理',
     time: void 0,
     pause: 0
   };
