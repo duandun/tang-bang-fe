@@ -5,6 +5,8 @@ import iView from 'iview'
 import store from './store/index'
 import './styles/main.less'
 import { Table, Button, TableColumn, Steps, Step, Popover, Tag, Loading } from 'element-ui'
+import moment from 'moment'
+moment.locale('zh-cn')
 // import 'element-ui/lib/theme-default/index.css'
 
 Vue.use(Table)
