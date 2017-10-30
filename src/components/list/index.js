@@ -21,7 +21,7 @@ export default {
   },
 
   created() {
-        // query可能需要在nextTick中获取
+    // query可能需要在nextTick中获取
     this.$nextTick(() => {
       if (!this.loading) {
         this.prepare().then(() => {

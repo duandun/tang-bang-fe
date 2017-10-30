@@ -93,6 +93,12 @@
                           v-if="scope.row.receipt === 0"
                           @click="showReceipt(scope.row)"
                         >填写票据</el-button>
+                        <el-button
+                          size="small"
+                          type="text"
+                          v-if="userInfo.role === 'admin'"
+                          @click="assignTo(scope.row)"
+                        >指派</el-button>
                   </template>
                 </el-table-column>
             </el-table>
@@ -120,6 +126,7 @@
             </div>
         </Modal>
         <receipt @save-success="handleSuccess" :dialog="receiptDialog"></receipt>
+        <assign-table :dialog="assignDialog"></assign-table>
     </div>
 </template>
 
@@ -133,6 +140,7 @@ import LegalAcceptForm from '@/components/legal/legal-accept.vue';
 import LegalSubmitForm from '@/components/legal/legal-form/form.vue';
 import MaterialSubAgainForm from '@/components/material/material-subagain-form.vue';
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
+import AssignTable from './assign-table/assign-table.vue';
 import cloneDeep from 'lodash/cloneDeep';
 import includes from 'lodash/includes'
 import max from 'lodash/max'
@@ -159,7 +167,8 @@ export default {
     LegalSubmitForm,
     MaterialSubAgainForm,
     FinalResultsForm,
-    Receipt
+    Receipt,
+    AssignTable
   },
   data() {
     const statusList = []
@@ -196,6 +205,9 @@ export default {
       receiptDialog: {
         visible: false,
         id: ''
+      },
+      assignDialog: {
+        visible: false
       }
     };
   },
@@ -234,6 +246,12 @@ export default {
     showReceipt (row) {
       this.receiptDialog.id = row.contract_id
       this.receiptDialog.visible = true
+    },
+
+    assignTo (row) {
+      const { assignDialog } = this
+      assignDialog.id = row.contract_id
+      assignDialog.visible = true
     },
 
     showDialog (item, type, row) {
