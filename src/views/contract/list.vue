@@ -126,7 +126,7 @@
             </div>
         </Modal>
         <receipt @save-success="handleSuccess" :dialog="receiptDialog"></receipt>
-        <assign-table :dialog="assignDialog"></assign-table>
+        <assign-table :dialog="assignDialog" @confirm="search"></assign-table>
     </div>
 </template>
 
@@ -251,6 +251,11 @@ export default {
     assignTo (row) {
       const { assignDialog } = this
       assignDialog.id = row.contract_id
+      this.$router.push({
+        query: {
+          id: row.contract_id
+        }
+      })
       assignDialog.visible = true
     },
 

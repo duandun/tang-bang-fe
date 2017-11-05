@@ -18,21 +18,7 @@
                         <Radio label="false" :disabled="dialog.detail">未下发</Radio>
                       </Radio-group>
                     </Form-item>
-                    <!-- <Form-item label="标记：" prop="sign">
-                        <Radio-group v-model="formData.sign">
-                            <Radio label="不可提交" :disabled="dialog.detail"></Radio>
-                            <Radio label="重新提交" :disabled="dialog.detail"></Radio>
-                            <Radio label="变更提交" :disabled="dialog.detail"></Radio>
-                        </Radio-group>
-                    </Form-item>
-                    <Form-item label="不可受理：" prop="accept">
-                        <Radio-group v-model="formData.accept">
-                            <Radio label="不可提交" :disabled="dialog.detail"></Radio>
-                            <Radio label="重新提交" :disabled="dialog.detail"></Radio>
-                            <Radio label="变更提交" :disabled="dialog.detail"></Radio>
-                        </Radio-group>
-                    </Form-item> -->
-                    <Form-item label="提交时间：" prop="time">
+                    <Form-item label="接收时间：" prop="time">
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!dialog.detail"></Date-picker>
                         <span v-else>{{formData.time}}</span>
                     </Form-item>

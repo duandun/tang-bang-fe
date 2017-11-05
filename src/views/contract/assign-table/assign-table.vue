@@ -34,7 +34,7 @@
         </Page>
       </Row>
       <div slot="footer">
-        <Button type="primary" @click.stop="confirmDialog">确认</Button>
+        <Button type="primary" @click.stop="confirmDialog" :disabled="!selectedRow.id">确认</Button>
         <Button @click.stop="cancelDialog">取消</Button>
       </div>
     </Modal>
@@ -68,7 +68,7 @@
     watch: {
       'dialog.visible' (val) {
         if (!val) {
-          this.$refs.table.clearCurrentRow()
+          this.selectedRow = {}
           this.$refs.form.resetFields()
           return
         }
@@ -78,7 +78,16 @@
     methods: {
       fetchApi: api.auth.list,
       confirmDialog () {
-        this.$emit('confirm', this.selectedRow)
+        const params = {
+          contract_id: this.dialog.id,
+          username: this.selectedRow.username
+        }
+        api.contract.assignUser(params).then(results => {
+          if (results) {
+            this.dialog.visible = false
+            this.$emit('confirm', this.selectedRow)
+          }
+        })
       },
       cancelDialog () {
         this.dialog.visible = false

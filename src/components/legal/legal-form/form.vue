@@ -13,6 +13,12 @@
                   <Form-item label="回执：" prop="response">
                       <Checkbox v-model="formData.response" :disabled="comDetail"></Checkbox>
                   </Form-item>
+                  <Form-item label="提交时间：" prop="time">
+                       <Date-picker v-if="!comDetail" placeholder="选择时间和日期..."
+                      format="yyyy-MM-dd HH:mm:ss"
+                      type="datetime" v-model="formData.time"></Date-picker>
+                      <span v-else>{{formData.time}}</span>
+                  </Form-item>
                   <Form-item label="" prop="" v-if="!comDetail">
                       <Button type="primary" @click.stop="handleSubmit">确认</Button>
                       <Button @click="resetFormData">重置</Button>
@@ -27,6 +33,8 @@
 import * as Config from './config.js'
 import Form from '@/components/form'
 import api from '@/api'
+import isDate from 'lodash/isDate'
+import moment from 'moment'
 
 export default {
   extends: Form,
@@ -62,6 +70,9 @@ export default {
     },
     formatter (formdata) {
       formdata.contract_id = this.dialog.contract_id
+      if (isDate(formdata.time)) {
+        formdata.time = moment(formdata.time).moment('YYYY-MM-DD HH:mm:ss')
+      }
     },
     willDataMerge (results) {
       results.response = results.response === 'true'

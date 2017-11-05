@@ -3,14 +3,14 @@
     <Form ref="form" :model="formData" :label-width="130" style="margin-top: 10px;" :rules="rules">
         <Row type="flex" justify="center">
             <Col span="12">
-                <Form-item label="材料名称：" prop="material_name">
+                <!-- <Form-item label="材料名称：" prop="material_name">
                     <Input placeholder="请输入..." v-model="formData.material_name" v-if="!comDetail"></Input>
                     <span v-else>{{formData.material_name}}</span>
                 </Form-item>
                 <Form-item label="材料数量：" prop="material_number">
                     <Input placeholder="请输入..." v-model.number="formData.material_number" v-if="!comDetail"></Input>
                     <span v-else>{{formData.material_number}}</span>
-                </Form-item>
+                </Form-item> -->
                 <Form-item label="材料接收时间：" prop="receiving_time">
                     <Date-picker placeholder="请输入日期和时间" type="datetime" v-model="formData.receiving_time" v-if="!comDetail"></Date-picker>
                     <span v-else>{{formData.receiving_time}}</span>

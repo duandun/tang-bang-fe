@@ -34,3 +34,7 @@ export function confirm(params) {
 export function confirmDetail(contractId) {
   return fetch('/contract/confirmDetail', {contract_id: contractId})
 }
+
+export function assignUser (params) {
+  return fetch('/user/changeContractor', params, 'POST')
+}

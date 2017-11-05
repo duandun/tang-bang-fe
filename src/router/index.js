@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import ContractRouters from './contract';
 import MaterialRouters from './material';
 import AuthRouters from './auth'
+import UserRouters from './user'
 
 Vue.use(Router)
 
@@ -23,6 +24,7 @@ const routes = [{
     ContractRouters,
     MaterialRouters,
     AuthRouters,
+    UserRouters,
   [{
     path: '*',
     name: '找不到资源',
