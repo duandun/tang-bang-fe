@@ -6,6 +6,7 @@
                 <span class="m-desc">{{userInfo.nickname || userInfo.name || '匿名用户'}}</span>
             </a>
             <Dropdown-menu slot="list">
+                <Dropdown-item name="userInfo">个人信息</Dropdown-item>
                 <Dropdown-item name="userLogout">退出登录</Dropdown-item>
             </Dropdown-menu>
         </Dropdown>
@@ -34,6 +35,11 @@ export default {
             location.replace(`${origin}/account/login/`)
           }
         })
+      }
+      if (name === 'userInfo') {
+          this.$router.push({
+              name: 'userInfo'
+          })
       }
     }
   }
