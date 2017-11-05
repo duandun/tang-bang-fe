@@ -18,15 +18,8 @@ const Validator = {
 }
 
 export const getRules = (context) => {
-  const validPlace = (rule, value, cb) => {
-    const { formData } = context
-    if (!formData.province || !formData.city) {
-      return cb(new Error('请选择省市'))
-    }
-    return cb()
-  }
   const validPassword = (rule, value, cb) => {
-    if (value === '') {
+    if (value === '' || value === undefined) {
       return cb(new Error('请输入密码'))
     } else if (context.formData.repassword !== '' &&
       context.formData.repassword !== undefined) {
@@ -35,7 +28,7 @@ export const getRules = (context) => {
     cb()
   }
   const validRePassword = (rule, value, cb) => {
-    if (value === '') {
+    if (value === '' || value === undefined) {
       cb(new Error('请确认密码'))
     } else if (value !== context.formData.password) {
       cb(new Error('两次密码输入不一致'))
@@ -51,10 +44,10 @@ export const getRules = (context) => {
       { type: 'array', trigger: 'change', required: true, message: '请选择省市' }
     ],
     password: [
-      { validator: validPassword, trigger: 'change', required: true }
+      { validator: validPassword, trigger: 'change', required: true, message: '请输入密码' }
     ],
     repassword: [
-      { validator: validRePassword, trigger: 'change', required: true }
+      { validator: validRePassword, trigger: 'change', required: true, message: '请再次输入密码' }
     ]
   }
 }

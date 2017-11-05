@@ -1,6 +1,6 @@
 const routers = [{
   name: 'userInfo',
-  path: '/user/info/:id',
+  path: '/user/info',
   component: () => import('@/views/user/info.vue')
 }]
 
