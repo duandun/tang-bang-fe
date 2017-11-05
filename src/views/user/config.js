@@ -3,11 +3,11 @@ export const getFormData = (context) => {
     id: '',
     userName: '',
     nickName: '',
-    phone: '',
+    cell_phone: '',
     province: '',
     city: '',
     department: '',
-    place: []
+    place: ''
   }
 }
 
@@ -18,12 +18,19 @@ const Validator = {
 }
 
 export const getRules = (context) => {
+  const validPlace = (context) => (rule, value, cb) => {
+    const { formData } = context
+    if (!formData.province || !formData.city) {
+      return cb(new Error('请选择省市'))
+    }
+    return cb()
+  }
   const rules = {
     nickName: [Validator.text('姓名')],
-    phone: [Validator.text('手机号')],
+    cell_phone: [Validator.text('手机号')],
     department: [Validator.text('部门')],
     place: [
-      { required: true, message: '请选择省市', trigger: 'change', type: 'array' }
+      { validator: validPlace(context), trigger: 'change' }
     ]
   }
 

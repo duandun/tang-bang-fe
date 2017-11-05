@@ -250,10 +250,10 @@ export default {
 
     assignTo (row) {
       const { assignDialog } = this
-      assignDialog.id = row.contract_id
+      assignDialog.id = row.id
       this.$router.push({
         query: {
-          id: row.contract_id
+          id: row.id
         }
       })
       assignDialog.visible = true

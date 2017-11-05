@@ -79,11 +79,11 @@
       fetchApi: api.auth.list,
       confirmDialog () {
         const params = {
-          contract_id: this.dialog.id,
+          id: this.dialog.id,
           username: this.selectedRow.username
         }
         api.contract.assignUser(params).then(results => {
-          if (results) {
+          if (results.flag) {
             this.dialog.visible = false
             this.$emit('confirm', this.selectedRow)
           }

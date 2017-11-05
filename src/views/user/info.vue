@@ -7,16 +7,24 @@
             <span>{{formData.userName}}</span>
           </Form-item>
           <Form-item label="姓名：" prop="nickName">
-            <Input v-model="formData.nickName"></Input>
+            <Input v-model="formData.nickname"></Input>
           </Form-item>
           <Form-item label="省市：" prop="place">
+            <Input v-model="formData.place" v-show="false"></Input>
             <div id="city_1" class="prov-class">
-              <select class="prov" ref="prov"></select>
-              <select class="city" disabled="disabled" ref="city"></select>
+              <select class="prov"
+                ref="prov" 
+                :value="formData.province"
+                @change="formData.province = $event.target.value"></select>
+              <select class="city"
+                disabled="disabled"
+                ref="city"
+                :value="formData.city"
+                @change="formData.city = $event.target.value"></select>
             </div>
           </Form-item>
-          <Form-item label="电话：" prop="phone">
-            <Input v-model="formData.phone"></Input>
+          <Form-item label="电话：" prop="cell_phone">
+            <Input v-model="formData.cell_phone"></Input>
           </Form-item>
           <Form-item label="部门：" prop="department">
             <Input v-model="formData.department"></Input>
@@ -55,10 +63,6 @@
     },
     methods: {
       confirm () {
-        const province = this.$refs.prov.value
-        const city = this.$refs.city.value
-        this.formData.place = [province, city]
-        console.log(this.formData.place)
         this.$refs.form.validate(valid =>{
           if (!valid) {
             return
