@@ -85,7 +85,7 @@
                   <template scope="scope">
                         <el-button v-for="(item, index) in MODAL" :key="index"
                           size="small"
-                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(scope.$index) && scope.row.status === '1'"
+                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(index) && scope.row.status === '1'"
                           @click="showDialog(item, 'edit', scope.row)">{{item.text}}</el-button>
                         <el-button
                           size="small"
