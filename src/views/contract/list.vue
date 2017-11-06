@@ -70,7 +70,7 @@
                           <el-step :title="item.text" v-for="(item, index) in MODAL" :key="index">
                               <div class="" slot="description">
                                   <el-button
-                                    size="small" v-if="getActiveStep(scope.$index) > index && curMaxPerm(scope.$index) > index"
+                                    size="small" v-if="getActiveStep(scope.$index) > index && showDetailBtn(scope.$index, index)"
                                     @click="showDialog(item, 'detail', scope.row)">{{item.text + '详情'}}</el-button>
                               </div>
                           </el-step>
@@ -217,6 +217,13 @@ export default {
     this._original_dialog = cloneDeep(this.$data.dialog);
   },
   methods: {
+    showDetailBtn ($index, index) {
+      if (this.userInfo.permission.indexOf('1') > -1) {
+        return true
+      } else {
+        return this.curMaxPerm($index) > index
+      }
+    },
     curOp (index) {
       const operates = this.userInfo.permission
       if (operates.indexOf(`${index + 1}`) > -1) {
