@@ -142,7 +142,6 @@ import MaterialSubAgainForm from '@/components/material/material-subagain-form.v
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import AssignTable from './assign-table/assign-table.vue';
 import cloneDeep from 'lodash/cloneDeep';
-import includes from 'lodash/includes'
 import max from 'lodash/max'
 import findLastIndex from 'lodash/findLastIndex'
 import api from '@/api';
@@ -220,7 +219,7 @@ export default {
   methods: {
     curOp (index) {
       const operates = this.userInfo.permission
-      if (includes(operates, (index + 1).toString())) {
+      if (operates.indexOf(`${index + 1}`) > -1) {
         return true
       }
       return false
