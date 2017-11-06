@@ -2,7 +2,7 @@
   <div class="">
       <Row type="flex" justify="center">
           <Col span="12">
-              <Form ref="form" :model="formData" :label-width="80" :rules="rules">
+              <Form ref="form" :model="formData" :label-width="100" :rules="rules">
                   <Form-item label="提交方式：" prop="post">
                       <Radio-group v-model="formData.post">
                           <Radio label="邮寄" :disabled="comDetail"></Radio>
@@ -71,7 +71,7 @@ export default {
     formatter (formdata) {
       formdata.contract_id = this.dialog.contract_id
       if (isDate(formdata.time)) {
-        formdata.time = moment(formdata.time).moment('YYYY-MM-DD HH:mm:ss')
+        formdata.time = moment(formdata.time).format('YYYY-MM-DD HH:mm:ss')
       }
     },
     willDataMerge (results) {
