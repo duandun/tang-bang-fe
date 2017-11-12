@@ -14,12 +14,10 @@
                         <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
+                    <Form-item label="操作人:" v-if="dialog.detail">
+                      {{formData.confirm_user}}
+                    </Form-item>
                 </Col>
-            </Row>
-            <Row>
-              <Form-item label="操作人:" v-if="dialog.detail">
-                {{formData.confirm_user}}
-              </Form-item>
             </Row>
             <Row style="text-align: center;" v-if="!dialog.detail">
                 <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">确认</Button>
