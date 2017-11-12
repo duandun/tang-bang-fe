@@ -6,22 +6,25 @@
                 <Col span="12">
                     <Form-item label="终止：" prop="pause">
                         <Radio-group v-model="formData.pause">
-                            <Radio label="1" :disabled="dialog.detail">是</Radio>
-                            <Radio label="0" :disabled="dialog.detail">否</Radio>
+                            <Radio label="1" :disabled="comDetail">是</Radio>
+                            <Radio label="0" :disabled="comDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                     <Form-item label="终止理由：" v-if="formData.pause === '1'" prop="pause_reason" >
-                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
+                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!comDetail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
-                    <Form-item label="操作人:" v-if="dialog.detail">
+                    <Form-item label="操作人：" v-if="comDetail">
                       {{formData.confirm_user}}
                     </Form-item>
                 </Col>
             </Row>
-            <Row style="text-align: center;" v-if="!dialog.detail">
+            <Row style="text-align: center;" v-if="!comDetail">
                 <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="cancel">取消</Button>
+            </Row>
+            <Row v-if="comDetail">
+              <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
             </Row>
         </Form>
     </div>
@@ -32,6 +35,7 @@ import * as Config from './config.js';
 import Form from '@/components/form';
 import api from '@/api';
 import MaterialForm from './material-form/form.vue'
+import {mapGetters} from 'vuex'
 
 export default {
   extends: Form,
@@ -44,8 +48,20 @@ export default {
   data() {
     return {
       formData: Config.getFormData(),
-      rules: Config.getRules(this)
+      rules: Config.getRules(this),
+      editable: false
     }
+  },
+  computed: {
+    comDetail () {
+      if (this.editable) {
+        return false
+      }
+      return this.dialog.detail || this.detail
+    },
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   methods: {
     cancel() {

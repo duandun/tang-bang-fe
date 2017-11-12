@@ -13,11 +13,11 @@
                   <Form-item label="回执：" prop="response">
                       <Checkbox v-model="formData.response" :disabled="comDetail"></Checkbox>
                   </Form-item>
-                  <Form-item label="提交时间：" prop="time">
+                  <Form-item label="提交时间：" prop="posttime">
                        <Date-picker v-if="!comDetail" placeholder="选择时间和日期..."
                       format="yyyy-MM-dd HH:mm:ss"
-                      type="datetime" v-model="formData.time"></Date-picker>
-                      <span v-else>{{formData.time}}</span>
+                      type="datetime" v-model="formData.posttime"></Date-picker>
+                      <span v-else>{{formData.posttime}}</span>
                   </Form-item>
                   <Form-item label="操作人:" v-if="comDetail">
                     {{formData.nickname}}
@@ -29,6 +29,9 @@
               </Form>
           </Col>
       </Row>
+      <Row v-if="!detail">
+          <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
+        </Row>
   </div>
 </template>
 
@@ -38,6 +41,7 @@ import Form from '@/components/form'
 import api from '@/api'
 import isDate from 'lodash/isDate'
 import moment from 'moment'
+import {mapGetters} from 'vuex'
 
 export default {
   extends: Form,
@@ -51,13 +55,20 @@ export default {
   data() {
     return {
       formData: Config.getFormData(),
-      rules: Config.getRules(this)
+      rules: Config.getRules(this),
+      editable: false
     }
   },
   computed: {
     comDetail () {
+      if (this.editable) {
+        return false
+      }
       return this.dialog.detail || this.detail
-    }
+    },
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   methods: {
     resetFormData () {

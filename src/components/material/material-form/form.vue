@@ -55,7 +55,7 @@
                       <span>{{item.value}}</span>
                   </Form-item>
                 </div>
-                <Form-item label="操作人:" v-if="comDetail">
+                <Form-item label="操作人：" v-if="comDetail">
                   {{formData.submit_user}}
                 </Form-item>
                 <Form-item v-if="!comDetail">
@@ -71,6 +71,9 @@
                 </Form-item>
             </Col>
         </Row>
+        <Row v-if="!detail">
+          <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
+        </Row>
     </Form>
   </div>
 </template>
@@ -82,6 +85,7 @@ import api from '@/api'
 import isDate from 'lodash/isDate'
 import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
+import {mapGetters} from 'vuex'
 
 export default {
   extends: Form,
@@ -96,13 +100,20 @@ export default {
     return {
       enumDismiss: ['原件', '复印件', '无'],
       formData: Config.getFormData(),
-      rules: Config.getRules(this)
+      rules: Config.getRules(this),
+      editable: false
     }
   },
   computed: {
     comDetail () {
+      if (this.editable) {
+        return false
+      }
       return this.dialog.detail || this.detail
-    }
+    },
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   methods: {
     addColumn () {

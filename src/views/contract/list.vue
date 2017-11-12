@@ -74,7 +74,7 @@
                           <el-step :title="item.text" v-for="(item, index) in MODAL" :key="index">
                               <div class="" slot="description">
                                   <el-button
-                                    size="small" v-if="getActiveStep(scope.$index) > index && showDetailBtn(scope.$index, index)"
+                                    size="small" v-if="getActiveStep(scope.$index) > index && showDetailBtn(scope.$index, index) && index !== 7"
                                     @click="showDialog(item, 'detail', scope.row)">{{item.text + '详情'}}</el-button>
                               </div>
                           </el-step>

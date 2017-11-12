@@ -6,14 +6,14 @@
               <Col span="12">
                   <Form-item label="到账金额确认无误：" prop="account">
                       <Radio-group v-model="formData.account">
-                          <Radio label="1" :disabled="dialog.detail">是</Radio>
-                          <Radio label="0" :disabled="dialog.detail">否</Radio>
+                          <Radio label="1" :disabled="comDetail">是</Radio>
+                          <Radio label="0" :disabled="comDetail">否</Radio>
                       </Radio-group>
                   </Form-item>
               </Col>
               <Col span="12">
                   <Form-item label="到账时间：" prop="date">
-                      <Date-picker v-if="!dialog.detail" placeholder="选择时间和日期..."
+                      <Date-picker v-if="!comDetail" placeholder="选择时间和日期..."
                       type="date" v-model="formData.date"></Date-picker>
                       <span v-else>{{formData.date}}</span>
                   </Form-item>
@@ -23,25 +23,25 @@
                 <Col span="12">
                     <Form-item label="合同信息确认无误：" prop="">
                         <Radio-group v-model="formData.information" >
-                            <Radio label="1" :disabled="dialog.detail">是</Radio>
-                            <Radio label="0" :disabled="dialog.detail">否</Radio>
+                            <Radio label="1" :disabled="comDetail">是</Radio>
+                            <Radio label="0" :disabled="comDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                 </Col>
             </Row>
-            <Row v-if="dialog.detail && formData.receipt">
+            <Row v-if="comDetail && formData.receipt">
               <Col span="12">
                 <Form-item label="票据：" prop="receipt">
                     <Radio-group v-model="formData.receipt" >
-                        <Radio :label="1" :disabled="dialog.detail">普通发票</Radio>
-                        <Radio :label="2" :disabled="dialog.detail">专用发票</Radio>
-                        <Radio :label="3" :disabled="dialog.detail">收据</Radio>
+                        <Radio :label="1" :disabled="comDetail">普通发票</Radio>
+                        <Radio :label="2" :disabled="comDetail">专用发票</Radio>
+                        <Radio :label="3" :disabled="comDetail">收据</Radio>
                     </Radio-group>
                 </Form-item>
               </Col>
               <Col span="12">
                 <Form-item label="开据时间：" prop="time">
-                    <!-- <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!dialog.detail"></Date-picker> -->
+                    <!-- <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!comDetail"></Date-picker> -->
                     <span>{{formData.time}}</span>
                 </Form-item>
               </Col>
@@ -50,26 +50,26 @@
                 <Col span="12">
                     <Form-item label="终止：" prop="">
                         <Radio-group v-model="formData.pause">
-                            <Radio label="1" :disabled="dialog.detail">是</Radio>
-                            <Radio label="0" :disabled="dialog.detail">否</Radio>
+                            <Radio label="1" :disabled="comDetail">是</Radio>
+                            <Radio label="0" :disabled="comDetail">否</Radio>
                         </Radio-group>
                     </Form-item>
                     <Form-item label="终止理由：" prop="" v-if="formData.pause === '1'">
-                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
+                        <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!comDetail"></Input>
                         <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
                 </Col>
             </Row>
             <Row>
-              <Form-item label="操作人:" v-if="dialog.detail">
+              <Form-item label="操作人:" v-if="comDetail">
                 <span>{{formData.nickname}}</span>
               </Form-item>
             </Row>
-            <Row style="text-align: center" v-if="!dialog.detail">
+            <Row style="text-align: center" v-if="!comDetail">
                 <Button type="primary" @click="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="resetFormData">重置</Button>
             </Row>
-            <Row v-if="dialog.detail">
+            <Row v-if="comDetail">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
             </Row>
         </Form>
@@ -103,7 +103,13 @@ export default {
   computed: {
     ...mapGetters([
       'userInfo'
-    ])
+    ]),
+    comDetail () {
+      if (this.editable) {
+        return false
+      }
+      return this.dialog.detail || this.detail
+    }
   },
   methods: {
     cancel() {
