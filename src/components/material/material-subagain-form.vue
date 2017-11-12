@@ -31,7 +31,7 @@
                       <Radio :label="0" :disabled="dialog.detail">无回执</Radio>
                   </Radio-group>
                 </Form-item>
-                <Form-item label="提交时间：" v-if="switches.results || dialog.detail" prop="add_time">
+                <Form-item label="提交时间：" v-if="switches.results || dialog.detail">
                   <DatePicker :disabled="dialog.detail" type="datetime" placeholder="选择日期和时间" style="width: 200px" v-model="formData.add_time"></DatePicker>
                 </Form-item>
                 <Form-item label="未受理通知书提交方式：">
@@ -49,7 +49,7 @@
                     <Input placeholder="请输入..." v-model="formData.no_reason" v-if="!dialog.detail"></Input>
                     <span v-else>{{formData.no_reason}}</span>
                 </Form-item>
-                <Form-item label="提交时间：" prop="no_time" v-if="switches.no_way || dialog.detail">
+                <Form-item label="提交时间：" v-if="switches.no_way || dialog.detail">
                     <DatePicker type="datetime" :disabled="dialog.detail" placeholder="选择日期和时间" style="width: 200px" v-model="formData.no_time"></DatePicker>
                 </Form-item>
               </div>
@@ -97,6 +97,9 @@ export default {
         ],
         add_time: [
           { required: true, message: '请输入时间', trigger: 'change', type: 'date' }
+        ],
+        extra_material: [
+          { required: true, message: '请选择', trigger: 'change', type: 'number' }
         ]
       }
     }

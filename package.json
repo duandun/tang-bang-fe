@@ -16,7 +16,7 @@
     "analyz": "NODE_ENV=production npm_config_report=true npm run build"
   },
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.17.1",
     "clone": "^2.1.1",
     "element-ui": "1.4.8",
     "iview": "2.5.1",

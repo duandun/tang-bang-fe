@@ -2,17 +2,17 @@
     <div class="list-container">
         <Form ref="form" :label-width="100" onSubmit="return false;">
             <Row>
-                <Col span="6">
+                <Col span="5">
                     <Form-item label="合同编号:">
                         <Input placeholder="请输入..." v-model="query.contract_id"></Input>
                     </Form-item>
                 </Col>
-                <Col span="6">
+                <Col span="5">
                     <Form-item label="公司名称:">
-                        <Input v-model="query.company_name" @keyup.enter.native="search"></Input>
+                        <Input v-model="query.company_name" @keyup.enter.native="search" placeholder="请输入..."></Input>
                     </Form-item>
                 </Col>
-                <Col span="6">
+                <Col span="4">
                     <Form-item label="合同状态:">
                         <Select v-model="query.status">
                             <Option label="全部" value="">
@@ -23,10 +23,14 @@
                         </Select>
                     </Form-item>
                 </Col>
-                <Col span="5" style="margin-left: 20px;">
+                <Col span="5">
+                    <Form-item label="委托事项:">
+                        <Input v-model="query.commission" placeholder="请输入..." @keyup.enter.native="search"></Input>
+                    </Form-item>
+                </Col>
+                <Col span="4" style="margin-left: 10px;">
                     <Button type="primary" icon="search" @click="search">搜索</Button>
                     <Button icon="trash-b" @click="clearQuery">重置</Button>
-                    <Button type="primary" icon="ios-reload" @click="search">刷新</Button>
                 </Col>
             </Row>
         </Form>
@@ -126,7 +130,7 @@
             </div>
         </Modal>
         <receipt @save-success="handleSuccess" :dialog="receiptDialog"></receipt>
-        <assign-table :dialog="assignDialog" @confirm="search"></assign-table>
+        <assign-table :dialog="assignDialog" @confirm="search"  v-if="userInfo.role === 'admin'"></assign-table>
     </div>
 </template>
 
@@ -190,6 +194,7 @@ export default {
       query: {
         contract_id: '',
         company_name: '',
+        commission: '',
         pageStart: 1,
         pageSize: 10
       },
