@@ -5,6 +5,7 @@ export const getFormData = () => {
     notice: 'false',
     sign: '不可提交',
     accept: '已受理',
+    applicationID: '',
     time: void 0,
     pause: 0
   };

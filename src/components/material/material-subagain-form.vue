@@ -53,6 +53,9 @@
                     <DatePicker type="datetime" :disabled="dialog.detail" placeholder="选择日期和时间" style="width: 200px" v-model="formData.no_time"></DatePicker>
                 </Form-item>
               </div>
+              <Form-item label="操作人:" v-if="dialog.detail">
+                {{formData.nickname}}
+              </Form-item>
               <Form-item v-if="!dialog.detail">
                   <Button type="primary" @click.stop="handleSubmit">提交</Button>
                   <Button @click.stop="dialog.visible = false">取消</Button>

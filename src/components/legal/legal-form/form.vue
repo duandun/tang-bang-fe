@@ -19,6 +19,9 @@
                       type="datetime" v-model="formData.time"></Date-picker>
                       <span v-else>{{formData.time}}</span>
                   </Form-item>
+                  <Form-item label="操作人:" v-if="comDetail">
+                    {{formData.nickname}}
+                  </Form-item>
                   <Form-item label="" prop="" v-if="!comDetail">
                       <Button type="primary" @click.stop="handleSubmit">确认</Button>
                       <Button @click="resetFormData">重置</Button>

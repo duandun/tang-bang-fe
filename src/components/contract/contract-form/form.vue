@@ -84,6 +84,9 @@
               <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">提交</Button>
               <Button @click="resetFormData">重置</Button>
           </Row>
+          <Row v-if="!detail">
+              <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
+          </Row>
       </Form>
   </div>
 </template>
@@ -94,6 +97,7 @@ import * as Config from './config.js'
 import api from '@/api'
 import isDate from 'lodash/isDate'
 import moment from 'moment'
+import {mapGetters} from 'vuex'
 
 export default {
   extends: Form,
@@ -109,12 +113,19 @@ export default {
   data () {
     return {
       formData: Config.getFormData(),
+      editable: false,
       rules: Config.getRules(this)
     }
   },
   computed: {
+    ...mapGetters([
+        'userInfo'
+    ]),
     comDetail () {
-      return this.dialog.detail || this.detail
+        if (this.editable) {
+            return false
+        }
+        return this.dialog.detail || this.detail
     }
   },
   methods: {

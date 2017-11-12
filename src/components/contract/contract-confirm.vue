@@ -60,9 +60,17 @@
                     </Form-item>
                 </Col>
             </Row>
+            <Row>
+              <Form-item label="操作人:" v-if="dialog.detail">
+                <span>{{formData.nickname}}</span>
+              </Form-item>
+            </Row>
             <Row style="text-align: center" v-if="!dialog.detail">
                 <Button type="primary" @click="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="resetFormData">重置</Button>
+            </Row>
+            <Row v-if="dialog.detail">
+              <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
             </Row>
         </Form>
     </div>
@@ -75,6 +83,7 @@ import api from '@/api';
 import moment from 'moment';
 import isDate from 'lodash/isDate';
 import ContractForm from './contract-form/form.vue'
+import {mapGetters} from 'vuex'
 
 export default {
   extends: Form,
@@ -87,8 +96,14 @@ export default {
   data() {
     return {
       formData: Config.getFormData(),
-      rules: Config.getRules(this)
+      rules: Config.getRules(this),
+      editable: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   methods: {
     cancel() {

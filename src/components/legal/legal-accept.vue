@@ -2,7 +2,7 @@
     <div class="">
       <legal-form :detail="true" @data-merged="fetchConfirmData" :dialog="dialog"></legal-form>
       <span class="line"></span>
-        <Form ref="form" :model="formData" :label-width="100" :rules="rules">
+        <Form ref="form" :model="formData" :label-width="120" :rules="rules">
             <Row type="flex" justify="center">
                 <Col span="12">
                   <Form-item label="通知书：">
@@ -11,6 +11,10 @@
                         <Radio label="不予受理" :disabled="dialog.detail"></Radio>
                         <Radio label="补正通知" :disabled="dialog.detail"></Radio>
                       </Radio-group>
+                    </Form-item>
+                    <Form-item label="申请号或注册号：">
+                      <Input v-model="formData.applicationID" v-if="!dialog.detail"></Input>
+                      <span v-else>{{formData.applicationID}}</span>
                     </Form-item>
                     <Form-item label="通知书下发：" prop="notice">
                       <Radio-group v-model="formData.notice">
@@ -31,6 +35,9 @@
                     <Form-item label="终止理由：" prop="" v-if="formData.pause === '1'">
                       <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!dialog.detail"></Input>
                       <span v-else>{{formData.pause_reason}}</span>
+                    </Form-item>
+                    <Form-item label="操作人:" v-if="dialog.detail">
+                      {{formData.nickname}}
                     </Form-item>
                     <Form-item label="" prop="" v-if="!dialog.detail">
                         <Button type="primary" @click.stop="handleSubmit">确认</Button>

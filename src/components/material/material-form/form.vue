@@ -55,6 +55,9 @@
                       <span>{{item.value}}</span>
                   </Form-item>
                 </div>
+                <Form-item label="操作人:" v-if="comDetail">
+                  {{formData.submit_user}}
+                </Form-item>
                 <Form-item v-if="!comDetail">
                   <Row>
                       <Col span="12">

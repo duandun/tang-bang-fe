@@ -16,6 +16,11 @@
                     </Form-item>
                 </Col>
             </Row>
+            <Row>
+              <Form-item label="操作人:" v-if="dialog.detail">
+                {{formData.confirm_user}}
+              </Form-item>
+            </Row>
             <Row style="text-align: center;" v-if="!dialog.detail">
                 <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="cancel">取消</Button>
