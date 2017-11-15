@@ -87,6 +87,9 @@ export default {
       if (isDate(formdata.time)) {
         formdata.time = moment(formdata.time).format('YYYY-MM-DD HH:mm:ss')
       }
+      if (isDate(formdata.posttime)) {
+        formdata.posttime = moment(formdata.posttime).format('YYYY-MM-DD HH:mm:ss')
+      }
     },
     willDataMerge (results) {
       results.response = results.response === 'true'

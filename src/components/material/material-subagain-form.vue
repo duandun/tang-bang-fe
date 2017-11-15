@@ -10,46 +10,46 @@
                   </Radio-group>
               </Form-item>
               <div v-if="formData.extra_material === 1">
-                <Form-item label="补充证据提交方式：">
+                <Form-item label="补充证据提交方式：" v-if="formData.add_way > 0">
                    <i-switch v-model="switches.add_way" size="large" v-if="!comDetail">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
                   </i-switch>
                   <Radio-group v-model="formData.add_way" v-if="switches.add_way || comDetail">
-                      <Radio :label="0" :disabled="comDetail">邮寄</Radio>
-                      <Radio :label="1" :disabled="comDetail">纸质</Radio>
-                      <Radio :label="2" :disabled="comDetail">网上</Radio>
+                      <Radio :label="1" :disabled="comDetail">邮寄</Radio>
+                      <Radio :label="2" :disabled="comDetail">纸质</Radio>
+                      <Radio :label="3" :disabled="comDetail">网上</Radio>
                   </Radio-group>
                 </Form-item>
-                <Form-item label="补充证据提交结果：">
+                <Form-item label="补充证据提交结果：" v-if="formData.result > 0">
                   <i-switch v-model="switches.result" size="large" v-if="!comDetail">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
                   </i-switch>
                   <Radio-group v-model="formData.result" v-if="switches.result || comDetail">
-                      <Radio :label="1" :disabled="comDetail">回执</Radio>
-                      <Radio :label="0" :disabled="comDetail">无回执</Radio>
+                      <Radio :label="2" :disabled="comDetail">回执</Radio>
+                      <Radio :label="1" :disabled="comDetail">无回执</Radio>
                   </Radio-group>
                 </Form-item>
-                <Form-item label="提交时间：" v-if="switches.result || comDetail">
+                <Form-item label="提交时间：" v-if="switches.result || (comDetail && formData.result > 0)">
                   <DatePicker :disabled="comDetail" type="datetime" placeholder="选择日期和时间" style="width: 200px" v-model="formData.add_time"></DatePicker>
                 </Form-item>
-                <Form-item label="未受理通知书提交方式：">
+                <Form-item label="未受理通知书提交方式：" v-if="formData.no_way > 0">
                   <i-switch v-model="switches.no_way" size="large" v-if="!comDetail">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
                   </i-switch>
                     <Radio-group v-model="formData.no_way" v-if="switches.no_way || comDetail">
-                        <Radio :label="0" :disabled="comDetail">已补正提交</Radio>
-                        <Radio :label="1" :disabled="comDetail">已重新提交</Radio>
-                        <Radio :label="2" :disabled="comDetail">不予提交</Radio>
+                        <Radio :label="1" :disabled="comDetail">已补正提交</Radio>
+                        <Radio :label="2" :disabled="comDetail">已重新提交</Radio>
+                        <Radio :label="3" :disabled="comDetail">不予提交</Radio>
                     </Radio-group>
                 </Form-item>
-                <Form-item label="备注原因：" v-if="(formData.no_way === 2 && switches.no_way) || comDetail">
+                <Form-item label="备注原因：" v-if="(formData.no_way === 3 && switches.no_way) || (comDetail && formData.no_way === 3)">
                     <Input placeholder="请输入..." v-model="formData.no_reason" v-if="!comDetail"></Input>
                     <span v-else>{{formData.no_reason}}</span>
                 </Form-item>
-                <Form-item label="提交时间：" v-if="switches.no_way || comDetail">
+                <Form-item label="提交时间：" v-if="switches.no_way || (comDetail && formData.no_time)">
                     <DatePicker type="datetime" :disabled="comDetail" placeholder="选择日期和时间" style="width: 200px" v-model="formData.no_time"></DatePicker>
                 </Form-item>
               </div>
@@ -91,12 +91,13 @@ export default {
         id: '',
         contract_id: '',
         extra_material: 0,
-        add_way: 0,
-        no_way: 0,
-        result: 0,
+        add_way: 1,
+        no_way: 1,
+        result: 1,
         add_time: '',
         no_time: '',
-        no_reason: ''
+        no_reason: '',
+        nickname: ''
       },
       rules: {
         no_time: [
@@ -153,6 +154,7 @@ export default {
       }
     },
     willDataMerge (data) {
+      console.log(data)
     }
   }
 }
