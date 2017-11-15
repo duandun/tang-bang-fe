@@ -76,8 +76,8 @@ export default {
     },
     saveForm: api.material.confirm,
     fetchConfirmData (results) {
+      Object.assign(this.formData, results)
       if (this.confirmDetail) {
-        Object.assign(this.formData, results)
         // api.material.confirmDetail(contract_id).then(results => {
         //
         // })

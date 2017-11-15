@@ -3,7 +3,8 @@ export const getFormData = () => {
     id: '',
     contract_id: '',
     pause: '0',
-    pause_reason: ''
+    pause_reason: '',
+    confirm_user: ''
   };
 };
 
