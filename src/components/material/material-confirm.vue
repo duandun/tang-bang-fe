@@ -23,9 +23,9 @@
                 <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="cancel">取消</Button>
             </Row>
-            <Row v-if="comDetail">
+            <!-- <Row v-if="comDetail">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-            </Row>
+            </Row> -->
         </Form>
     </div>
 </template>

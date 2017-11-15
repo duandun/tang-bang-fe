@@ -84,9 +84,9 @@
               <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">提交</Button>
               <Button @click="resetFormData">重置</Button>
           </Row>
-          <Row v-if="!detail">
+          <!-- <Row v-if="!detail">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-          </Row>
+          </Row> -->
       </Form>
   </div>
 </template>

@@ -29,9 +29,9 @@
               </Form>
           </Col>
       </Row>
-      <Row v-if="!detail">
+      <!-- <Row v-if="!detail">
           <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-        </Row>
+        </Row> -->
   </div>
 </template>
 

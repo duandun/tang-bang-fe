@@ -63,9 +63,9 @@
             </Form>
           </Col>
       </Row>
-      <Row v-if="comDetail">
+      <!-- <Row v-if="comDetail">
         <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-      </Row>
+      </Row> -->
     </div>
 </template>
 
