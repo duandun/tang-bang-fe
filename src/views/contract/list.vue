@@ -34,7 +34,7 @@
                     <Form-item label="流程步骤:">
                       <Select v-model="query.processType">
                         <Option label="全部" value=""></Option>
-                        <Option v-for="(item, index) in MODAL" :key="index" :label="item.text" :value="index" v-if="index > 0"></Option>
+                        <Option v-for="(item, index) in MODAL" :key="index" :label="item.text" :value="index + 1" v-if="index > 0"></Option>
                       </Select>
                     </Form-item>
                 </Col>
