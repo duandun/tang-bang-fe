@@ -2,17 +2,17 @@
     <div class="list-container">
         <Form ref="form" :label-width="100" onSubmit="return false;">
             <Row>
-                <Col span="5">
+                <Col span="6">
                     <Form-item label="合同编号:">
                         <Input placeholder="请输入..." v-model="query.contract_id"></Input>
                     </Form-item>
                 </Col>
-                <Col span="5">
+                <Col span="6">
                     <Form-item label="公司名称:">
                         <Input v-model="query.company_name" @keyup.enter.native="search" placeholder="请输入..."></Input>
                     </Form-item>
                 </Col>
-                <Col span="4">
+                <Col span="6">
                     <Form-item label="合同状态:">
                         <Select v-model="query.status">
                             <Option label="全部" value="">
@@ -23,12 +23,22 @@
                         </Select>
                     </Form-item>
                 </Col>
-                <Col span="5">
+            </Row>
+            <Row>
+              <Col span="6">
                     <Form-item label="委托事项:">
                         <Input v-model="query.commission" placeholder="请输入..." @keyup.enter.native="search"></Input>
                     </Form-item>
                 </Col>
-                <Col span="4" style="margin-left: 10px;">
+                <Col span="6">
+                    <Form-item label="流程步骤:">
+                      <Select v-model="query.processType">
+                        <Option label="全部" value=""></Option>
+                        <Option v-for="(item, index) in MODAL" :key="index" :label="item.text" :value="index" v-if="index > 0"></Option>
+                      </Select>
+                    </Form-item>
+                </Col>
+                <Col span="4" offset="1">
                     <Button type="primary" icon="search" @click="search">搜索</Button>
                     <Button icon="trash-b" @click="clearQuery">重置</Button>
                 </Col>
