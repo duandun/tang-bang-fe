@@ -4,7 +4,7 @@
           <Row>
               <Col span="12">
                   <Form-item label="合同编号：" prop="contract_id">
-                      <Input placeholder="请输入..." v-model="formData.contract_id" v-if="!comDetail"></Input>
+                      <Input placeholder="请输入..." v-model="formData.contract_id" v-if="!comDetail" :disabled="$route.name !== 'contractAdd'"></Input>
                       <span v-else>{{ formData.contract_id }}</span>
                   </Form-item>
               </Col>
@@ -18,8 +18,23 @@
           <Row>
               <Col span="12">
                   <Form-item label="委托事项：" prop="commission">
-                      <Input placeholder="请输入..." v-model="formData.commission" v-if="!comDetail"></Input>
+                      <Row v-if="!comDetail">
+                        <Col span="11">
+                          <Select v-model="commissionCate">
+                            <Option label="商标委托事项规范" value="商标委托事项规范"></Option>
+                            <Option label="专利委托事项规范" value="专利委托事项规范"></Option>
+                            <Option label="其他" value="其他"></Option>
+                          </Select>
+                        </Col>
+                        <Col span="12" style="margin-left: 5px;">
+                          <Select v-model="commissionDetail" v-if="commissionCate !== '其他'">
+                            <Option v-for="(item, index) in commissionList" :label="item" :key="index" :value="item"></Option>
+                          </Select>
+                          <Input v-model="commissionDetail" v-else placeholder="请输入..."></Input>
+                        </Col>
+                      </Row>
                       <span v-else>{{formData.commission}}</span>
+                      <Input v-model="formData.commission" style="display: none;"></Input>
                   </Form-item>
               </Col>
               <Col span="12">
@@ -84,9 +99,9 @@
               <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">提交</Button>
               <Button @click="resetFormData">重置</Button>
           </Row>
-          <!-- <Row v-if="!detail">
+          <Row v-if="!detail && $route.name !== 'contractAdd'">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-          </Row> -->
+          </Row>
       </Form>
   </div>
 </template>
@@ -98,6 +113,7 @@ import api from '@/api'
 import isDate from 'lodash/isDate'
 import moment from 'moment'
 import {mapGetters} from 'vuex'
+import { COMMISSION } from '@/constant'
 
 export default {
   extends: Form,
@@ -114,7 +130,10 @@ export default {
     return {
       formData: Config.getFormData(),
       editable: false,
-      rules: Config.getRules(this)
+      rules: Config.getRules(this),
+      commissionCate: '',
+      commissionDetail: '',
+      commissionList: COMMISSION.brand
     }
   },
   computed: {
@@ -128,6 +147,28 @@ export default {
         return this.dialog.detail || this.detail
     }
   },
+  watch: {
+    commissionDetail (val, oldVal) {
+      if (!val) {
+        this.formData.commission = ''
+        return
+      }
+      this.formData.commission = this.commissionCate + ',' + val
+    },
+    commissionCate (val, oldVal) {
+      switch (val) {
+        case '商标委托事项规范':
+          this.commissionList = COMMISSION.brand
+          break
+        case '专利委托事项规范':
+          this.commissionList = COMMISSION.patent
+          break
+        default:
+          this.commissionList = []
+          break
+      }
+    }
+  },
   methods: {
     fetchApi: api.contract.detail,
     saveForm: api.contract.save,
@@ -137,6 +178,7 @@ export default {
     },
     resetFormData() {
       this.$refs['form'].resetFields();
+      this.commissionDetail = ''
     },
     formatter(formdata) {
       if (isDate(formdata.remittance_time)) {
@@ -151,13 +193,31 @@ export default {
       delete formdata.nickname
     },
     willDataMerge (results) {
-      // if (this.detail) {
-      //   results.remittance_time = moment(results.remittance_time).format('YYYY-MM-DD hh:mm:ss')
-      //   results.deadline = moment(results.deadline).format('YYYY-MM-DD')
-      // } else {
-      //   results.remittance_time = moment(results.remittance_time).toDate();
-      //   results.deadline = moment(results.deadline).toDate();
-      // }
+      const { commission } = results
+      const comArr = commission.split(',')
+      // 兼容旧数据
+      if (comArr.length !== 2) {
+        Object.keys(COMMISSION).forEach(key => {
+          if (COMMISSION[key].findIndex(i => i === commission) > -1) {
+            switch (key) {
+              case 'brand':
+                this.commissionCate = '商标委托事项规范'
+                break
+              case 'patent':
+                this.commissionCate = '专利委托事项规范'
+                break
+            }
+          }
+        })
+        if (!this.commissionCate) {
+          this.commissionCate = '其他'
+        }
+        this.commissionDetail = commission
+        return
+      }
+
+      this.commissionCate = comArr[0]
+      this.commissionDetail = comArr[1]
     },
     afterDataMerge (results) {
       console.log(results)

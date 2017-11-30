@@ -54,7 +54,7 @@ export default {
 
   watch: {
     lifecycle (lifecycle) {
-      console.log(`lifecycle change to ${lifecycleMap[lifecycle]}`)
+      process.env.NODE_ENV !== 'production' && console.log(`lifecycle change to ${lifecycleMap[lifecycle]}`)
     }
   },
 
