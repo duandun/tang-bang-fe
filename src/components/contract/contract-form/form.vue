@@ -21,8 +21,8 @@
                       <Row v-if="!comDetail">
                         <Col span="11">
                           <Select v-model="commissionCate">
-                            <Option label="商标委托事项规范" value="商标委托事项规范"></Option>
-                            <Option label="专利委托事项规范" value="专利委托事项规范"></Option>
+                            <Option label="商标委托事项" value="商标委托事项"></Option>
+                            <Option label="专利委托事项" value="专利委托事项"></Option>
                             <Option label="其他" value="其他"></Option>
                           </Select>
                         </Col>
@@ -99,9 +99,9 @@
               <Button type="primary" @click.stop="handleSubmit" :loading="isSaving">提交</Button>
               <Button @click="resetFormData">重置</Button>
           </Row>
-          <Row v-if="!detail && $route.name !== 'contractAdd'">
+          <!-- <Row v-if="!detail && $route.name !== 'contractAdd'">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-          </Row>
+          </Row> -->
       </Form>
   </div>
 </template>
@@ -157,10 +157,10 @@ export default {
     },
     commissionCate (val, oldVal) {
       switch (val) {
-        case '商标委托事项规范':
+        case '商标委托事项':
           this.commissionList = COMMISSION.brand
           break
-        case '专利委托事项规范':
+        case '专利委托事项':
           this.commissionList = COMMISSION.patent
           break
         default:
@@ -201,10 +201,10 @@ export default {
           if (COMMISSION[key].findIndex(i => i === commission) > -1) {
             switch (key) {
               case 'brand':
-                this.commissionCate = '商标委托事项规范'
+                this.commissionCate = '商标委托事项'
                 break
               case 'patent':
-                this.commissionCate = '专利委托事项规范'
+                this.commissionCate = '专利委托事项'
                 break
             }
           }
