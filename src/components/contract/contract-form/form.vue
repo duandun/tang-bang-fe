@@ -23,6 +23,7 @@
                           <Select v-model="commissionCate">
                             <Option label="商标委托事项" value="商标委托事项"></Option>
                             <Option label="专利委托事项" value="专利委托事项"></Option>
+                            <Option label="著作委托事项" value="著作委托事项"></Option>
                             <Option label="其他" value="其他"></Option>
                           </Select>
                         </Col>
@@ -163,6 +164,9 @@ export default {
         case '专利委托事项':
           this.commissionList = COMMISSION.patent
           break
+        case '著作委托事项':
+          this.commissionList = COMMISSION.copyright
+          break
         default:
           this.commissionList = []
           break
@@ -206,6 +210,9 @@ export default {
               case 'patent':
                 this.commissionCate = '专利委托事项'
                 break
+              case 'copyright':
+                this.commissionCate = '著作委托事项'
+                break
             }
           }
         })
@@ -233,6 +240,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-</style>

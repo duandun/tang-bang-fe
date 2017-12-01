@@ -16,10 +16,7 @@ const brand = [
   '宣告无效答辩',
   '商标许可',
   '出具商标证明',
-  '行政诉讼',
-  '美术作品登记',
-  '文字作品登记',
-  '其他作品登记'
+  '行政诉讼'
 ]
 const patent = [
   '发明专利申请',
@@ -43,8 +40,14 @@ const patent = [
   '专利分析（包含查新检索、无效检索、专题检索）',
   '优先审查'
 ]
+const copyright = [
+  '美术作品登记',
+  '文字作品登记',
+  '其他作品登记'
+]
 
 export default {
   brand,
-  patent
+  patent,
+  copyright
 }
