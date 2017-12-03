@@ -71,9 +71,9 @@
                 </Form-item>
             </Col>
         </Row>
-        <!-- <Row v-if="!detail">
+        <Row v-if="!detail && comDetail">
           <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-        </Row> -->
+        </Row>
     </Form>
   </div>
 </template>
@@ -139,6 +139,11 @@ export default {
     saveForm: api.material.save,
     afterDataMerge (results) {
       this.$emit('data-merged', results)
+    },
+    willDataMerge (results) {
+      if (isEmpty(results.extra_material)) {
+        results.extra_material = []
+      }
     },
     formatter (formdata) {
       if (isDate(formdata.receiving_time)) {

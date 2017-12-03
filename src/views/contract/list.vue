@@ -79,13 +79,14 @@
                 label="进度">
                 <template scope="scope">
                     <el-popover trigger="click"
+                    :ref="`track_${scope.$index}`"
                     placement="top-end">
                         <el-steps :space="120" :active="getActiveStep(scope.$index)" style="z-index: 1;">
                           <el-step :title="item.text" v-for="(item, index) in MODAL" :key="index">
                               <div class="" slot="description">
                                   <el-button
                                     size="small" v-if="getActiveStep(scope.$index) > index && showDetailBtn(scope.$index, index) && index !== 7"
-                                    @click="showDialog(item, 'detail', scope.row)">{{item.text + '详情'}}</el-button>
+                                    @click="showDialog(item, 'detail', scope.row, scope.$index)">{{item.text + '详情'}}</el-button>
                               </div>
                           </el-step>
                       </el-steps>
@@ -100,7 +101,7 @@
                         <el-button v-for="(item, index) in MODAL" :key="index"
                           size="small"
                            type="text" v-if="getActiveStep(scope.$index) === index && curOp(index) && scope.row.status === '1'"
-                          @click="showDialog(item, 'edit', scope.row)">{{item.text}}</el-button>
+                          @click="showDialog(item, 'edit', scope.row, scope.$index)">{{item.text}}</el-button>
                         <el-button
                           size="small"
                           type="text"
@@ -113,6 +114,24 @@
                           v-if="userInfo.role === 'admin'"
                           @click="assignTo(scope.row)"
                         >指派</el-button>
+                        <el-popover
+                          placement="top"
+                          trigger="click"
+                          :ref="`popoverRef_${scope.$index}`">
+                          <p>确定要删除吗？</p>
+                           <div style="text-align: right; margin: 0;">
+                            <el-button size="mini" type="text" @click="hideDelConfirm(scope.$index)">取消</el-button>
+                            <el-button type="primary" size="mini" @click="delContract(scope.row)">确定</el-button>
+                          </div>
+                          <el-button
+                            size="small"
+                            type="text"
+                            slot="reference"
+                            :ref="`buttonRef_${scope.$index}`"
+                            v-if="userInfo.role === 'admin'"
+                          >删除</el-button>
+                        </el-popover>
+
                   </template>
                 </el-table-column>
             </el-table>
@@ -222,7 +241,8 @@ export default {
       },
       assignDialog: {
         visible: false
-      }
+      },
+      delConfirm: false
     };
   },
   computed: {
@@ -280,7 +300,7 @@ export default {
       assignDialog.visible = true
     },
 
-    showDialog (item, type, row) {
+    showDialog (item, type, row, index) {
       this.currentModal = item.name
       this.dialog.detail = type === 'detail'
       this.dialog.title = type === 'detail' ? `${item.text}详情` : `${item.text}`
@@ -310,6 +330,9 @@ export default {
       } else {
         this.dialog.visible = true
       }
+
+      const pop = `track_${index}`
+      this.$refs[pop].$data.showPopper = false
     },
 
     formatData(results) {
@@ -321,6 +344,17 @@ export default {
       });
       this.constStep = arr
       return results;
+    },
+
+    delContract (row) {
+      api.contract.remove(row.id).then(results => {
+        this.search()
+      })
+    },
+
+    hideDelConfirm (index) {
+      const pop = `popoverRef_${index}`
+      this.$refs[pop].$data.showPopper = false
     },
 
     resetDialog() {

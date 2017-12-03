@@ -26,7 +26,8 @@
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!comDetail"></Date-picker>
                         <span v-else>{{formData.time}}</span>
                     </Form-item>
-                    <Form-item label="终止：" prop="pause">
+                    <div v-if="!editable">
+                      <Form-item label="终止：" prop="pause">
                         <Radio-group v-model="formData.pause">
                             <Radio label="1" :disabled="comDetail">是</Radio>
                             <Radio label="0" :disabled="comDetail">否</Radio>
@@ -36,6 +37,7 @@
                       <Input placeholder="请输入..." v-model="formData.pause_reason" type="textarea" v-if="!comDetail"></Input>
                       <span v-else>{{formData.pause_reason}}</span>
                     </Form-item>
+                    </div>
                     <Form-item label="操作人：" v-if="comDetail">
                       {{formData.nickname}}
                     </Form-item>
@@ -45,9 +47,9 @@
                     </Form-item>
                 </Col>
             </Row>
-            <!-- <Row v-if="comDetail">
+            <Row v-if="comDetail">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-            </Row> -->
+            </Row>
         </Form>
     </div>
 </template>

@@ -10,7 +10,7 @@
                   </Radio-group>
               </Form-item>
               <div v-if="formData.extra_material === 1">
-                <Form-item label="补充证据提交方式：" v-if="formData.add_way > 0">
+                <Form-item label="补充证据提交方式：" v-if="formData.add_way > 0 || editable">
                    <i-switch v-model="switches.add_way" size="large" v-if="!comDetail">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
@@ -21,7 +21,7 @@
                       <Radio :label="3" :disabled="comDetail">网上</Radio>
                   </Radio-group>
                 </Form-item>
-                <Form-item label="补充证据提交结果：" v-if="formData.result > 0">
+                <Form-item label="补充证据提交结果：" v-if="formData.result > 0 || editable">
                   <i-switch v-model="switches.result" size="large" v-if="!comDetail">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
@@ -34,7 +34,7 @@
                 <Form-item label="提交时间：" v-if="switches.result || (comDetail && formData.result > 0)">
                   <DatePicker :disabled="comDetail" type="datetime" placeholder="选择日期和时间" style="width: 200px" v-model="formData.add_time"></DatePicker>
                 </Form-item>
-                <Form-item label="未受理通知书提交方式：" v-if="formData.no_way > 0">
+                <Form-item label="未受理通知书提交方式：" v-if="formData.no_way > 0 || editable">
                   <i-switch v-model="switches.no_way" size="large" v-if="!comDetail">
                     <span slot="open">开启</span>
                     <span slot="close">关闭</span>
@@ -63,9 +63,9 @@
             </Form>
           </Col>
       </Row>
-      <!-- <Row v-if="comDetail">
+      <Row v-if="comDetail">
         <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-      </Row> -->
+      </Row>
     </div>
 </template>
 
@@ -154,7 +154,15 @@ export default {
       }
     },
     willDataMerge (data) {
-      console.log(data)
+      if (data.result || data.add_time) {
+        this.switches.result = true
+      }
+      if (data.add_way) {
+        this.switches.add_way = true
+      }
+      if (data.no_way || data.no_time || data.no_reason) {
+        this.switches.no_way = true
+      }
     }
   }
 }

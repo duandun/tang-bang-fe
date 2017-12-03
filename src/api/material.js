@@ -2,8 +2,8 @@ import { fetch } from '@/utils/api'
 
 // 材料录入和修改
 export function save (params) {
-  if (params.id) {
-    return fetch('/material/submit', params, 'POST')
+  if (params.editable) {
+    return fetch('/material/submit/update', params, 'POST')
   }
   return fetch('/material/submit', params, 'POST')
 }
@@ -20,7 +20,9 @@ export function confirm (params) {
 
 // 二次材料提交
 export function twice (params) {
-  console.log(params)
+  if (params.editable) {
+    return fetch('/twicematerial/accept/update', params, 'POST')
+  }
   return fetch('/twicematerial/submit', params, 'POST')
 }
 
