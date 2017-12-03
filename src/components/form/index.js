@@ -221,9 +221,12 @@ export default {
          */
     saveForm: function () {},
 
+    updateApi: function () {},
+
         // internal api
     submit: Wrapper.wrapSubmit(function () {
       let formdata = this.formatBeforeSumbit(this.formData)
+      formdata.editable = this.editable
       return this.saveForm(formdata)
                 .then((resp) => {
                   this.afterSubmit(resp)

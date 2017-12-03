@@ -28,6 +28,9 @@ export function list(params) {
 }
 
 export function confirm(params) {
+  if (params.editable) {
+    return fetch('/contract/confirmUpdate', params, 'POST')
+  }
   return fetch('/contract/confirm', params, 'POST');
 }
 

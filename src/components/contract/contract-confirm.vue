@@ -46,7 +46,7 @@
                 </Form-item>
               </Col>
             </Row>
-            <Row>
+            <Row v-if="!editable">
                 <Col span="12">
                     <Form-item label="终止：" prop="">
                         <Radio-group v-model="formData.pause">
@@ -69,9 +69,9 @@
                 <Button type="primary" @click="handleSubmit" :loading="isSaving">确认</Button>
                 <Button @click="resetFormData">重置</Button>
             </Row>
-            <!-- <Row v-if="comDetail">
+            <Row v-if="comDetail">
               <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
-            </Row> -->
+            </Row>
         </Form>
     </div>
 </template>
