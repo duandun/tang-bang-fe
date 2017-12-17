@@ -232,7 +232,8 @@ export default {
         visible: false,
         detail: false,
         id: '',
-        contract_id: ''
+        contract_id: '',
+        itemContent: {}
       },
       constStep: [],
       receiptDialog: {
@@ -306,6 +307,7 @@ export default {
       this.dialog.title = type === 'detail' ? `${item.text}详情` : `${item.text}`
       this.dialog.contract_id = row.contract_id
       this.dialog.id = row.id
+      this.dialog.itemContent = row
       let id = row.id
       if (item.name !== 'ContractForm' && item.name !== 'ContractConfirm') {
         id = row.contract_id

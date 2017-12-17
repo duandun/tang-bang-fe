@@ -101,7 +101,7 @@
               <Button @click="resetFormData">重置</Button>
           </Row>
           <Row v-if="!detail && $route.name !== 'contractAdd'">
-              <Button v-if="userInfo.role === 'admin' && !editable" type="primary" @click="editable = true">修改</Button>
+              <Button v-if="showEditBtn" type="primary" @click="editable = true">修改</Button>
           </Row>
       </Form>
   </div>
@@ -146,6 +146,19 @@ export default {
             return false
         }
         return this.dialog.detail || this.detail
+    },
+    showEditBtn () {
+      if (this.userInfo.role === 'admin' && !this.editable) {
+        return true
+      }
+      if (this.userInfo.permission.indexOf('1') > -1 && !this.editable) {
+        const {itemContent} = this.dialog
+        console.log(1112, itemContent)
+        if (itemContent.contract_submit_status === '1' && itemContent.contract_confirm_status === '0') {
+          return true
+        }
+      }
+      return false
     }
   },
   watch: {
