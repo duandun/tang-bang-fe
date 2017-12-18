@@ -8,7 +8,7 @@
                     </Form-item>
                 </Col>
                 <Col span="6">
-                    <Form-item label="公司名称:">
+                    <Form-item label="甲方名称:">
                         <Input v-model="query.company_name" @keyup.enter.native="search" placeholder="请输入..."></Input>
                     </Form-item>
                 </Col>
@@ -63,7 +63,7 @@
               </el-table-column>
               <el-table-column
                 prop="company_name"
-                label="公司名称">
+                label="甲方名称">
               </el-table-column>
               <el-table-column
                 prop="commission"

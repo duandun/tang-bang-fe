@@ -9,7 +9,7 @@
                   </Form-item>
               </Col>
               <Col span="12">
-                  <Form-item label="公司名称：" prop="company_name">
+                  <Form-item label="甲方名称：" prop="company_name">
                       <Input placeholder="请输入..." v-model="formData.company_name" v-if="!comDetail"></Input>
                       <span v-else>{{ formData.company_name }}</span>
                   </Form-item>

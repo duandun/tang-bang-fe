@@ -21,7 +21,7 @@ export const getRules = (context) => {
       { max: 80, message: '编号不大于80字', trigger: 'change' }
     ],
     company_name: [
-      { required: true, message: '请输入公司名称', trigger: 'change' },
+      { required: true, message: '请输入甲方名称', trigger: 'change' },
       { max: 120, message: '名称不大于120字', trigger: 'change' }
     ],
     commission: [

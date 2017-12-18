@@ -6,7 +6,7 @@
                     <Form-item label="合同编号" prop="">
                         <Input placeholder="请输入..." v-model="formData.num"></Input>
                     </Form-item>
-                    <Form-item label="公司名称" prop="">
+                    <Form-item label="甲方名称" prop="">
                         <Input placeholder="请输入..." v-model="formData.comName"></Input>
                     </Form-item>
                     <Form-item label="委托事项" prop="">
