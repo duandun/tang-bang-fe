@@ -41,3 +41,7 @@ export function confirmDetail(contractId) {
 export function assignUser (params) {
   return fetch('/user/changeContractor', params, 'POST')
 }
+
+export function downloadFile (params) {
+  return fetch('/process/download', params)
+}

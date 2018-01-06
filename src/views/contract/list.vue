@@ -114,6 +114,12 @@
                           v-if="userInfo.role === 'admin'"
                           @click="assignTo(scope.row)"
                         >指派</el-button>
+                        <a
+                          style="color: #20a0ff;font-size: 12px;padding: 0 7px;"
+                          v-if="userInfo.role === 'admin'"
+                          target="_blank"
+                          :href="downloadUrl(scope.row)"
+                        >下载</a>
                         <el-popover
                           placement="top"
                           trigger="click"
@@ -181,6 +187,7 @@ import api from '@/api';
 import { STEP, MODAL } from '@/constant'
 import { mapGetters } from 'vuex'
 import Receipt from './receipt.vue'
+import { url } from '@/utils/api'
 
 const statusText = {
   1: '处理中',
@@ -258,6 +265,15 @@ export default {
         return true
       } else {
         return this.curMaxPerm($index) > index
+      }
+    },
+    downloadUrl (row) {
+      const { id = '', contract_id = '' } = row
+      if (id && contract_id) {
+        return url(`/process/download?id=${id}&contract_id=${contract_id}`)
+      } else {
+        this.$Message.warning('无法下载')
+        return 'javascript:;'
       }
     },
     curOp (index) {
