@@ -86,7 +86,7 @@ export default {
     }),
 
     search() {
-      this.fetchByPage();
+      this.fetchByPage(1);
     },
 
     resetQuery() {

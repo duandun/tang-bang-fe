@@ -232,7 +232,7 @@ export default {
         company_name: '',
         commission: '',
         pageStart: 1,
-        pageSize: 10
+        pageSize: 2
       },
       dialog: {
         title: '',
@@ -289,7 +289,7 @@ export default {
       return max(operatesNum)
     },
     handleSuccess () {
-      this.search()
+      this.fetchByPage()
       this.dialog.visible = false
     },
     getActiveStep (index) {
