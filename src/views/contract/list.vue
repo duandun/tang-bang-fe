@@ -38,9 +38,10 @@
                       </Select>
                     </Form-item>
                 </Col>
-                <Col span="4" offset="1">
+                <Col span="6" offset="1">
                     <Button type="primary" icon="search" @click="search">搜索</Button>
                     <Button icon="trash-b" @click="clearQuery">重置</Button>
+                    <Button type="primary" @click="downloadBatchUrl" v-if="userInfo.role === 'admin'">批量下载</Button>
                 </Col>
             </Row>
         </Form>
@@ -51,7 +52,13 @@
             </Spin> -->
             <el-table
               :data="tableList" v-loading.body="loading"
+              @selection-change="handleSelectionChange"
               style="width: 100%">
+              <el-table-column
+                v-if="userInfo.role === 'admin'"
+                type="selection"
+                width="55">
+              </el-table-column>
               <el-table-column
                 type="index"
                 width="60">
@@ -181,6 +188,7 @@ import MaterialSubAgainForm from '@/components/material/material-subagain-form.v
 import FinalResultsForm from '@/components/final-results/final-results-form.vue';
 import AssignTable from './assign-table/assign-table.vue';
 import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import max from 'lodash/max'
 import findLastIndex from 'lodash/findLastIndex'
 import api from '@/api';
@@ -232,7 +240,7 @@ export default {
         company_name: '',
         commission: '',
         pageStart: 1,
-        pageSize: 2
+        pageSize: 10
       },
       dialog: {
         title: '',
@@ -250,7 +258,8 @@ export default {
       assignDialog: {
         visible: false
       },
-      delConfirm: false
+      delConfirm: false,
+      selRows: []
     };
   },
   computed: {
@@ -260,11 +269,33 @@ export default {
     this._original_dialog = cloneDeep(this.$data.dialog);
   },
   methods: {
+    handleSelectionChange (val) {
+      console.log(val)
+      this.selRows = val
+    },
     showDetailBtn ($index, index) {
       if (this.userInfo.permission.indexOf('1') > -1) {
         return true
       } else {
         return this.curMaxPerm($index) > index
+      }
+    },
+    downloadBatchUrl () {
+      if (!isEmpty(this.selRows)) {
+        const ids = []
+        const contractIds = []
+        this.selRows.forEach(item => {
+          ids.push(item.id)
+          contractIds.push(item.contract_id)
+        })
+        let elemIF = document.createElement('iframe')
+        elemIF.src = url(`/process/download?id=${ids.join()}&contract_id=${contractIds.join()}`)
+        elemIF.style.display = 'none'
+        document.body.appendChild(elemIF)
+        setTimeout(() => {
+          document.body.removeChild(elemIF)
+          elemIF = null
+        }, 500)
       }
     },
     downloadUrl (row) {
