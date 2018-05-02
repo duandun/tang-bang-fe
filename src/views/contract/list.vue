@@ -38,10 +38,13 @@
                       </Select>
                     </Form-item>
                 </Col>
-                <Col span="6" offset="1">
+                <Col span="8" offset="1">
                     <Button type="primary" icon="search" @click="search">搜索</Button>
                     <Button icon="trash-b" @click="clearQuery">重置</Button>
                     <Button type="primary" @click="downloadBatchUrl" v-if="userInfo.role === 'admin'">批量下载</Button>
+                    <Button type="primary" v-if="userInfo.role === 'admin'">
+                      <a :href="downloadBatchAll()" target="_blank" style="color: #fff;">下载全部</a></Button>
+                    <Button type="primary" @click="clearSelection" v-if="userInfo.role === 'admin'" :disabled="!Boolean(selRows.length)">清空选择</Button>
                 </Col>
             </Row>
         </Form>
@@ -53,9 +56,12 @@
             <el-table
               :data="tableList" v-loading.body="loading"
               @selection-change="handleSelectionChange"
+              row-key="id"
+              ref="mainList"
               style="width: 100%">
               <el-table-column
                 v-if="userInfo.role === 'admin'"
+                :reserve-selection="true"
                 type="selection"
                 width="55">
               </el-table-column>
@@ -273,6 +279,9 @@ export default {
       console.log(val)
       this.selRows = val
     },
+    clearSelection () {
+      this.$refs.mainList.clearSelection()
+    },
     showDetailBtn ($index, index) {
       if (this.userInfo.permission.indexOf('1') > -1) {
         return true
@@ -280,22 +289,34 @@ export default {
         return this.curMaxPerm($index) > index
       }
     },
+    downloadBatchAll () {
+      return url(`/process/download_all`)
+    },
     downloadBatchUrl () {
       if (!isEmpty(this.selRows)) {
-        const ids = []
-        const contractIds = []
+        const batch = []
         this.selRows.forEach(item => {
-          ids.push(item.id)
-          contractIds.push(item.contract_id)
+          batch.push({id: item.id, contract_id: item.contract_id})
         })
+        let serializeBatch = ''
+        try {
+          serializeBatch = JSON.stringify(batch)
+        } catch (e) {
+          console.log(e)
+        }
         let elemIF = document.createElement('iframe')
-        elemIF.src = url(`/process/download?id=${ids.join()}&contract_id=${contractIds.join()}`)
+        elemIF.src = url(`/process/download_batch?batch=${serializeBatch}`)
         elemIF.style.display = 'none'
         document.body.appendChild(elemIF)
-        setTimeout(() => {
-          document.body.removeChild(elemIF)
-          elemIF = null
-        }, 500)
+        elemIF.addEventListener('load', () => {
+          console.log('ok')
+        })
+        // elemIF.onload = () => {
+        //   setTimeout(() => {
+        //     document.body.removeChild(elemIF)
+        //     elemIF = null
+        //   }, 500)
+        // }
       }
     },
     downloadUrl (row) {
