@@ -121,8 +121,8 @@ let handleResult = (option) => {
     // 兼容第三方接口
   if (typeof resp.code === 'undefined' && (resp.flag !== false || resp.flag === null)) {
     if (resp.usercookie === false) {
-      let origin = location.origin
-      location.replace(`${origin}/account/login/`)
+      // let origin = location.origin
+      // location.replace(`${origin}/account/login/`)
       reject(resp)
     }
     resolve(resp)

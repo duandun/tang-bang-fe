@@ -26,7 +26,8 @@ const mutations = {
   [types.MENU_LIST] (state, menu) {
     state.menuList = menu.list
     if (state.userInfo.role !== 'admin') {
-      state.menuList.splice(2, 1)
+      // state.menuList.splice(2, 1)
+      state.menuList = state.menuList.slice(0, 2)
     }
     const permission = state.userInfo.permission
     if (!includes(permission, '1')) {

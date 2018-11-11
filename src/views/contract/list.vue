@@ -127,6 +127,12 @@
                           v-if="userInfo.role === 'admin'"
                           @click="assignTo(scope.row)"
                         >指派</el-button>
+                        <el-button
+                          size="small"
+                          type="text"
+                          v-if="userInfo.role === 'admin' && scope.row.status === '3'"
+                          @click="recover(scope.row)"
+                        >恢复</el-button>
                         <a
                           style="color: #20a0ff;font-size: 12px;padding: 0 7px;"
                           v-if="userInfo.role === 'admin'"
@@ -368,7 +374,10 @@ export default {
       })
       assignDialog.visible = true
     },
-
+    recover (row) {
+      this.$Message.success('已恢复')
+      this.fetchByPage()
+    },
     showDialog (item, type, row, index) {
       this.currentModal = item.name
       this.dialog.detail = type === 'detail'

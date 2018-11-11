@@ -13,7 +13,7 @@
                       </Radio-group>
                     </Form-item>
                     <Form-item label="申请号或注册号：">
-                      <Input v-model="formData.applicationID" v-if="!comDetail"></Input>
+                      <Input v-model="formData.applicationID" v-if="!comDetail" type="textarea" :autosize="{minRows: 2}"></Input>
                       <span v-else>{{formData.applicationID}}</span>
                     </Form-item>
                     <Form-item label="通知书下发：" prop="notice">

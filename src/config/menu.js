@@ -11,6 +11,10 @@ export default {
     name: '/auth/list',
     text: '权限管理',
     icon: 'android-walk'
+  }, {
+    name: '/user/pwd',
+    text: '更改密码',
+    icon: 'android-walk'
   }],
   openNames: ['/contract-manage'],
   activeName: ''

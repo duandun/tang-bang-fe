@@ -4,7 +4,7 @@
           <Row>
               <Col span="12">
                   <Form-item label="合同编号：" prop="contract_id">
-                      <Input placeholder="请输入..." v-model="formData.contract_id" v-if="!comDetail" :disabled="$route.name !== 'contractAdd'"></Input>
+                      <Input placeholder="请输入..." v-model="formData.contract_id" v-if="!comDetail" ></Input>
                       <span v-else>{{ formData.contract_id }}</span>
                   </Form-item>
               </Col>
@@ -48,7 +48,13 @@
           <Row>
               <Col span="12">
                   <Form-item label="汇款方式：" prop="remittance">
-                      <Input placeholder="请输入..." v-model="formData.remittance" v-if="!comDetail"></Input>
+                      <span v-if="!comDetail" >
+                        <Select v-model="formData.remittance" placeholder="请选择...">
+                          <Option v-for="(item, index) in remittanceEnum" :value="item" :key="index">{{item}}</Option>
+                        </Select>
+                        <Input placeholder="请输入..." style="margin-top: 10px;"
+                          v-model="formData.otherRemittance" v-if="!comDetail && formData.remittance === '其他'"></Input>
+                      </span>
                       <span v-else>{{formData.remittance}}</span>
                   </Form-item>
               </Col>
@@ -85,6 +91,10 @@
                   </Form-item>
               </Col>
               <Col span="12">
+                <Form-item label="申请号/注册号/商标名称：" prop="regNumber">
+                  <Input v-model="formData.regNumber" v-if="!comDetail"></Input>
+                  <span v-else>{{formData.regNumber}}</span>
+                </Form-item>
               </Col>
           </Row>
           <Row v-if="comDetail">
@@ -116,6 +126,8 @@ import moment from 'moment'
 import {mapGetters} from 'vuex'
 import { COMMISSION } from '@/constant'
 
+const remittanceEnum = ['私对北京公账', '公对北京公账', '私对重庆公账', '公对重庆公账', '私对成都公账', '公对成都公账',
+  '私对广州公账', '公对广州公账', '工行8123', '建行7143', '建行9183', '璐姐微信', '璐姐支付宝', '芳姐微信', '转移款', '其他']
 export default {
   extends: Form,
   props: {
@@ -134,7 +146,8 @@ export default {
       rules: Config.getRules(this),
       commissionCate: '',
       commissionDetail: '',
-      commissionList: COMMISSION.brand
+      commissionList: COMMISSION.brand,
+      remittanceEnum
     }
   },
   computed: {
@@ -153,7 +166,6 @@ export default {
       }
       if (this.userInfo.permission.indexOf('1') > -1 && !this.editable) {
         const {itemContent} = this.dialog
-        console.log(1112, itemContent)
         if (itemContent.contract_submit_status === '1' && itemContent.contract_confirm_status === '0') {
           return true
         }
@@ -196,6 +208,7 @@ export default {
     resetFormData() {
       this.$refs['form'].resetFields();
       this.commissionDetail = ''
+      this.formData.otherRemittance = ''
     },
     formatter(formdata) {
       if (isDate(formdata.remittance_time)) {
@@ -208,10 +221,17 @@ export default {
         delete formdata.id
       }
       delete formdata.nickname
+      if (formdata.remittance === '其他') {
+        formdata.remittance = formdata.otherRemittance
+      }
     },
     willDataMerge (results) {
-      const { commission } = results
+      const { commission, remittance } = results
       const comArr = commission.split(',')
+      if (!remittanceEnum.includes(remittance)) {
+        results.otherRemittance = remittance
+        results.remittance = '其他'
+      }
       // 兼容旧数据
       if (comArr.length !== 2) {
         Object.keys(COMMISSION).forEach(key => {
