@@ -130,8 +130,14 @@
                         <el-button
                           size="small"
                           type="text"
+                          v-if="userInfo.role === 'admin' && scope.row.status === '1'"
+                          @click="processPause(scope.row)"
+                        >终止</el-button>
+                        <el-button
+                          size="small"
+                          type="text"
                           v-if="userInfo.role === 'admin' && scope.row.status === '3'"
-                          @click="recover(scope.row)"
+                          @click="recovery(scope.row)"
                         >恢复</el-button>
                         <a
                           style="color: #20a0ff;font-size: 12px;padding: 0 7px;"
@@ -374,9 +380,25 @@ export default {
       })
       assignDialog.visible = true
     },
-    recover (row) {
-      this.$Message.success('已恢复')
-      this.fetchByPage()
+    recovery (row) {
+      const { contract_id } = row
+      api.contract.processRecovery(contract_id).then(rs => {
+        this.$Message.success('已恢复')
+        this.fetchByPage()
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('操作失败')
+      })
+    },
+    processPause (row) {
+      const { contract_id } = row
+      api.contract.processPause(contract_id).then(rs => {
+        this.$Message.success('已终止')
+        this.fetchByPage()
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('操作失败')
+      })
     },
     showDialog (item, type, row, index) {
       this.currentModal = item.name

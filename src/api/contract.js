@@ -45,3 +45,12 @@ export function assignUser (params) {
 export function downloadFile (params) {
   return fetch('/process/download', params)
 }
+
+export function processRecovery (contractId) {
+  return fetch('/process/recovery', {contract_id: contractId}, 'POST')
+}
+
+// 管理员全局终止
+export function processPause (contractId) {
+  return fetch('/process/pause', {contract_id: contractId}, 'POST')
+}
