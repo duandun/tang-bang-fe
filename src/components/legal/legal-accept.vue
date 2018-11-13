@@ -14,7 +14,7 @@
                     </Form-item>
                     <Form-item label="申请号或注册号：">
                       <Input v-model="formData.applicationID" v-if="!comDetail" type="textarea" :autosize="{minRows: 2}"></Input>
-                      <span v-else>{{formData.applicationID}}</span>
+                      <span v-else class="multi-line">{{formData.applicationID}}</span>
                     </Form-item>
                     <Form-item label="通知书下发：" prop="notice">
                       <Radio-group v-model="formData.notice">
@@ -125,5 +125,10 @@ export default {
     background-color: #ccc;
     margin: 0 auto;
     margin-bottom: 20px;
+  }
+  .multi-line {
+    display: inline-block;
+    word-wrap: break-word;
+    width: 100%;
   }
 </style>

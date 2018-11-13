@@ -14,6 +14,8 @@
             Button(@click="clearUp") 清空
 </template>
 <script>
+import api from '@/api'
+
 export default {
   data () {
     const validPwd = (rule, value, callback) => {
@@ -51,7 +53,20 @@ export default {
     submitForm () {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$Message.success('提交')
+          const params = {
+            username: this.formData.userName,
+            password: this.formData.newPwd
+          }
+          api.user.updatePwd(params).then(rs => {
+            this.$Message.success('修改成功')
+          }).catch(error => {
+            console.log(error)
+            if (error.user_exist === false) {
+              this.$Message.error('用户不存在')
+            } else {
+              this.$Message.error('修改失败')
+            }
+          })
         }
       })
     }

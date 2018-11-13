@@ -91,9 +91,9 @@
                   </Form-item>
               </Col>
               <Col span="12">
-                <Form-item label="申请号/注册号/商标名称：" prop="regNumber">
-                  <Input v-model="formData.regNumber" v-if="!comDetail"></Input>
-                  <span v-else>{{formData.regNumber}}</span>
+                <Form-item label="申请号/注册号/商标名称：" prop="applicationID">
+                  <Input v-model="formData.applicationID" v-if="!comDetail"></Input>
+                  <span v-else>{{formData.applicationID}}</span>
                 </Form-item>
               </Col>
           </Row>

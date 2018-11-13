@@ -20,7 +20,10 @@ export const getTableColumns = (context) => {
         const permission = params.row.permission.split(',')
         const permNames = []
         permission.forEach(i => {
-          permNames.push(ACTOR.find(k => k.value === i).label)
+          const pName = ACTOR.find(k => k.value === i)
+          if (pName) {
+            permNames.push(pName.label)
+          }
         })
         return <span>{permNames.join()}</span>
       }

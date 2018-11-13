@@ -7,6 +7,7 @@ export const getFormData = () => {
     commission_number: void 0,
     remittance: '',
     otherRemittance: '',
+    applicationID: '',
     remittance_time: '',
     commissioned_applicant: '',
     deadline: '',
