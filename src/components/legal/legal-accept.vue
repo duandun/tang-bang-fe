@@ -26,7 +26,7 @@
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!comDetail"></Date-picker>
                         <span v-else>{{formData.time}}</span>
                     </Form-item>
-                    <div v-if="!editable">
+                    <div v-if="computedPause">
                       <Form-item label="终止：" prop="pause">
                         <Radio-group v-model="formData.pause">
                             <Radio label="1" :disabled="comDetail">是</Radio>
@@ -86,7 +86,15 @@ export default {
     },
     ...mapGetters([
       'userInfo'
-    ])
+    ]),
+    computedPause () {
+      if (!this.editable) {
+        return true
+      } else if (this.userInfo.role === 'admin') {
+        return true
+      }
+      return false
+    }
   },
   methods: {
     cancel() {

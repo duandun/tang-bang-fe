@@ -46,7 +46,7 @@
                 </Form-item>
               </Col>
             </Row>
-            <Row v-if="!editable">
+            <Row v-if="computedPause">
                 <Col span="12">
                     <Form-item label="终止：" prop="">
                         <Radio-group v-model="formData.pause">
@@ -109,6 +109,14 @@ export default {
         return false
       }
       return this.dialog.detail || this.detail
+    },
+    computedPause () {
+      if (!this.editable) {
+        return true
+      } else if (this.userInfo.role === 'admin') {
+        return true
+      }
+      return false
     }
   },
   methods: {

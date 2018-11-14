@@ -14,7 +14,7 @@
                 </Col>
                 <Col span="6">
                     <Form-item label="合同状态:">
-                        <Select v-model="query.status">
+                        <Select v-model="query.status" @on-change="search">
                             <Option label="全部" value="">
                             </Option>
                             <Option v-for="item in statusList"
@@ -32,7 +32,7 @@
                 </Col>
                 <Col span="6">
                     <Form-item label="流程步骤:">
-                      <Select v-model="query.processType">
+                      <Select v-model="query.processType" @on-change="search">
                         <Option label="全部" value=""></Option>
                         <Option v-for="(item, index) in MODAL" :key="index" :label="item.text" :value="index + 1" v-if="index > 0"></Option>
                       </Select>
@@ -136,7 +136,13 @@
                         <el-button
                           size="small"
                           type="text"
-                          v-if="userInfo.role === 'admin' && scope.row.status === '3'"
+                          v-if="userInfo.role === 'admin' && scope.row.status === '1'"
+                          @click="processDelay(scope.row)"
+                        >暂缓</el-button>
+                        <el-button
+                          size="small"
+                          type="text"
+                          v-if="userInfo.role === 'admin' && (scope.row.status === '3' || scope.row.status === '4')"
                           @click="recovery(scope.row)"
                         >恢复</el-button>
                         <a
@@ -218,7 +224,8 @@ import { url } from '@/utils/api'
 const statusText = {
   1: '处理中',
   2: '已完成',
-  3: '已终止'
+  3: '已终止',
+  4: '暂缓'
 }
 
 export default {
@@ -399,6 +406,10 @@ export default {
         console.log(error)
         this.$Message.error('操作失败')
       })
+    },
+    processDelay (row) {
+      this.$Message.success('已暂缓')
+      this.fetchByPage()
     },
     showDialog (item, type, row, index) {
       this.currentModal = item.name
