@@ -54,3 +54,7 @@ export function processRecovery (contractId) {
 export function processPause (contractId) {
   return fetch('/process/pause', {contract_id: contractId}, 'POST')
 }
+
+export function processDefer (contractId) {
+  return fetch('/process/defer', {contract_id: contractId}, 'POST')
+}

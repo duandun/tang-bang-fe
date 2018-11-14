@@ -137,7 +137,7 @@
                           size="small"
                           type="text"
                           v-if="userInfo.role === 'admin' && scope.row.status === '1'"
-                          @click="processDelay(scope.row)"
+                          @click="processDefer(scope.row)"
                         >暂缓</el-button>
                         <el-button
                           size="small"
@@ -407,9 +407,15 @@ export default {
         this.$Message.error('操作失败')
       })
     },
-    processDelay (row) {
-      this.$Message.success('已暂缓')
-      this.fetchByPage()
+    processDefer (row) {
+      const { contract_id } = row
+      api.contract.processDefer(contract_id).then(rs => {
+        this.$Message.success('已暂缓')
+        this.fetchByPage()
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('操作失败')
+      })
     },
     showDialog (item, type, row, index) {
       this.currentModal = item.name
