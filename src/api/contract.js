@@ -15,8 +15,17 @@ export function update(params) {
   return fetch('/contract/update', params, 'POST');
 }
 
-export function remove(id) {
-  return fetch('/contract/delete', { id }, 'POST');
+export function remove(params) {
+  if (Array.isArray(params)) {
+    params = {
+      id: JSON.stringify(params)
+    }
+  } else {
+    params = {
+      id: params
+    }
+  }
+  return fetch('/contract/delete', params, 'POST');
 }
 
 export function detail(id) {

@@ -22,7 +22,7 @@
         </Row>
       </Form>
       <Row class="table-container">
-        <Table :columns="tableColumns" :data="tableList" :loading="loading" highlight-row ref="table" @on-current-change="handleCurrentChange"/>
+        <Table :columns="tableColumns" :data="tableList" :loading="loading" highlight-row ref="table" @on-current-change="handleCurrentSelChange"/>
         <Page
           class="page-container"
           :total="total"
@@ -78,13 +78,15 @@
     methods: {
       fetchApi: api.auth.list,
       confirmDialog () {
+        const id = this.dialog.id || this.dialog.batchIds;
         const params = {
-          id: this.dialog.id,
+          id,
           username: this.selectedRow.username
         }
         api.contract.assignUser(params).then(results => {
           if (results.flag) {
             this.dialog.visible = false
+            this.$Message.success('指派成功');
             this.$emit('confirm', this.selectedRow)
           }
         })
@@ -93,13 +95,9 @@
         this.dialog.visible = false
         this.$emit('cancel')
       },
-      handleCurrentChange (curRow, oldRow) {
+      handleCurrentSelChange (curRow, oldRow) {
         this.selectedRow = curRow
       }
     }
   }
 </script>
-
-<style>
-
-</style>

@@ -47,6 +47,12 @@
                     <Button type="primary" @click="clearSelection" v-if="userInfo.role === 'admin'" :disabled="!Boolean(selRows.length)">清空选择</Button>
                 </Col>
             </Row>
+            <Row style="margin-bottom: 10px;" v-if="userInfo.role === 'admin'">
+              <Col span="6">
+                <Button type="primary" :disabled="!Boolean(selRows.length)" v-if="userInfo.role === 'admin'" @click="batchAssignTo">批量指派</Button>
+                <Button type="primary" :disabled="!Boolean(selRows.length)" v-if="userInfo.role === 'admin'" @click="batchDel">批量删除</Button>
+              </Col>
+            </Row>
         </Form>
         <Row>
             <!-- <Spin fix style="border: 1px solid #ddd;top: 40%;width: 150px;height: 60px;margin: 0 auto;" v-if="loading">
@@ -113,7 +119,7 @@
                   <template scope="scope">
                         <el-button v-for="(item, index) in MODAL" :key="index"
                           size="small"
-                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(index) && scope.row.status === '1'"
+                          type="text" v-if="getActiveStep(scope.$index) === index && curOp(index) && scope.row.status === '1'"
                           @click="showDialog(item, 'edit', scope.row, scope.$index)">{{item.text}}</el-button>
                         <el-button
                           size="small"
@@ -195,8 +201,22 @@
             <div class="" slot="footer" style="display: none;">
             </div>
         </Modal>
+
+        <Modal v-model="batchDelModal" width="360">
+          <p slot="header" style="color:#f60;text-align:center">
+              <Icon type="ios-information-circle"></Icon>
+              <span>删除确认</span>
+          </p>
+          <div style="text-align:center">
+              <p>你确定要删除吗？</p>
+          </div>
+          <div slot="footer">
+              <Button type="error" size="large" long @click="onBatchDelClick">删除</Button>
+          </div>
+        </Modal>
+
         <receipt @save-success="handleSuccess" :dialog="receiptDialog"></receipt>
-        <assign-table :dialog="assignDialog" @confirm="search"  v-if="userInfo.role === 'admin'"></assign-table>
+        <assign-table :dialog="assignDialog" @confirm="assignSuccess"  v-if="userInfo.role === 'admin'"></assign-table>
     </div>
 </template>
 
@@ -281,11 +301,22 @@ export default {
         id: ''
       },
       assignDialog: {
+        id: '',
+        batchIds: '',
         visible: false
       },
       delConfirm: false,
+      batchDelModal: false,
       selRows: []
     };
+  },
+  watch: {
+    'assignDialog.visible' (val) {
+      if (!val) {
+        this.assignDialog.id = '';
+        this.assignDialog.batchIds = '';
+      }
+    }
   },
   computed: {
     ...mapGetters(['userInfo'])
@@ -468,6 +499,41 @@ export default {
       api.contract.remove(row.id).then(results => {
         this.search()
       })
+    },
+
+    assignSuccess () {
+      this.search();
+      this.clearSelection();
+    },
+
+    batchDel () {
+      this.batchDelModal = true;
+    },
+    onBatchDelClick () {
+      const { selRows } = this;
+      if (isEmpty(selRows)) {
+        return;
+      }
+      const params = selRows.map(row => ({id: row.id}));
+      api.contract.remove(params).then(rs => {
+        this.batchDelModal = false;
+        this.$Message.success('删除成功');
+        this.search();
+      }).catch(e => {
+        console.log(e);
+        this.batchDelModal = false;
+        this.$Message.error('删除失败');
+      })
+    },
+
+    batchAssignTo () {
+      const { assignDialog, selRows } = this
+      if (isEmpty(selRows)) {
+        return;
+      }
+      const ids = selRows.map(row => ({ id: row.id }));
+      assignDialog.batchIds = JSON.stringify(ids);
+      assignDialog.visible = true
     },
 
     hideDelConfirm (index) {
