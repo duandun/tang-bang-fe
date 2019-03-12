@@ -22,7 +22,7 @@ export function remove(params) {
     }
   } else {
     params = {
-      id: params
+      id: JSON.stringify([{id: params}])
     }
   }
   return fetch('/contract/delete', params, 'POST');

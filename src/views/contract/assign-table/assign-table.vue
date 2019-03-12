@@ -78,7 +78,7 @@
     methods: {
       fetchApi: api.auth.list,
       confirmDialog () {
-        const id = this.dialog.id || this.dialog.batchIds;
+        const id = this.dialog.id;
         const params = {
           id,
           username: this.selectedRow.username

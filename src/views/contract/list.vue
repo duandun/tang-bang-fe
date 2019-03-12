@@ -302,21 +302,12 @@ export default {
       },
       assignDialog: {
         id: '',
-        batchIds: '',
         visible: false
       },
       delConfirm: false,
       batchDelModal: false,
       selRows: []
     };
-  },
-  watch: {
-    'assignDialog.visible' (val) {
-      if (!val) {
-        this.assignDialog.id = '';
-        this.assignDialog.batchIds = '';
-      }
-    }
   },
   computed: {
     ...mapGetters(['userInfo'])
@@ -410,7 +401,7 @@ export default {
 
     assignTo (row) {
       const { assignDialog } = this
-      assignDialog.id = row.id
+      assignDialog.id = JSON.stringify([{id: row.id}])
       this.$router.push({
         query: {
           id: row.id
@@ -532,7 +523,7 @@ export default {
         return;
       }
       const ids = selRows.map(row => ({ id: row.id }));
-      assignDialog.batchIds = JSON.stringify(ids);
+      assignDialog.id = JSON.stringify(ids);
       assignDialog.visible = true
     },
 
