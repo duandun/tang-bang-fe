@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="">
         <footer class="main-footer">
-            <strong>Copyright © 2017 Tang Bang</strong>
+            <strong>Copyright © 2019 Tang Bang</strong>
         </footer>
         <div class="ver-pos">
             {{version}}

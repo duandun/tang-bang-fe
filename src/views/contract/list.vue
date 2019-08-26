@@ -109,7 +109,7 @@
                               </div>
                           </el-step>
                       </el-steps>
-                      <div slot="reference" style="display: inline-block;">
+                      <div slot="reference" style="display: inline-block;cursor: pointer;">
                         <el-tag>{{ scope.row.resultStatusTxt }}</el-tag>
                       </div>
                     </el-popover>
@@ -117,6 +117,7 @@
               </el-table-column>
               <el-table-column label="操作" width="180">
                   <template scope="scope">
+                      <div>
                         <el-button v-for="(item, index) in MODAL" :key="index"
                           size="small"
                           type="text" v-if="getActiveStep(scope.$index) === index && curOp(index) && scope.row.status === '1'"
@@ -174,7 +175,7 @@
                             v-if="userInfo.role === 'admin'"
                           >删除</el-button>
                         </el-popover>
-
+                      </div>
                   </template>
                 </el-table-column>
             </el-table>
@@ -274,7 +275,7 @@ export default {
       statusList,
       popVis: false,
       currentModal: '',
-      MODAL: MODAL,
+      MODAL,
       queryAssist: {
         dIds: [],
         doing: 1,

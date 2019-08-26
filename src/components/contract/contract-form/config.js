@@ -12,7 +12,10 @@ export const getFormData = () => {
     commissioned_applicant: '',
     deadline: '',
     precautions: '',
-    nickname: ''
+    nickname: '',
+    cautionList: [{
+      content: ''
+    }]
   };
 };
 
@@ -48,9 +51,22 @@ export const getRules = (context) => {
     deadline: [
       { required: true, message: '请选择截止日期', trigger: 'change', type: 'date' }
     ],
-    precautions: [
-      { required: true, message: '请输入注意事项', trigger: 'change' },
-      { max: 120, message: '不大于120字', trigger: 'change' }
+    cautionList: [
+      {
+        message: '请输入注意事项',
+        trigger: 'change',
+        validator: (rule, value, callback) => {
+          if (!value) {
+            return callback(new Error('输入格式有错误'))
+          }
+          const trimList = value.map(v => v.content.trim());
+          if (trimList.every((tri) => tri === '')) {
+            return callback(new Error('注意事项至少填写一项'));
+          } else {
+            callback();
+          }
+        }
+      }
     ]
   }
 };

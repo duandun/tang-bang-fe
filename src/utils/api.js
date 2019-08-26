@@ -160,10 +160,10 @@ export function fetch(api, data = {}, rawMethod = 'GET', type = '/api') {
         xhrFields: handleXhrFields(options),
         success(resp, status) {
           handleResult({
-            status: status,
-            resp: resp,
-            resolve: resolve,
-            reject: reject,
+            status,
+            resp,
+            resolve,
+            reject,
             reqUrl: options.url
           });
         },

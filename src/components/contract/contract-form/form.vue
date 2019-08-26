@@ -85,9 +85,17 @@
           </Row>
           <Row>
               <Col span="12">
-                  <Form-item label="注意事项：" prop="precautions">
-                      <Input placeholder="请输入..." v-model="formData.precautions" v-if="!comDetail"></Input>
-                      <span v-else>{{formData.precautions}}</span>
+                  <Form-item label="注意事项：" prop="cautionList">
+                      <div v-for="(item, index) in formData.cautionList" :key="index">
+                        <Input placeholder="请输入..." v-model="item.content" v-if="!comDetail" style="margin-bottom: 10px;">
+                          <Button v-if="isAdmin && !comDetail" type="error"
+                            style="color: #fff;background-color: #ed3f14;border-color: #ed3f14;" @click="delOneCaution(index)" slot="append">删除</Button>
+                        </Input>
+                        <span v-else>{{item.content}}</span>
+                      </div>
+                      <Button type="dashed" ghost long size="small" v-if="!comDetail" @click="addOneCaution">
+                          添加
+                      </Button>
                   </Form-item>
               </Col>
               <Col span="12">
@@ -160,6 +168,9 @@ export default {
         }
         return this.dialog.detail || this.detail
     },
+    isAdmin() {
+      return this.userInfo.role === 'admin';
+    },
     showEditBtn () {
       if (this.userInfo.role === 'admin' && !this.editable) {
         return true
@@ -209,6 +220,9 @@ export default {
       this.$refs['form'].resetFields();
       this.commissionDetail = ''
       this.formData.otherRemittance = ''
+      this.formData.cautionList = [{
+        content: ''
+      }];
     },
     formatter(formdata) {
       if (isDate(formdata.remittance_time)) {
@@ -223,6 +237,18 @@ export default {
       delete formdata.nickname
       if (formdata.remittance === '其他') {
         formdata.remittance = formdata.otherRemittance
+      }
+      formdata.precautions = JSON.stringify(formdata.cautionList);
+      delete formdata.cautionList;
+    },
+    addOneCaution() {
+      this.formData.cautionList.push({
+        content: ''
+      });
+    },
+    delOneCaution(index) {
+      if (this.formData.cautionList.length > 1) {
+        this.formData.cautionList.splice(index, 1);
       }
     },
     willDataMerge (results) {
@@ -258,6 +284,18 @@ export default {
 
       this.commissionCate = comArr[0]
       this.commissionDetail = comArr[1]
+
+      this.compatibleCautions(results);
+    },
+    // 兼容处理  注意事项
+    compatibleCautions(results) {
+      if (Array.isArray(results.precautions)) {
+        results.cautionList = results.precautions;
+      } else {
+        results.cautionList = [{
+          content: results.precautions || ''
+        }];
+      }
     },
     afterDataMerge (results) {
       console.log(results)
