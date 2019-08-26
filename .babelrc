@@ -16,11 +16,5 @@
         "styleLibraryName": "theme-default"
       }
     ]]],
-  "comments": false,
-  "env": {
-    "test": {
-      "presets": ["env", "stage-0"],
-      "plugins": [ "istanbul" ]
-    }
-  }
+  "comments": false
 }
