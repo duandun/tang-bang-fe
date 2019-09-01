@@ -38,19 +38,24 @@
                       </Select>
                     </Form-item>
                 </Col>
-                <Col span="8" offset="1">
+                <Col span="6">
+                  <Form-item label="签单人:">
+                    <Input v-model="query.nickname" @key.enter.native="sarch" placeholder="签单人姓名..."></Input>
+                  </Form-item>
+                </Col>
+                <Col span="4" offset="1">
                     <Button type="primary" icon="search" @click="search">搜索</Button>
                     <Button icon="trash-b" @click="clearQuery">重置</Button>
-                    <Button type="primary" @click="downloadBatchUrl" v-if="userInfo.role === 'admin'">批量下载</Button>
-                    <Button type="primary" v-if="userInfo.role === 'admin'">
-                      <a :href="downloadBatchAll()" target="_blank" style="color: #fff;">下载全部</a></Button>
-                    <Button type="primary" @click="clearSelection" v-if="userInfo.role === 'admin'" :disabled="!Boolean(selRows.length)">清空选择</Button>
                 </Col>
             </Row>
             <Row style="margin-bottom: 10px;" v-if="userInfo.role === 'admin'">
-              <Col span="6">
+              <Col span="12">
                 <Button type="primary" :disabled="!Boolean(selRows.length)" v-if="userInfo.role === 'admin'" @click="batchAssignTo">批量指派</Button>
                 <Button type="primary" :disabled="!Boolean(selRows.length)" v-if="userInfo.role === 'admin'" @click="batchDel">批量删除</Button>
+                <Button type="primary" @click="downloadBatchUrl" v-if="userInfo.role === 'admin'" :disabled="!Boolean(selRows.length)">批量下载</Button>
+                <Button type="primary" v-if="userInfo.role === 'admin'">
+                  <a :href="downloadBatchAll()" target="_blank" style="color: #fff;">下载全部</a></Button>
+                <Button type="default" @click="clearSelection" v-if="userInfo.role === 'admin'" :disabled="!Boolean(selRows.length)">清空选择</Button>
               </Col>
             </Row>
         </Form>
@@ -137,19 +142,19 @@
                         <el-button
                           size="small"
                           type="text"
-                          v-if="userInfo.role === 'admin' && scope.row.status === '1'"
+                          v-if="!onlyContractAddAuth(userInfo.permission) && scope.row.status === '1'"
                           @click="processPause(scope.row)"
                         >终止</el-button>
                         <el-button
                           size="small"
                           type="text"
-                          v-if="userInfo.role === 'admin' && scope.row.status === '1'"
+                          v-if="!onlyContractAddAuth(userInfo.permission) && scope.row.status === '1'"
                           @click="processDefer(scope.row)"
                         >暂缓</el-button>
                         <el-button
                           size="small"
                           type="text"
-                          v-if="userInfo.role === 'admin' && (scope.row.status === '3' || scope.row.status === '4')"
+                          v-if="!onlyContractAddAuth(userInfo.permission) && (scope.row.status === '3' || scope.row.status === '4')"
                           @click="recovery(scope.row)"
                         >恢复</el-button>
                         <a
@@ -285,6 +290,7 @@ export default {
         contract_id: '',
         company_name: '',
         commission: '',
+        nickname: '',
         pageStart: 1,
         pageSize: 10
       },
@@ -317,6 +323,14 @@ export default {
     this._original_dialog = cloneDeep(this.$data.dialog);
   },
   methods: {
+    onlyContractAddAuth(perm) {
+      if (perm && perm.length === 1) {
+        if (perm[0] === '1') {
+          return true;
+        }
+      }
+      return false;
+    },
     handleSelectionChange (val) {
       console.log(val)
       this.selRows = val
