@@ -86,16 +86,17 @@
           <Row>
               <Col span="12">
                   <Form-item label="注意事项：" prop="cautionList">
-                      <div v-for="(item, index) in formData.cautionList" :key="index">
-                        <Input placeholder="请输入..." v-model="item.content" v-if="!comDetail" style="margin-bottom: 10px;">
-                          <Button v-if="isAdmin && !comDetail" type="error"
+                      <div v-if="isAdmin" v-for="(item, index) in formData.cautionList" :key="index">
+                        <Input placeholder="请输入..." v-model="item.content" style="margin-bottom: 10px;">
+                          <Button type="error"
                             style="color: #fff;background-color: #ed3f14;border-color: #ed3f14;" @click="delOneCaution(index)" slot="append">删除</Button>
                         </Input>
-                        <span v-else>{{item.content}}</span>
                       </div>
-                      <Button type="dashed" ghost long size="small" v-if="!comDetail" @click="addOneCaution">
-                          添加
-                      </Button>
+                      <div v-if="!isAdmin" v-for="(item, index) in formData.cautionList" :key="index">
+                        <Input placeholder="请输入..." v-model="item.content" :disabled="item.disabled" style="margin-bottom: 10px;"></Input>
+                      </div>
+                      <Button type="dashed" ghost size="small" @click="addOneCaution">添加</Button>
+                      <Button type="primary" size="small" style="margin-left: 10px;" v-if="comDetail">确认</Button>
                   </Form-item>
               </Col>
               <Col span="12">
