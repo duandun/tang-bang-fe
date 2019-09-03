@@ -15,6 +15,11 @@ export function update(params) {
   return fetch('/contract/update', params, 'POST');
 }
 
+// 更新 注意事项
+export function updateP(params) {
+  return fetch('/contract/updateP', params, 'POST');
+}
+
 export function remove(params) {
   if (Array.isArray(params)) {
     params = {

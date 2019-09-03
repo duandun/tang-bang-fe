@@ -85,7 +85,7 @@
           </Row>
           <Row>
               <Col span="12">
-                  <Form-item label="注意事项：" prop="cautionList">
+                  <Form-item label="注意事项：">
                       <div v-if="isAdmin" v-for="(item, index) in formData.cautionList" :key="index">
                         <Input placeholder="请输入..." v-model="item.content" style="margin-bottom: 10px;">
                           <Button type="error"
@@ -93,10 +93,13 @@
                         </Input>
                       </div>
                       <div v-if="!isAdmin" v-for="(item, index) in formData.cautionList" :key="index">
-                        <Input placeholder="请输入..." v-model="item.content" :disabled="item.disabled" style="margin-bottom: 10px;"></Input>
+                        <Input placeholder="请输入..." v-model="item.content" v-if="!item.disabled" style="margin-bottom: 10px;"></Input>
+                        <span v-if="item.disabled">{{item.content}}</span>
                       </div>
-                      <Button type="dashed" ghost size="small" @click="addOneCaution">添加</Button>
-                      <Button type="primary" size="small" style="margin-left: 10px;" v-if="comDetail">确认</Button>
+                      <div class="precautions_button_group" v-if="belongsToCurUser">
+                        <Button type="default" size="small" @click="addOneCaution">添加</Button>
+                        <Button type="primary" size="small" style="margin-left: 10px;" v-if="comDetail" @click="savePrecautions">确认</Button>
+                      </div>
                   </Form-item>
               </Col>
               <Col span="12">
@@ -183,6 +186,15 @@ export default {
         }
       }
       return false
+    },
+    // 属于当前用户的签单
+    belongsToCurUser() {
+      const { username } = this.formData;
+      const { name } = this.userInfo;
+      if (!username || this.isAdmin) {
+        return true;
+      }
+      return username === name;
     }
   },
   watch: {
@@ -216,6 +228,23 @@ export default {
     cancel() {
       this.resetFormData();
       this.$emit('cancel');
+    },
+    savePrecautions() {
+      const { id, cautionList } = this.formData;
+      const params = {
+        id,
+        precautions: JSON.stringify(cautionList)
+      };
+      api.contract.updateP(params).then((results) => {
+        console.log(results);
+        if (results.flag) {
+          this.$Notice.success({
+            title: '保存成功'
+          });
+        } else {
+          this.$Message.error('保存失败');
+        }
+      });
     },
     resetFormData() {
       this.$refs['form'].resetFields();
@@ -290,12 +319,32 @@ export default {
     },
     // 兼容处理  注意事项
     compatibleCautions(results) {
-      if (Array.isArray(results.precautions)) {
-        results.cautionList = results.precautions;
+      if (Object.prototype.toString.call(results.precautions) === '[object Array]') {
+        if (!this.isAdmin) {
+          results.cautionList = results.precautions.map((caution) => {
+            return {
+              content: caution.content,
+              disabled: true
+            };
+          });
+        } else {
+          results.cautionList = results.precautions.map((caution) => {
+            return {
+              content: caution.content
+            };
+          });
+        }
       } else {
-        results.cautionList = [{
-          content: results.precautions || ''
-        }];
+        if (!this.isAdmin) {
+          results.cautionList = [{
+            content: results.precautions || '',
+            disabled: true
+          }];
+        } else {
+          results.cautionList = [{
+            content: results.precautions || ''
+          }];
+        }
       }
     },
     afterDataMerge (results) {

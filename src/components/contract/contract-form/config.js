@@ -13,6 +13,7 @@ export const getFormData = () => {
     deadline: '',
     precautions: '',
     nickname: '',
+    username: '',
     cautionList: [{
       content: ''
     }]
