@@ -40,7 +40,7 @@
                 </Col>
                 <Col span="6">
                   <Form-item label="签单人:">
-                    <Input v-model="query.nickname" @key.enter.native="search" placeholder="签单人姓名..."></Input>
+                    <Input v-model="query.nickname" @keyup.enter.native="search" placeholder="签单人姓名..."></Input>
                   </Form-item>
                 </Col>
                 <Col span="4" offset="1">
