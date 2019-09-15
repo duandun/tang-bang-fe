@@ -22,6 +22,10 @@
                         <Radio label="false" :disabled="comDetail">未下发</Radio>
                       </Radio-group>
                     </Form-item>
+                    <Form-item label="下发时间：">
+                      <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.noticeDate" v-if="!comDetail"></Date-picker>
+                      <span v-else>{{formData.noticeDate}}</span>
+                    </Form-item>
                     <Form-item label="接收时间：" prop="time">
                         <Date-picker placeholder="选择时间和日期..." type="datetime" v-model="formData.time" v-if="!comDetail"></Date-picker>
                         <span v-else>{{formData.time}}</span>

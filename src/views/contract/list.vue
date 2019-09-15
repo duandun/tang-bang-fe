@@ -136,7 +136,7 @@
                         <el-button
                           size="small"
                           type="text"
-                          v-if="userInfo.role === 'admin'"
+                          v-if="userInfo.role === 'admin' || (userInfo.permission && userInfo.permission.includes('9'))"
                           @click="assignTo(scope.row)"
                         >指派</el-button>
                         <el-button

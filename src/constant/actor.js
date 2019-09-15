@@ -22,6 +22,9 @@ const ACTOR_LIST = [{
 }, {
   label: '完成',
   value: '8'
+}, {
+  label: '指派',
+  value: '9'
 }]
 
 export default ACTOR_LIST

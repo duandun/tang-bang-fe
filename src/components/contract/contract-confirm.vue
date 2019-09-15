@@ -3,14 +3,14 @@
         <contract-form :dialog="dialog" :detail="true" @data-merged="fetchConfirmData"></contract-form>
         <Form ref="form" :model="formData" :label-width="120" :rules="rules">
             <Row>
-              <Col span="12">
+              <!-- <Col span="12">
                   <Form-item label="到账金额确认无误：" prop="account">
                       <Radio-group v-model="formData.account">
                           <Radio label="1" :disabled="comDetail">是</Radio>
                           <Radio label="0" :disabled="comDetail">否</Radio>
                       </Radio-group>
                   </Form-item>
-              </Col>
+              </Col> -->
               <Col span="12">
                   <Form-item label="到账时间：" prop="date">
                       <Date-picker v-if="!comDetail" placeholder="选择时间和日期..."
@@ -19,7 +19,7 @@
                   </Form-item>
               </Col>
             </Row>
-            <Row>
+            <!-- <Row>
                 <Col span="12">
                     <Form-item label="合同信息确认无误：" prop="">
                         <Radio-group v-model="formData.information" >
@@ -28,7 +28,7 @@
                         </Radio-group>
                     </Form-item>
                 </Col>
-            </Row>
+            </Row> -->
             <Row v-if="comDetail && formData.receipt">
               <Col span="12">
                 <Form-item label="票据：" prop="receipt">
