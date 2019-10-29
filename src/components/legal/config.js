@@ -7,6 +7,7 @@ export const getFormData = () => {
     accept: '已受理',
     applicationID: '',
     time: void 0,
+    noticeDate: void 0,
     pause: 0
   };
 };
