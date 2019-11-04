@@ -117,6 +117,7 @@ export default {
     },
     formatter (formdata) {
       formdata.time = moment(formdata.time).format('YYYY-MM-DD hh:mm:ss')
+      formdata.noticeDate = moment(formdata.noticeDate).format('YYYY-MM-DD hh:mm:ss')
     },
     afterSubmit (resp) {
       if (resp.flag) {
