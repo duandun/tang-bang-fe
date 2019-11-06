@@ -140,6 +140,14 @@
                           @click="assignTo(scope.row)"
                         >指派</el-button>
                         <el-button
+                          v-if="userInfo.role === 'admin'"
+                          size="small"
+                          type="text"
+                          @click="onDirectFinish(scope.row)"
+                        >
+                        直接完成
+                        </el-button>
+                        <el-button
                           size="small"
                           type="text"
                           v-if="!onlyContractAddAuth(userInfo.permission) && scope.row.status === '1'"
@@ -330,6 +338,16 @@ export default {
         }
       }
       return false;
+    },
+    // 直接完成
+    onDirectFinish(row) {
+      api.result.finishProcess(row.contract_id).then(result => {
+        this.$Message.success('操作成功');
+        this.fetchByPage()
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('操作失败')
+      });
     },
     handleSelectionChange (val) {
       console.log(val)
