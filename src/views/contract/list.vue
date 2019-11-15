@@ -107,10 +107,13 @@
                     placement="top-end">
                         <el-steps :space="120" :active="getActiveStep(scope.$index)" style="z-index: 1;">
                           <el-step :title="item.text" v-for="(item, index) in MODAL" :key="index">
-                              <div class="" slot="description">
+                              <div slot="description">
                                   <el-button
                                     size="small" v-if="getActiveStep(scope.$index) > index && showDetailBtn(scope.$index, index) && index !== 7"
                                     @click="showDialog(item, 'detail', scope.row, scope.$index)">{{item.text + '详情'}}</el-button>
+                                  <el-button 
+                                    v-if="getActiveStep(scope.$index) > index && showDetailBtn(scope.$index, index) && index !== 7 && item.name === 'LegalSubmitForm'" 
+                                    size="small" style="margin-top: 5px;" @click="addLegalItem(item)">添加项目</el-button>
                               </div>
                           </el-step>
                       </el-steps>
@@ -350,11 +353,14 @@ export default {
       });
     },
     handleSelectionChange (val) {
-      console.log(val)
       this.selRows = val
     },
     clearSelection () {
       this.$refs.mainList.clearSelection()
+    },
+    // 添加法务项目
+    addLegalItem(item) {
+
     },
     showDetailBtn ($index, index) {
       if (this.userInfo.permission.indexOf('1') > -1) {
